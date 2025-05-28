@@ -1,0 +1,1498 @@
+
+//BouncyBeam 766
+
+Class HeliosCannon : HellCrusherW
+{
+
+	Bool SiegeMode;
+
+	Default {
+	Weapon.BobRangeX 0.2;//0.4;
+	Weapon.BobRangeY 0.4;//0.3;
+	
+	Weapon.SelectionOrder 100;
+	
+	Weapon.AmmoUse1 10;
+	Weapon.AmmoGive1 40;
+	Weapon.AmmoType1 "HC_Cell";
+	
+	Weapon.AmmoUse2 0;
+	Weapon.AmmoGive2 0;
+	Weapon.AmmoType2 "GaussHeat";
+	
+	Inventory.PickupMessage "You got the super charged Gauss Cannon! Project Helios...";
+	Inventory.PickupSound "GaussCannonGet";
+	Tag "Helios Cannon";
+  
+	+WEAPON.NOALERT
+	}
+	States
+	{
+	
+	Spawn:
+		XXGC A -1;
+		Stop;
+
+	IdleNoise:
+		TNT1 A 0 A_StartSound("GaussCannon/Idle",CHAN_5,CHANF_LOOP,.3);
+	Ready:
+		TNT1 A 0 {invoker.SiegeMode = false;}
+		TNT1 A 0 A_SetCrosshair(56);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XXGC E 1 A_WeaponReady;
+		Loop;
+	
+	Ready3:
+		TNT1 A 1 A_Jump(255, "Ready3");
+	
+	Select:
+		TNT1 A 0 A_SetCrosshair(56);
+		TNT1 A 0 A_StartSound("GaussCannonSelect",CHAN_WEAPON,0,1);
+		TNT1 A 0 A_ZoomFactor(1);
+		XXGC BCD 1 {A_WeaponReady(WRF_NOFIRE);	A_OverlayRotate(0,0);	A_WeaponOffset(0,32);}
+		Goto IdleNoise;
+	
+	Deselect:
+		TNT1 A 0 A_ZoomFactor(1);
+		TNT1 A 0 {invoker.SiegeMode = false;}
+		TNT1 A 0 A_StopSound(CHAN_BODY);
+		TNT1 A 0 A_StopSound(CHAN_WEAPON);
+		TNT1 A 0 A_StopSound(CHAN_7);
+		TNT1 A 0 A_StopSound(CHAN_5);
+		XXGC DCB 1 Offset(0,32);
+		TNT1 A 0 A_Lower;
+		Wait;
+		
+	DeselectQuickMelee:
+		TNT1 A 0 A_ZoomFactor(1);
+		TNT1 A 0 {invoker.SiegeMode = false;}
+		TNT1 A 0 A_StopSound(CHAN_BODY);
+		TNT1 A 0 A_StopSound(CHAN_WEAPON);
+		TNT1 A 0 A_StopSound(CHAN_7);
+		TNT1 A 0 A_StopSound(CHAN_5);
+		XXGC DB 1 Offset(0,32);
+		Goto QuickMeleeStart;
+	
+	Feel:
+		TNT1 A 0 A_QuakeEx(1,1,1,20,0,100,"*");
+		TNT1 A 0 A_SetPitch(pitch-5);
+		TNT1 A 1 A_ZoomFactor(0.78);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.79);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.86);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.89);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.91);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.92);
+		TNT1 A 1 A_ZoomFactor(0.94);
+		TNT1 A 1 A_ZoomFactor(0.95);
+		TNT1 A 1 A_ZoomFactor(0.97);
+		TNT1 A 1 A_ZoomFactor(0.98);
+		TNT1 A 1 A_ZoomFactor(0.99);
+		TNT1 A 1 A_ZoomFactor(1);
+		Stop;
+	
+	Fire:
+		TNT1 A 0 A_AlertMonsters;
+		TNT1 A 0 A_Jumpif((invoker.SiegeMode == true),"SiegeFire");
+		TNT1 A 0 A_GiveInventory("GaussHeat",10);
+		
+		TNT1 A 0 A_JumpIf(CountInv("HC_PowerQuadDamage") == 0, 2);
+		TNT1 A 0 A_StartSound("QuadDamageShot",CHAN_ITEM,0,.7);
+		
+		TNT1 A 0 A_StartSound("GaussCannonFire",CHAN_5,0,1);
+		TNT1 A 0 A_StartSound("GaussCannonAdd",CHAN_6,0,1);
+		TNT1 A 0 A_StartSound("GaussCannonFireAdd",CHAN_7,0,.9);
+		
+		//TNT1 A 0 A_FireBullets(0,0,1,0,"GaussPuff",FBF_NOFLASH);
+		//TNT1 A 0 A_RailAttack(300*(random(1,3)),0,true,"","",RGF_SILENT,0,"",0,0,0,0,0.4,1.0,"GaussCannonTrail",0,270,10);
+		TNT1 A 0 A_FireProjectile("GaussBeam");
+		TNT1 A 0 A_Overlay(-5,"Feel");
+		
+		XXGC F 1 A_WeaponOffset(Random(-3,3),Random(50,60),WOF_INTERPOLATE);
+		XXGC G 1 A_WeaponOffset(Random(-3,3),Random(50,60),WOF_INTERPOLATE);
+		XXGC H 1 A_WeaponOffset(Random(-2,2),Random(49,56),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 0 A_StartSound("GaussCannonClose",CHAN_WEAPON,0,.6);
+		XXGC L 1 A_WeaponOffset(Random(-2,2),Random(48,54),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(Random(-2,2),Random(47,51),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(Random(-1,1),Random(46,47),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(Random(-1,1),Random(45,47),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(Random(-1,1),Random(44,46),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(42,45),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(40,45),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(35,38),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		/////////////////////////////
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		/*
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		*/
+		
+		/////////////////////////////
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC I 1;// A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC J 1;// A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC J 1;// A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC K 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC K 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC M 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC M 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC E 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC E 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC E 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC E 1;
+		XXGC E 1;				//26
+		Goto IdleNoise;
+	
+	AltFire:
+		TNT1 A 0 A_JumpIfInventory("GaussHeat",40,2);
+		TNT1 A 0 A_JumpIfInventory("HC_Cell",10,1);
+		Goto Ready;
+		
+		TNT1 A 0 A_StartSound("GaussCannonSiegeCharge",CHAN_7,0,.6);
+		
+		XXGC N 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		XXGC O 1 A_WeaponOffset(0,33,WOF_INTERPOLATE);
+		XXGC P 1 A_WeaponOffset(0,33,WOF_INTERPOLATE);
+		XXGC Q 1 A_WeaponOffset(0,34,WOF_INTERPOLATE);
+		XXGC R 1 A_WeaponOffset(0,35,WOF_INTERPOLATE);
+		XXGC S 1 A_WeaponOffset(0,37,WOF_INTERPOLATE);
+		XXGC T 1 A_WeaponOffset(0,40,WOF_INTERPOLATE);
+		XXGC U 1 A_WeaponOffset(0,43,WOF_INTERPOLATE);
+		TNT1 A 0 A_StartSound("GaussCannonSiegeReady",CHAN_WEAPON,CHANF_LOOP,.6);
+		
+		TNT1 A 0 A_JumpIfInventory("GaussHeat",40,"DestroyerBladeReady");
+		
+	SiegeReady:
+		TNT1 A 0 A_Overlay(-10,"zapies");
+		TNT1 A 0 {invoker.SiegeMode = true;}
+		TNT1 A 0 A_SetCrosshair(57);
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC X 1 A_WeaponOffset(0,45,WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("SiegeReady");
+		
+		TNT1 A 0 A_SetCrosshair(56);
+		TNT1 A 0 A_StopSound(CHAN_WEAPON);
+		TNT1 A 0 A_StartSound("GaussCannonSiegeClose",CHAN_7,0,.4);
+		XXGC U 1 A_WeaponOffset(0,40,WOF_INTERPOLATE);
+		XXGC T 1 A_WeaponOffset(0,36,WOF_INTERPOLATE);
+		XXGC S 1 A_WeaponOffset(0,34,WOF_INTERPOLATE);
+		XXGC R 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		XXGC Q 1;
+		XXGC P 1;
+		XXGC O 1;
+		XXGC N 1;
+		Goto IdleNoise;
+	
+	zapies:
+		TNT1 A 0 A_Jump(192,2,3,4);
+		XGZP A 1 Bright;
+		Stop;
+		XGZP B 1 Bright;
+		Stop;
+		XGZP C 1 Bright;
+		Stop;
+		XGZP D 1 Bright;
+		Stop;
+	
+	SiegeFeel:
+		TNT1 A 0 A_QuakeEx(1,1,1,30,0,100,"*");
+		TNT1 A 0 A_SetPitch(pitch-10);
+		TNT1 A 1 A_ZoomFactor(0.67);
+		TNT1 A 0 A_SetPitch(pitch+2);
+		TNT1 A 1 A_ZoomFactor(0.68);
+		TNT1 A 0 A_SetPitch(pitch+2);
+		TNT1 A 1 A_ZoomFactor(0.70);
+		TNT1 A 0 A_SetPitch(pitch+2);
+		TNT1 A 1 A_ZoomFactor(0.74);
+		TNT1 A 0 A_SetPitch(pitch+2);
+		TNT1 A 1 A_ZoomFactor(0.77);
+		TNT1 A 0 A_SetPitch(pitch+2);
+		TNT1 A 1 A_ZoomFactor(0.82);
+		TNT1 A 1 A_ZoomFactor(0.88);
+		TNT1 A 1 A_ZoomFactor(0.91);
+		TNT1 A 1 A_ZoomFactor(0.93);
+		TNT1 A 1 A_ZoomFactor(0.95);
+		TNT1 A 1 A_ZoomFactor(0.97);
+		TNT1 A 1 A_ZoomFactor(0.98);
+		TNT1 A 1 A_ZoomFactor(0.99);
+		TNT1 A 1 A_ZoomFactor(1);
+		Stop;
+	
+	SiegeFire:
+		
+	
+		TNT1 A 0 A_SetCrosshair(56);
+		TNT1 A 0 A_StopSound(CHAN_WEAPON);
+		TNT1 A 0 A_JumpIfInventory("GaussHeat",40,"DestroyerBladeFire");
+		
+		TNT1 A 0 A_GiveInventory("GaussHeat",20);
+		TNT1 A 0 A_TakeInventory("HC_Cell", 10);
+		
+		
+		TNT1 A 0 A_JumpIf(CountInv("HC_PowerQuadDamage") == 0, 2);
+		TNT1 A 0 A_StartSound("QuadDamageShot",CHAN_ITEM,0,.7);
+		
+		TNT1 A 0 A_StartSound("GaussCannonSiegeFire",CHAN_5,0,1);
+		TNT1 A 0 A_StartSound("GaussCannonSiegeAdd",CHAN_6,0,1);
+		TNT1 A 0 A_StartSound("GaussCannonFireAdd",CHAN_7,0,.9);
+		
+		//TNT1 A 0 A_FireBullets(0,0,1,0,"SeigeGaussPuff",FBF_NOFLASH);
+		//TNT1 A 0 A_RailAttack(600*(random(1,3)),0,true,"","",RGF_SILENT,0,"",0,0,0,0,0.3,1.0,"SiegeModeTrail");
+		TNT1 A 0 A_FireProjectile("GaussSiegeBeam");
+		TNT1 A 0 A_Overlay(-5,"SiegeFeel");
+		XXGC F 1 A_WeaponOffset(Random(-3,3),Random(70,76),WOF_INTERPOLATE);
+		XXGC G 1 A_WeaponOffset(Random(-3,3),Random(68,70),WOF_INTERPOLATE);
+		XXGC H 1 A_WeaponOffset(Random(-2,2),Random(64,68),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 0 A_StartSound("GaussCannonClose",CHAN_WEAPON,0,.6);
+		XXGC L 1 A_WeaponOffset(Random(-2,2),Random(58,59),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(Random(-2,2),Random(49,51),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(Random(-1,1),Random(46,47),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(Random(-1,1),Random(45,47),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(Random(-1,1),Random(44,46),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(42,45),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(40,45),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(35,38),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		/////////////////////////////
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		/*
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		*/
+		
+		/////////////////////////////
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC I 1; //A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC J 1; //A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC J 1; //A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC K 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC K 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC M 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC M 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC E 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC E 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC E 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC EE 1;
+		Goto IdleNoise;
+	
+//////////////////////////////////////////////////////////////////////////////////DESTROYBLADE
+		
+	DestroyerBladeReady:
+		TNT1 A 0 A_Overlay(-10,"GreenZapies");
+		TNT1 A 0 {invoker.SiegeMode = true;}
+		TNT1 A 0 A_SetCrosshair(57);
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		XXGG A 1 A_WeaponOffset(0,45,WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("DestroyerBladeReady");
+		
+		TNT1 A 0 A_SetCrosshair(56);
+		TNT1 A 0 A_StopSound(CHAN_WEAPON);
+		TNT1 A 0 A_StartSound("GaussCannonSiegeClose",CHAN_7,0,.4);
+		XXGC U 1 A_WeaponOffset(0,40,WOF_INTERPOLATE);
+		XXGC T 1 A_WeaponOffset(0,36,WOF_INTERPOLATE);
+		XXGC S 1 A_WeaponOffset(0,34,WOF_INTERPOLATE);
+		XXGC R 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		XXGC Q 1;
+		XXGC P 1;
+		XXGC O 1;
+		XXGC N 1;
+		Goto IdleNoise;
+	
+	GreenZapies:
+		TNT1 A 0 A_Jump(192,2,3,4);
+		XXGG E 1 Bright;
+		Stop;
+		XXGG F 1 Bright;
+		Stop;
+		XXGG G 1 Bright;
+		Stop;
+		XXGG H 1 Bright;
+		Stop;
+		
+	DestroyerBladeFire:
+		
+		TNT1 A 0 A_TakeInventory("GaussHeat", 40);
+		
+		TNT1 A 0 A_JumpIf(CountInv("HC_PowerQuadDamage") == 0, 2);
+		TNT1 A 0 A_StartSound("QuadDamageShot",CHAN_ITEM,0,.7);
+		
+		TNT1 A 0 A_StartSound("GaussCannonSiegeFire",CHAN_5,0,1);
+		TNT1 A 0 A_StartSound("GaussCannonSiegeAdd",CHAN_6,0,1);
+		TNT1 A 0 A_StartSound("GaussCannonDestroyerBladeFire",CHAN_7,0,.9);
+		TNT1 A 0 A_StartSound("GaussCannonFireAdd",CHAN_ITEM,0,.9);
+		
+		TNT1 A 0 A_FireProjectile("GaussTri1",0,false,-83.5);
+		
+		TNT1 A 0 A_FireProjectile("GaussTri2",0,false,-39.5);
+		
+		TNT1 A 0 A_FireProjectile("GaussTri3",0,false);
+		
+		TNT1 A 0 A_FireProjectile("GaussTri4",0,false,38.5);
+		
+		TNT1 A 0 A_FireProjectile("GaussTri5",0,false,82.5);
+		
+		TNT1 A 0 A_Overlay(-5,"SiegeFeel");
+		
+		XXGG B 1 A_WeaponOffset(Random(-3,3),Random(50,60),WOF_INTERPOLATE);
+		XXGG C 1 A_WeaponOffset(Random(-3,3),Random(50,60),WOF_INTERPOLATE);
+		XXGG D 1 A_WeaponOffset(Random(-2,2),Random(49,56),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 0 A_StartSound("GaussCannonClose",CHAN_WEAPON,0,.6);
+		XXGC L 1 A_WeaponOffset(Random(-2,2),Random(48,54),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(Random(-2,2),Random(47,51),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(Random(-1,1),Random(46,47),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(Random(-1,1),Random(45,47),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(Random(-1,1),Random(44,46),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(42,45),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(40,45),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(35,38),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE); //13
+		
+		/////////////////////////////
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		/*
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		*/
+		
+		/////////////////////////////
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC I 1; //A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC J 1; //A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC J 1; //A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC K 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC K 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC L 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC M 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC M 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC E 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC E 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC E 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XXGC EE 1;
+		Goto IdleNoise;
+  }
+}
+
+Class GaussHeat : Ammo
+{
+Default{
+		Inventory.PickupMessage "Picked up a, heat... how?";
+		Inventory.Amount 0;
+		Inventory.MaxAmount 40;
+		Ammo.BackpackAmount 0;
+		Ammo.BackpackMaxAmount 40;
+		Inventory.Icon "HEATA0";
+	}
+	States
+	{
+	Spawn:
+		HEAT A -1;
+		Stop;
+  }
+}
+
+Class GaussCannonTrail : Actor
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-7,7),frandom(-7,7),frandom(-7,7));
+		TNT1 A 0 A_SpawnItemEx("GaussSparkle",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		TNT1 A 0
+		{
+			for (int i = random(1,2); i > 0; i--)
+			{
+				A_SpawnItemEx("HC_PlasmaBallFX",0,0,0,frandom(-10,10),frandom(-10,10),frandom(-10,10));
+			}
+		}
+		Stop;
+		
+	}
+}
+
+Class GaussSparkle : Actor
+{
+Default
+{
++NOGRAVITY;
++ZDOOMTRANS;
+RenderStyle "Add";
+}
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		PLSE C random(1,3) BRIGHT;
+		PLSE D random(1,3) BRIGHT;
+		PLSE E random(1,3) BRIGHT;
+		Stop;
+	}
+}
+
+/////////////////////////////SIEGEMODE
+
+Class SiegeModeTrail : Actor
+{
+	Default{
+	DamageType "PlayerGauss";
+	+NODAMAGETHRUST
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_Explode(64);
+		TNT1 A 0 A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-10,10),frandom(-10,10),frandom(-10,10));
+		TNT1 A 0 A_SpawnItemEx("SiegeModeCentralSparkle");
+		//TNT1 A 0 A_SpawnItemEx("SiegeModeSparkle",0,0,0,frandom(-2,2),frandom(-2,2),frandom(-2,2));
+		TNT1 A 0 A_SpawnItemEx("SiegeModeSparkle",0,0,0,frandom(-5,5),frandom(-5,5),frandom(-5,5));
+		TNT1 A 0 A_SpawnItemEx("SiegeModeSparkle",0,0,0,frandom(-7,7),frandom(-7,7),frandom(-7,7));
+		TNT1 A 0
+		{
+			for (int i = random(2,4); i > 0; i--)
+			{
+				A_SpawnItemEx("HC_PlasmaBallFX",0,0,0,frandom(-15,15),frandom(-15,15),frandom(-15,15));
+			}
+		}
+		Stop;
+	
+	}
+}
+
+Class SiegeModeSparkle : HC_FXClass
+{
+	Default
+	{
+	+NOGRAVITY
+	+ZDOOMTRANS
+	+FORCEXYBILLBOARD
+	RenderStyle "Add";
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		PLSE B random(1,4) BRIGHT;
+		PLSE C random(1,4) BRIGHT;
+		PLSE D random(1,4) BRIGHT;
+		PLSE E random(1,4) BRIGHT;
+		Stop;
+	}
+}
+
+Class SiegeModeCentralSparkle : Actor
+{
+	Default
+	{
+	+NOGRAVITY
+	+ZDOOMTRANS
+	+FORCEXYBILLBOARD
+	RenderStyle "Add";
+	Scale 1.50;
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		PLSE B random(1,4) BRIGHT;
+		PLSE C random(1,4) BRIGHT;
+		PLSE D random(1,4) BRIGHT;
+		PLSE E random(1,4) BRIGHT;
+		Stop;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class GaussTriBase : actor
+{
+	Default
+		{
+		Radius 16;
+		Height 2;
+		Speed 45;
+		DamageFunction 450; //100
+		
+		+RIPPER;
+		+RANDOMIZE;
+		+EXTREMEDEATH;
+		+FORCERADIUSDMG;
+		Projectile;
+		Decal "Scorch";
+		Alpha 0.75;
+		RenderStyle "add";
+		DamageType "PlayerGauss";
+		}
+		States
+		{
+	XDeath:
+	Death:
+		TNT1 A 0;
+		
+		TNT1 A 0 A_Explode(128);
+		
+		TNT1 A 0 A_StartSound("BFGballexplode",CHAN_5,0,.4);
+		TNT1 A 0 A_StartSound("BFGballexplodeadd",CHAN_6,0,.3);
+		
+		TNT1 A 0 A_SpawnItemEx("BFGBigSparkle",random(-5,5),random(-5,5),random(-5,5));
+		
+		TNT1 A 0
+		{
+			for (int i = random(2,6); i > 0; i--)
+			{
+				A_SpawnItemEx("BFGSmallSparkle",0,0,0,frandom(-12,12),frandom(-12,12),frandom(-12,12));
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(5,10); i > 0; i--)
+			{
+				A_SpawnItemEx("BFGMiniSparkle",0,0,0,frandom(-12,12),frandom(-12,12),frandom(-12,12));
+			}
+		}
+		
+		TNT1 A 1;
+		Stop;
+		}
+}
+
+
+
+class GaussTri1 : GaussTriBase
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound("BFGBall",CHAN_5,CHANF_LOOP,.2);
+	Loopy:
+		
+		TNT1 A 0 Bright A_SpawnItemEx("BFGTail",0,0,12,random(-1,1),random(-1,1),random(-1,1));
+		
+		TNT1 A 0
+		{
+			for (int i = random(0,1); i > 0; i--)
+			{
+				A_SpawnItemEx("BFGMiniSparkle",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4));
+			}
+		}
+		
+		XGZP E 1
+		{
+			A_FadeIn(frandom(0.25, 0.65), 0);
+			A_QuakeEx(1,1,1,2,0,100,"none",QF_SCALEDOWN);
+		}
+		Loop;
+	}
+}
+
+class GaussTri2 : GaussTriBase
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound("BFGBall",CHAN_5,CHANF_LOOP,.2);
+	Loopy:
+		
+		TNT1 A 0 Bright A_SpawnItemEx("BFGTail",0,0,12,random(-1,1),random(-1,1),random(-1,1));
+		
+		TNT1 A 0
+		{
+			for (int i = random(0,1); i > 0; i--)
+			{
+				A_SpawnItemEx("BFGMiniSparkle",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4));
+			}
+		}
+		
+		XGZP E 1
+		{
+			A_FadeIn(frandom(0.25, 0.65), 0);
+			A_QuakeEx(1,1,1,2,0,100,"none",QF_SCALEDOWN);
+		}
+		Loop;
+	}
+}
+
+class GaussTri3 : GaussTriBase
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound("BFGBall",CHAN_5,CHANF_LOOP,.2);
+	Loopy:
+		
+		TNT1 A 0 Bright A_SpawnItemEx("BFGTail",0,0,12,random(-1,1),random(-1,1),random(-1,1));
+		
+		TNT1 A 0
+		{
+			for (int i = random(0,1); i > 0; i--)
+			{
+				A_SpawnItemEx("BFGMiniSparkle",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4));
+			}
+		}
+		
+		XGZP E 1
+		{
+			A_FadeIn(frandom(0.25, 0.65), 0);
+			A_QuakeEx(1,1,1,2,0,100,"none",QF_SCALEDOWN);
+		}
+		Loop;
+	}
+}
+
+class GaussTri4 : GaussTriBase
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound("BFGBall",CHAN_5,CHANF_LOOP,.2);
+	Loopy:
+		
+		TNT1 A 0 Bright A_SpawnItemEx("BFGTail",0,0,12,random(-1,1),random(-1,1),random(-1,1));
+		
+		TNT1 A 0
+		{
+			for (int i = random(0,1); i > 0; i--)
+			{
+				A_SpawnItemEx("BFGMiniSparkle",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4));
+			}
+		}
+		
+		XGZP E 1
+		{
+			A_FadeIn(frandom(0.25, 0.65), 0);
+			A_QuakeEx(1,1,1,2,0,100,"none",QF_SCALEDOWN);
+		}
+		Loop;
+	}
+}
+
+class GaussTri5 : GaussTriBase
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound("BFGBall",CHAN_5,CHANF_LOOP,.2);
+	Loopy:
+		
+		TNT1 A 0 Bright A_SpawnItemEx("BFGTail",0,0,12,random(-1,1),random(-1,1),random(-1,1));
+		
+		TNT1 A 0
+		{
+			for (int i = random(0,1); i > 0; i--)
+			{
+				A_SpawnItemEx("BFGMiniSparkle",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4));
+			}
+		}
+		
+		XGZP E 1
+		{
+			A_FadeIn(frandom(0.25, 0.65), 0);
+			A_QuakeEx(1,1,1,2,0,100,"none",QF_SCALEDOWN);
+		}
+		Loop;
+	}
+}
+
+/////////////////////////////////////////////////////BouncyBeam
+
+Class GaussBeam : Actor
+{
+	Default
+	{
+		
+		Projectile;
+		BounceType "Grenade";
+		+USEBOUNCESTATE
+		+BLOODSPLATTER
+		+NOTIMEFREEZE
+		+HITTRACER
+		WallBounceFactor 1.0;
+		BounceFactor 1.0;
+		Radius 2.5;
+		Height 4;
+		Speed 8;
+		DamageFunction 600;//300*random(1,3);
+		//DamageFunction 1;
+		MaxStepHeight 0;
+		BounceCount 5;
+		Decal "Scorch";
+		DamageType "PlayerGauss";
+	}
+	Vector2 OldDir;
+	Override Void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		If(GetAge()>1) Return;
+		A_SpawnBeam();
+		A_FaceMovementDirection(0,0,0);
+		//A_Log("Angle: " .. Angle .. " Pitch: " .. Pitch);
+		OldDir=(Angle,Pitch);
+	}
+
+	Override Bool CanCollideWith(Actor other, bool passive)
+	{
+		If(!passive && !other.bShootable) return false;
+		return true;
+	}
+	Array <Actor> GaussPoker;
+	
+	/*
+	Override int SpecialMissileHit (Actor victim)
+	{
+		If(Victim.bShootable && Victim.Health>0 && (Target && Victim!=Target))
+		{
+			
+			Bool Recognized=false;
+			Int Size=GaussPoker.Size();
+			If(Size>0)
+			For(int i=0;i<Size;i++)
+			{
+				If(GaussPoker[i]==Victim)
+				{
+					Recognized=True;
+					Return 1;
+				}
+			}
+			GaussPoker.Push(Victim);
+			int dmg=Victim.DamageMobj(Target,Target,special2,DamageType);
+			If(LMBDLib.CanBleed(Victim))
+			{
+				Double DS=Clamp(dmg/100,0.66,1.5);
+				LMBDLib.SpawnBlood(Victim,Pos,DS,false);
+				Victim.TraceBleedAngle(special2,Angle,Pitch);
+			}
+			Else
+			
+			A_SpawnItem("GaussPuff");
+			If(!special1)
+			{
+				A_Stop();
+				ExplodeMissile(Null,Victim);
+				Return 0;
+			}
+		}
+		Return 1;
+	}
+	*/
+	
+	Override Void Tick()
+	{
+		Super.Tick();
+		For(int i=0;i<5000 && Health;i++)
+		Super.Tick();
+	}
+	Actor BeamTarget;
+	
+	Virtual Void A_SpawnBeam()
+	{
+		Actor Beamer=Spawn("GaussCannonTrail",Pos,ALLOW_REPLACE);
+		If(special1) beamer.special1=1;
+		Beamer.Tics=4;
+		If(BeamTarget)
+		Beamer.Target=BeamTarget;
+		BeamTarget=Beamer;
+	}
+	
+	Void A_SprayBalls(Class<Actor> Ball="GaussSparkle")
+	{
+		Double Offset=0;
+		If(A_CheckCeiling("Null"))
+		Offset=-5;
+		Int Amount=Random(2,5);
+		For(int i=0;i<Amount;i++)
+		A_SpawnItemEx(Ball,0,0,Offset,FRandom(0,2),0,FRandom(3,5),Random(1,360));
+		//If(Tracer) { Tracer=Null; Return; }
+		//Actor HotGlow=Spawn(Ball,Pos,ALLOW_REPLACE);
+		//If(HotGlow) {
+		//HotGlow.Tics=35*4;
+		//HotGlow.bNoInterAction=True; }
+		A_SpawnItem("HC_GaussPuff");
+	}
+	
+	Void A_SpawnHotGlow()
+	{
+		If(Special1 && !Tracer)
+		{
+			Actor HotGlow=Spawn("GaussSparkle",Pos,ALLOW_REPLACE);
+			If(HotGlow)
+			{
+				HotGlow.bNoInteraction=True;
+				HotGlow.Alpha=0.99*Special1/30;
+				HotGlow.Tics=35*10;
+				HotGlow.A_SetScale(0.775);
+				//HotGlow.A_SetScale(0.75*Special1/30); well, 'cause you know i had to do it to it, to make it more faithful to the original
+			}
+		}
+	}
+	
+	States
+	{
+	Spawn:
+		TNT1 A 2 A_SpawnItemEx("GaussCannonTrail");
+		//TNT1 A 0 {SetDamage(656023029302930293); console.printf("%d", damage);}
+		Loop;
+	Bounce:
+		TNT1 A 0
+		{
+			Angle+=180; A_SprayDecal("Scorch",32); Angle-=180;
+			A_FaceMovementDirection(0,0,0);
+			Double dangle=deltaangle(Angle,OldDir.X);
+			Double dpitch=deltaangle(Pitch,OldDir.Y);
+
+			
+			
+			OldDir=(Angle,Pitch);
+			Double MaxBounceAngle=360;
+			If(dangle>MaxBounceAngle || dangle<-MaxBounceAngle || dpitch>MaxBounceAngle || dpitch<-MaxBounceAngle)
+			{
+				A_Stop();
+				bNoInterAction=True;
+				Return ResolveState("Death");
+			}
+			A_SpawnBeam();
+			A_SprayBalls();
+			//A_SpawnHotGlow();
+			Return ResolveState(null);
+		}
+		Goto Spawn;
+	Death:
+		TNT1 A 5
+		{
+			Health=0;
+			A_SpawnBeam();
+			A_SprayBalls();
+			//If(!Tracer)
+			//A_SpawnHotGlow();
+		}
+		Stop;
+	Crash:
+		TNT1 A 5 { Health=0; A_SpawnBeam(); A_SprayBalls(); }
+		Stop;
+	XDeath:
+		TNT1 A 5 { Health=0; A_SpawnBeam(); A_SprayBalls(); }
+		Stop;
+	}
+}
+
+
+
+Class GaussSiegeBeam : Actor
+{
+	Default
+	{
+		
+		Projectile;
+		BounceType "Grenade";
+		+USEBOUNCESTATE
+		+BLOODSPLATTER
+		+NOTIMEFREEZE
+		+HITTRACER
+		+RIPPER
+		WallBounceFactor 1.0;
+		BounceFactor 1.0;
+		Radius 2.5;
+		Height 4;
+		Speed 8;
+		DamageFunction 1200;//600*random(1,3);
+		//DamageFunction 1;
+		MaxStepHeight 0;
+		BounceCount 5;
+		Decal "Scorch";
+		DamageType "PlayerGauss";
+	}
+	Vector2 OldDir;
+	Override Void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		If(GetAge()>1) Return;
+		A_SpawnBeam();
+		A_FaceMovementDirection(0,0,0);
+		//A_Log("Angle: " .. Angle .. " Pitch: " .. Pitch);
+		OldDir=(Angle,Pitch);
+	}
+
+	Override Bool CanCollideWith(Actor other, bool passive)
+	{
+		If(!passive && !other.bShootable) return false;
+		return true;
+	}
+	Array <Actor> GaussPoker;
+	
+	/*
+	Override int SpecialMissileHit (Actor victim)
+	{
+		If(Victim.bShootable && Victim.Health>0 && (Target && Victim!=Target))
+		{
+			
+			Bool Recognized=false;
+			Int Size=GaussPoker.Size();
+			If(Size>0)
+			For(int i=0;i<Size;i++)
+			{
+				If(GaussPoker[i]==Victim)
+				{
+					Recognized=True;
+					Return 1;
+				}
+			}
+			GaussPoker.Push(Victim);
+			int dmg=Victim.DamageMobj(Target,Target,special2,DamageType);
+			If(LMBDLib.CanBleed(Victim))
+			{
+				Double DS=Clamp(dmg/100,0.66,1.5);
+				LMBDLib.SpawnBlood(Victim,Pos,DS,false);
+				Victim.TraceBleedAngle(special2,Angle,Pitch);
+			}
+			Else
+			
+			A_SpawnItem("GaussPuff");
+			If(!special1)
+			{
+				A_Stop();
+				ExplodeMissile(Null,Victim);
+				Return 0;
+			}
+		}
+		Return 1;
+	}
+	*/
+	
+	Override Void Tick()
+	{
+		Super.Tick();
+		For(int i=0;i<5000 && Health;i++)
+		Super.Tick();
+	}
+	Actor BeamTarget;
+	
+	Virtual Void A_SpawnBeam()
+	{
+		Actor Beamer=Spawn("SiegeModeTrail",Pos,ALLOW_REPLACE);
+		If(special1) beamer.special1=1;
+		Beamer.Tics=4;
+		If(BeamTarget)
+		Beamer.Target=BeamTarget;
+		BeamTarget=Beamer;
+	}
+	
+	Void A_SprayBalls(Class<Actor> Ball="GaussSparkle")
+	{
+		Double Offset=0;
+		If(A_CheckCeiling("Null"))
+		Offset=-5;
+		Int Amount=Random(2,5);
+		For(int i=0;i<Amount;i++)
+		A_SpawnItemEx(Ball,0,0,Offset,FRandom(0,2),0,FRandom(3,5),Random(1,360));
+		//If(Tracer) { Tracer=Null; Return; }
+		//Actor HotGlow=Spawn(Ball,Pos,ALLOW_REPLACE);
+		//If(HotGlow) {
+		//HotGlow.Tics=35*4;
+		//HotGlow.bNoInterAction=True; }
+		A_SpawnItem("HC_SeigeGaussPuff");
+	}
+	
+	Void A_SpawnHotGlow()
+	{
+		If(Special1 && !Tracer)
+		{
+			Actor HotGlow=Spawn("GaussSparkle",Pos,ALLOW_REPLACE);
+			If(HotGlow)
+			{
+				HotGlow.bNoInteraction=True;
+				HotGlow.Alpha=0.99*Special1/30;
+				HotGlow.Tics=35*10;
+				HotGlow.A_SetScale(0.775);
+				//HotGlow.A_SetScale(0.75*Special1/30); well, 'cause you know i had to do it to it, to make it more faithful to the original
+			}
+		}
+	}
+	
+	States
+	{
+	Spawn:
+		TNT1 A 2 A_SpawnItemEx("SiegeModeTrail");
+		//TNT1 A 0 {SetDamage(656023029302930293); console.printf("%d", damage);}
+		Loop;
+	Bounce:
+		TNT1 A 0
+		{
+			Angle+=180; A_SprayDecal("Scorch",32); Angle-=180;
+			A_FaceMovementDirection(0,0,0);
+			Double dangle=deltaangle(Angle,OldDir.X);
+			Double dpitch=deltaangle(Pitch,OldDir.Y);
+
+			
+			
+			OldDir=(Angle,Pitch);
+			Double MaxBounceAngle=360;
+			If(dangle>MaxBounceAngle || dangle<-MaxBounceAngle || dpitch>MaxBounceAngle || dpitch<-MaxBounceAngle)
+			{
+				A_Stop();
+				bNoInterAction=True;
+				Return ResolveState("Death");
+			}
+			A_SpawnBeam();
+			A_SprayBalls();
+			//A_SpawnHotGlow();
+			Return ResolveState(null);
+		}
+		Goto Spawn;
+	Death:
+		TNT1 A 5
+		{
+			Health=0;
+			A_SpawnBeam();
+			A_SprayBalls();
+			//If(!Tracer)
+			//A_SpawnHotGlow();
+		}
+		Stop;
+	Crash:
+		TNT1 A 5 { Health=0; A_SpawnBeam(); A_SprayBalls(); }
+		Stop;
+	XDeath:
+		TNT1 A 5 { Health=0; A_SpawnBeam(); A_SprayBalls(); }
+		Stop;
+	}
+}

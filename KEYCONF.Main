@@ -1,0 +1,27 @@
+addkeysection "Hell Crusher" outlawskeys    
+
+addmenukey "Flame Belch" Flame_Belch                  
+alias Flame_Belch   "use Flame_Belch"
+defaultbind R +Flame_Belch
+
+addmenukey "Ice Bomb" Ice_Bomb                  
+alias Ice_Bomb   "use Ice_Bomb"
+defaultbind V +Ice_Bomb
+
+addmenukey "Daul Grenade" Daul_Grenade                  
+alias Daul_Grenade   "use Daul_Grenade"
+defaultbind G +Daul_Grenade
+
+addmenukey "Quick Melee" Quick_Melee
+alias Quick_Melee "use Quick_Melee_Thinker"
+defaultbind Q Quick_Melee
+
+addmenukey "Quick Chainsaw" Quick_Chainsaw
+alias Quick_Chainsaw "use Quick_Chainsaw_Thinker"
+
+addmenukey "Kick" HC_kick                  
+alias HC_kick   "use HC_kick"
+
+addmenukey "Dash" +User3
+alias +User3
+defaultbind Shift +User3

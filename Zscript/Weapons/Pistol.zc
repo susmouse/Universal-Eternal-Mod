@@ -1,0 +1,1613 @@
+Class Executioner : HellCrusherW{
+
+	Int UpCount;
+	Bool Inspect, Guillotine;
+
+ 	Default
+	{
+	Weapon.BobRangeX 0.2;//1.0;
+	Weapon.BobRangeY 0.5;//1.0;
+	
+	Scale .4;
+	Weapon.SelectionOrder 1900;
+	Weapon.AmmoUse 1;
+	Weapon.AmmoGive 10; //20;
+	Weapon.AmmoType "HC_Magazine";
+	
+	Obituary "$OB_MPPISTOL";	
+	Inventory.Pickupmessage "You got a huge semi auto 50 beowolf hand cannon! How do you even get your hand around it...";
+	Inventory.PickupSound "PistolGet";
+	Tag "Executioner Hand Cannon";
+	
+	+WEAPON.WIMPY_WEAPON;
+	+WEAPON.NOAUTOFIRE;
+	+WEAPON.NOALERT;
+	}
+	States
+	{
+	Reload:
+		TNT1 A 0 A_JumpIf(IntroAnim == 0, "Ready");
+		TNT1 A 0 {invoker.Inspect = true;}
+		
+		TNT1 A 0{A_OverlayRotate(0,0);		A_WeaponOffset(0,32);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 20 A_WeaponReady;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN A 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN A 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN B 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN B 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN C 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN D 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN E 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN E 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN F 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN F 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN F 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN G 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN G 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN G 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN H 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN H 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN H 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_StartSound("Crucible/Deploy",CHAN_6,0,.7);
+		BLIN I 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN I 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN J 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN J 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN K 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN K 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN K 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN L 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN L 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN L 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN M 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN M 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN M 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN N 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_StartSound("Crucible/Return",CHAN_5,0,.7);
+		BLIN N 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN O 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN P 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN Q 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		BLIN R 1 A_WeaponReady;
+	
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 10 A_WeaponReady;
+		
+		
+		
+		
+		
+		
+	ChainsawInspect:
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,80);							A_WeaponOffset(75,95);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,80,WOF_INTERPOLATE);			A_WeaponOffset(75,90,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,60,WOF_INTERPOLATE);			A_WeaponOffset(70,50,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,45,WOF_INTERPOLATE);			A_WeaponOffset(71,47,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,36,WOF_INTERPOLATE);			A_WeaponOffset(73,39,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,28,WOF_INTERPOLATE);			A_WeaponOffset(75,30,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,15,WOF_INTERPOLATE);			A_WeaponOffset(78,23,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,7,WOF_INTERPOLATE);			A_WeaponOffset(80,16,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(83,14,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-4,WOF_INTERPOLATE);			A_WeaponOffset(88,9,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-7,WOF_INTERPOLATE);			A_WeaponOffset(90,3,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-10,WOF_INTERPOLATE);			A_WeaponOffset(93,-2,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-14,WOF_INTERPOLATE);			A_WeaponOffset(95,-7,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-17,WOF_INTERPOLATE);			A_WeaponOffset(99,-9,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-19,WOF_INTERPOLATE);			A_WeaponOffset(98,-8,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_Overlay(20,"ChainsawGrabHand");
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-20,WOF_INTERPOLATE);			A_WeaponOffset(100,-10,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-20,WOF_INTERPOLATE);			A_WeaponOffset(100,-10,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-20,WOF_INTERPOLATE);			A_WeaponOffset(100,-10,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-20,WOF_INTERPOLATE);			A_WeaponOffset(100,-10,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-20,WOF_INTERPOLATE);			A_WeaponOffset(100,-10,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-20,WOF_INTERPOLATE);			A_WeaponOffset(100,-10,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-20,WOF_INTERPOLATE);			A_WeaponOffset(100,-10,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-20,WOF_INTERPOLATE);			A_WeaponOffset(100,-10,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-20,WOF_INTERPOLATE);			A_WeaponOffset(100,-10,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN K 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-20,WOF_INTERPOLATE);			A_WeaponOffset(100,-10,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-21);							A_WeaponOffset(100,-10);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-23,WOF_INTERPOLATE);			A_WeaponOffset(103,-7,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-21,WOF_INTERPOLATE);			A_WeaponOffset(101,-8,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-21,WOF_INTERPOLATE);			A_WeaponOffset(100,-10,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-20,WOF_INTERPOLATE);			A_WeaponOffset(100,-10,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-18,WOF_INTERPOLATE);			A_WeaponOffset(98,-10,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-16,WOF_INTERPOLATE);			A_WeaponOffset(96,-8,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-16,WOF_INTERPOLATE);			A_WeaponOffset(90,-7,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-7,WOF_INTERPOLATE);			A_WeaponOffset(79,-5,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(67,-2,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,12,WOF_INTERPOLATE);			A_WeaponOffset(54,0,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,18,WOF_INTERPOLATE);			A_WeaponOffset(48,7,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,21,WOF_INTERPOLATE);			A_WeaponOffset(42,13,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,23,WOF_INTERPOLATE);			A_WeaponOffset(37,23,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,24,WOF_INTERPOLATE);			A_WeaponOffset(34,27,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(31,29,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(21,30,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(18,30,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(16,30,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15,30,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_Overlay(20,"chainsawPullCordReachHand");
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN A 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,24);							A_WeaponOffset(15,31);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN A 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,23,WOF_INTERPOLATE);			A_WeaponOffset(15,33,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN A 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,21,WOF_INTERPOLATE);			A_WeaponOffset(15,34,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN A 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,21,WOF_INTERPOLATE);			A_WeaponOffset(15,33,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN A 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,23,WOF_INTERPOLATE);			A_WeaponOffset(15,31,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN A 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,24,WOF_INTERPOLATE);			A_WeaponOffset(15,30,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN A 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15,30,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN B 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25);							A_WeaponOffset(15,10);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN B 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15,10,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_Overlay(25,"PullHandle");
+		TNT1 A 0 A_Overlay(20,"ChainsawHideWire");
+		TNT1 A 0 A_Overlay(15,"ChainsawPullWire");
+		
+		TNT1 A 0 A_StartSound("Chainsaw/inspect",CHAN_6,0,1);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN C 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25);							A_WeaponOffset(16,32);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN C 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(19,32,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN C 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(18,32,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN C 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(16,32,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN C 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15,32,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN C 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15,32,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN C 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15,32,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN C 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15,32,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN C 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15,32,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN C 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15,32,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN C 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),32+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN C 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),32+frandom(-1,1),WOF_INTERPOLATE);}	//12
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN R 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25);							A_WeaponOffset(14+frandom(-1,1),32+frandom(-1,1));}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN R 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(11+frandom(-1,1),32+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN R 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(12+frandom(-1,1),32+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN A 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(14+frandom(-1,1),32+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN A 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),32+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25);							A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1));}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		//ROAR
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-3,3),23+frandom(-3,3),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-3,3),23+frandom(-3,3),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-3,3),23+frandom(-3,3),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-3,3),23+frandom(-3,3),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-2,2),23+frandom(-2,2),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-2,2),23+frandom(-2,2),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-2,2),23+frandom(-2,2),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-2,2),23+frandom(-2,2),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-2,2),23+frandom(-2,2),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-2,2),23+frandom(-2,2),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-2,2),23+frandom(-2,2),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-2,2),23+frandom(-2,2),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-2,2),23+frandom(-2,2),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-2,2),23+frandom(-2,2),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-2,2),23+frandom(-2,2),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_StartSound("Chainsaw/idle",CHAN_5,CHANF_LOOP,0.2);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		//END ROAR
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),23+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),24+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),26+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,25,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),28+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,26,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),30+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,27,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),40+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,29,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),50+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,38,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),60+frandom(-1,1),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_StartSound("Chainsaw/End",CHAN_5,0,0.3);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,45,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),70+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,51,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),80+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN I 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,57,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),90+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,62,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),120+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,67,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),160+frandom(-1,1),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XCSN J 1 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,70,WOF_INTERPOLATE);			A_WeaponOffset(15+frandom(-1,1),200+frandom(-1,1),WOF_INTERPOLATE);}
+		
+	PistolInspect:
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 10 {A_WeaponReady();	A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0);		A_WeaponOffset(0,32);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-30);							A_WeaponOffset(-30,75);}
+		TNT1 A 0 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-25);							A_WeaponOffset(-30,75,WOF_INTERPOLATE);}
+		TNT1 A 0 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-20,WOF_INTERPOLATE);			A_WeaponOffset(-30,50,WOF_INTERPOLATE);}
+		TNT1 A 0 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-15,WOF_INTERPOLATE);			A_WeaponOffset(-30,5,WOF_INTERPOLATE);}
+		TNT1 A 0 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-10);							A_WeaponOffset(-30,-1,WOF_INTERPOLATE);}
+		TNT1 A 0 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-5,WOF_INTERPOLATE);			A_WeaponOffset(-30,-20,WOF_INTERPOLATE);}
+		TNT1 A 0 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-30,-45,WOF_INTERPOLATE);}
+		TNT1 A 0 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_StartSound("DeagleAirGrab",CHAN_6,0,.4);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,3,WOF_INTERPOLATE);			A_WeaponOffset(-30,-60,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,5,WOF_INTERPOLATE);			A_WeaponOffset(-30,-67,WOF_INTERPOLATE);}
+		TNT1 A 0 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,6,WOF_INTERPOLATE);			A_WeaponOffset(-30,-69,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_Overlay(-15,"HandGrabInAir");
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,7,WOF_INTERPOLATE);			A_WeaponOffset(-30,-70,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,8);							A_WeaponOffset(-30,-69,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,10,WOF_INTERPOLATE);			A_WeaponOffset(-30,-68,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,12,WOF_INTERPOLATE);			A_WeaponOffset(-30,-67,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC I 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,14,WOF_INTERPOLATE);			A_WeaponOffset(-30,-60,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-55);							A_WeaponOffset(30,-50,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-56,WOF_INTERPOLATE);			A_WeaponOffset(35,-48,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-58,WOF_INTERPOLATE);			A_WeaponOffset(33,-48,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-59,WOF_INTERPOLATE);			A_WeaponOffset(31,-49,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-60,WOF_INTERPOLATE);			A_WeaponOffset(30,-50,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-60,WOF_INTERPOLATE);			A_WeaponOffset(28,-48,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-61,WOF_INTERPOLATE);			A_WeaponOffset(24,-45,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-61,WOF_INTERPOLATE);			A_WeaponOffset(13,-42,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-62,WOF_INTERPOLATE);			A_WeaponOffset(5,-38,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-62,WOF_INTERPOLATE);			A_WeaponOffset(1,-37,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-61,WOF_INTERPOLATE);			A_WeaponOffset(-2,-37,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-60,WOF_INTERPOLATE);			A_WeaponOffset(-17,-38,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-57,WOF_INTERPOLATE);			A_WeaponOffset(-56,-39,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-49,WOF_INTERPOLATE);			A_WeaponOffset(-80,-40,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-34,WOF_INTERPOLATE);			A_WeaponOffset(-80,-41,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-23,WOF_INTERPOLATE);			A_WeaponOffset(-78,-43,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-20,WOF_INTERPOLATE);			A_WeaponOffset(-76,-45,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-10,WOF_INTERPOLATE);			A_WeaponOffset(-73,-48,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-7,WOF_INTERPOLATE);			A_WeaponOffset(-68,-53,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-6,WOF_INTERPOLATE);			A_WeaponOffset(-63,-56,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-4,WOF_INTERPOLATE);			A_WeaponOffset(-50,-67,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-2,WOF_INTERPOLATE);			A_WeaponOffset(-48,-74,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-1,WOF_INTERPOLATE);			A_WeaponOffset(-43,-79,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-1,WOF_INTERPOLATE);			A_WeaponOffset(-41,-83,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_Overlay(-15,"MagHand");
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-41,-86,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-43,-86,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-45,-87,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-46,-87,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-46,-87,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-46,-87,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-45,-87,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-45,-87,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-45,-87,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-45,-87,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-45,-87,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-45,-87,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-43,-86,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-41,-86,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_StartSound("DeagleMagIn",CHAN_6,0,.4);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC K 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-4);							A_WeaponOffset(-47,-89);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-3,WOF_INTERPOLATE);			A_WeaponOffset(-46,-88,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-3,WOF_INTERPOLATE);			A_WeaponOffset(-44,-87,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-3,WOF_INTERPOLATE);			A_WeaponOffset(-42,-86,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-2,WOF_INTERPOLATE);			A_WeaponOffset(-41,-86,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,-1,WOF_INTERPOLATE);			A_WeaponOffset(-41,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);} //10
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_Overlay(15,"SlideGrab");
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC L 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_StartSound("DaulPistolSlideBackward",CHAN_5,0,1); //0.4
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC N 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0);							A_WeaponOffset(-45,-78);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC N 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-43,-80,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC N 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-43,-82,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC N 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-42,-82,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC N 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-42,-83,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC N 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-41,-84,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC N 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_StartSound("DaulPistolSlideForward",CHAN_6,0,1); //0.4
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0);							A_WeaponOffset(-35,-90);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-37,-88,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-37,-88,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-38,-87,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-38,-87,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-39,-86,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_Overlay(15,"SlideGrabSmall");
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_StartSound("DaulPistolSlideBackward",CHAN_5,0,1); //0.4
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0);							A_WeaponOffset(-43,-80);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-43,-80,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-42,-81,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-41,-83,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC M 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_StartSound("DaulPistolSlideForward",CHAN_6,0,1); //0.4
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0);							A_WeaponOffset(-36,-89);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-36,-89,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-38,-87,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-39,-86,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,0,WOF_INTERPOLATE);			A_WeaponOffset(-40,-85,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,1,WOF_INTERPOLATE);			A_WeaponOffset(-39,-83,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,3,WOF_INTERPOLATE);			A_WeaponOffset(-34,-76,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,5,WOF_INTERPOLATE);			A_WeaponOffset(-30,-68,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,6,WOF_INTERPOLATE);			A_WeaponOffset(-21,-56,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,6,WOF_INTERPOLATE);			A_WeaponOffset(-13,-48,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,7,WOF_INTERPOLATE);			A_WeaponOffset(-2,-40,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,7,WOF_INTERPOLATE);			A_WeaponOffset(5,-34,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC O 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,7,WOF_INTERPOLATE);			A_WeaponOffset(13,-23,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC S 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,7);							A_WeaponOffset(20,-12);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC S 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,8);							A_WeaponOffset(33,-5,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC S 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,8);							A_WeaponOffset(46,-1,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC S 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,9);							A_WeaponOffset(50,0,WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady;
+		EXUC S 1 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);		A_OverlayRotate(0,9);							A_WeaponOffset(60,5,WOF_INTERPOLATE);}
+		
+		TNT1 A 0{A_OverlayRotate(0,0);		A_WeaponOffset(0,32);}
+		
+		TNT1 A 0 {invoker.Inspect = false;}
+		Goto Ready;
+		
+		///////////////////////////////////////////////Overlays
+		
+	HandGrabInAir:
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1.2,1.2);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);			A_OverlayOffset(-15,-80,80,WOF_INTERPOLATE);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1.2,1.2);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);			A_OverlayOffset(-15,-60,60,WOF_INTERPOLATE);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1.2,1.2);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);			A_OverlayOffset(-15,-40,40,WOF_INTERPOLATE);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1.2,1.2);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);			A_OverlayOffset(-15,-20,20,WOF_INTERPOLATE);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1.2,1.2);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);			A_OverlayOffset(-15,0,0,WOF_INTERPOLATE);}
+		Stop;
+		
+	MagHand:
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-10,WOF_INTERPOLATE);			A_OverlayOffset(-15,80,113,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-14,WOF_INTERPOLATE);			A_OverlayOffset(-15,80,106,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-17,WOF_INTERPOLATE);			A_OverlayOffset(-15,80,100,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-20,WOF_INTERPOLATE);			A_OverlayOffset(-15,80,96,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-23,WOF_INTERPOLATE);			A_OverlayOffset(-15,80,92,WOF_INTERPOLATE);}
+	
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-25,WOF_INTERPOLATE);			A_OverlayOffset(-15,80,90,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-26,WOF_INTERPOLATE);			A_OverlayOffset(-15,79,89,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-26,WOF_INTERPOLATE);			A_OverlayOffset(-15,79,89,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-27,WOF_INTERPOLATE);			A_OverlayOffset(-15,78,88,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-27,WOF_INTERPOLATE);			A_OverlayOffset(-15,78,88,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-27,WOF_INTERPOLATE);			A_OverlayOffset(-15,78,88,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-27,WOF_INTERPOLATE);			A_OverlayOffset(-15,78,88,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-26,WOF_INTERPOLATE);			A_OverlayOffset(-15,79,89,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-26,WOF_INTERPOLATE);			A_OverlayOffset(-15,79,89,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-25,WOF_INTERPOLATE);			A_OverlayOffset(-15,80,90,WOF_INTERPOLATE);}
+		
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-24,WOF_INTERPOLATE);			A_OverlayOffset(-15,80,90,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-21,WOF_INTERPOLATE);			A_OverlayOffset(-15,80,90,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-17,WOF_INTERPOLATE);			A_OverlayOffset(-15,81,89,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-12,WOF_INTERPOLATE);			A_OverlayOffset(-15,81,89,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-9,WOF_INTERPOLATE);			A_OverlayOffset(-15,82,88,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-5,WOF_INTERPOLATE);			A_OverlayOffset(-15,82,87,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,-1,WOF_INTERPOLATE);			A_OverlayOffset(-15,83,85,WOF_INTERPOLATE);}
+		
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);			A_OverlayOffset(-15,84,84,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);			A_OverlayOffset(-15,76,76,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);			A_OverlayOffset(-15,68,68,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);			A_OverlayOffset(-15,60,60,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);			A_OverlayOffset(-15,52,52,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);			A_OverlayOffset(-15,36,36,WOF_INTERPOLATE);}
+		EXUC P 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,1,1);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);			A_OverlayOffset(-15,4,4,WOF_INTERPOLATE);}
+		
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,-1.2,1.2);	A_OverlayRotate(-15,0);								A_OverlayOffset(-15,180,20);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,-1.2,1.2);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);				A_OverlayOffset(-15,180,20,WOF_INTERPOLATE);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,-1.2,1.2);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);				A_OverlayOffset(-15,180,20,WOF_INTERPOLATE);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,-1.2,1.2);	A_OverlayRotate(-15,0,WOF_INTERPOLATE);				A_OverlayOffset(-15,180,20,WOF_INTERPOLATE);}
+		
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,-1.2,1.2);	A_OverlayRotate(-15,-1,WOF_INTERPOLATE);			A_OverlayOffset(-15,181,23,WOF_INTERPOLATE);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,-1.2,1.2);	A_OverlayRotate(-15,-3,WOF_INTERPOLATE);			A_OverlayOffset(-15,187,26,WOF_INTERPOLATE);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,-1.2,1.2);	A_OverlayRotate(-15,-5,WOF_INTERPOLATE);			A_OverlayOffset(-15,190,35,WOF_INTERPOLATE);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,-1.2,1.2);	A_OverlayRotate(-15,-10,WOF_INTERPOLATE);			A_OverlayOffset(-15,205,39,WOF_INTERPOLATE);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,-1.2,1.2);	A_OverlayRotate(-15,-14,WOF_INTERPOLATE);			A_OverlayOffset(-15,219,48,WOF_INTERPOLATE);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,-1.2,1.2);	A_OverlayRotate(-15,-19,WOF_INTERPOLATE);			A_OverlayOffset(-15,226,54,WOF_INTERPOLATE);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,-1.2,1.2);	A_OverlayRotate(-15,-20,WOF_INTERPOLATE);			A_OverlayOffset(-15,240,60,WOF_INTERPOLATE);}
+		EXUC J 1 {A_OverlayPivotAlign(-15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(-15,-1.2,1.2);	A_OverlayRotate(-15,-20,WOF_INTERPOLATE);			A_OverlayOffset(-15,260,70,WOF_INTERPOLATE);}
+		Stop;
+		
+	SlideGrab:
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,13,WOF_INTERPOLATE);			A_OverlayOffset(15,120,102,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,16,WOF_INTERPOLATE);			A_OverlayOffset(15,100,72,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,18,WOF_INTERPOLATE);			A_OverlayOffset(15,90,52,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,22,WOF_INTERPOLATE);			A_OverlayOffset(15,80,32,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,25,WOF_INTERPOLATE);			A_OverlayOffset(15,70,20,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,28,WOF_INTERPOLATE);			A_OverlayOffset(15,50,5,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,30,-12,WOF_INTERPOLATE);}
+		
+		EXUC Q 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0);							A_OverlayOffset(15,5,5);}
+		EXUC Q 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0,WOF_INTERPOLATE);			A_OverlayOffset(15,5,5,WOF_INTERPOLATE);}
+		EXUC Q 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0,WOF_INTERPOLATE);			A_OverlayOffset(15,5,5,WOF_INTERPOLATE);}
+		
+		EXUC Q 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0,WOF_INTERPOLATE);			A_OverlayOffset(15,-10,48,WOF_INTERPOLATE);}
+		EXUC Q 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0,WOF_INTERPOLATE);			A_OverlayOffset(15,-10,48,WOF_INTERPOLATE);}
+		EXUC Q 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0,WOF_INTERPOLATE);			A_OverlayOffset(15,-10,48,WOF_INTERPOLATE);}
+		EXUC Q 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0,WOF_INTERPOLATE);			A_OverlayOffset(15,-10,48,WOF_INTERPOLATE);}
+		EXUC Q 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0,WOF_INTERPOLATE);			A_OverlayOffset(15,-10,48,WOF_INTERPOLATE);}
+		EXUC Q 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0,WOF_INTERPOLATE);			A_OverlayOffset(15,-10,48,WOF_INTERPOLATE);}
+		EXUC Q 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0,WOF_INTERPOLATE);			A_OverlayOffset(15,-10,48,WOF_INTERPOLATE);}
+		
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30);							A_OverlayOffset(15,25,25);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,28,27,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,35,44,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,40,65,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,50,77,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,60,80,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,80,100,WOF_INTERPOLATE);}
+		Stop;
+		
+	SlideGrabSmall:
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,13,WOF_INTERPOLATE);			A_OverlayOffset(15,120,102,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,16,WOF_INTERPOLATE);			A_OverlayOffset(15,100,72,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,18,WOF_INTERPOLATE);			A_OverlayOffset(15,90,52,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,22,WOF_INTERPOLATE);			A_OverlayOffset(15,80,32,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,25,WOF_INTERPOLATE);			A_OverlayOffset(15,70,20,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,28,WOF_INTERPOLATE);			A_OverlayOffset(15,50,5,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,30,-12,WOF_INTERPOLATE);}
+		
+		EXUC Q 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0);							A_OverlayOffset(15,5,5);}
+		EXUC Q 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0,WOF_INTERPOLATE);			A_OverlayOffset(15,5,5,WOF_INTERPOLATE);}
+		EXUC Q 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0,WOF_INTERPOLATE);			A_OverlayOffset(15,5,5,WOF_INTERPOLATE);}
+		
+		EXUC Q 20 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,0,WOF_INTERPOLATE);			A_OverlayOffset(15,-2,33,WOF_INTERPOLATE);}
+		
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30);							A_OverlayOffset(15,25,25);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,28,27,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,35,44,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,40,65,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,50,77,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,60,80,WOF_INTERPOLATE);}
+		EXUC R 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(15,1.1,1.1);	A_OverlayRotate(15,30,WOF_INTERPOLATE);			A_OverlayOffset(15,80,100,WOF_INTERPOLATE);}
+		Stop;
+
+	ChainsawGrabHand:
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,0,WOF_INTERPOLATE);			A_OverlayOffset(20,-90,180,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,0,WOF_INTERPOLATE);			A_OverlayOffset(20,-80,85,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,0,WOF_INTERPOLATE);			A_OverlayOffset(20,-74,63,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,0,WOF_INTERPOLATE);			A_OverlayOffset(20,-68,43,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,0,WOF_INTERPOLATE);			A_OverlayOffset(20,-57,29,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,-4,WOF_INTERPOLATE);			A_OverlayOffset(20,-46,17,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,-10,WOF_INTERPOLATE);		A_OverlayOffset(20,-40,7,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,-14,WOF_INTERPOLATE);		A_OverlayOffset(20,-33,-3,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,-18,WOF_INTERPOLATE);		A_OverlayOffset(20,-29,-18,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,-20,WOF_INTERPOLATE);		A_OverlayOffset(20,-20,-20,WOF_INTERPOLATE);} //10
+		Stop;
+		
+	chainsawPullCordReachHand:
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,-1,1);		A_OverlayRotate(20,0,WOF_INTERPOLATE);			A_OverlayOffset(20,120,30,WOF_INTERPOLATE);}
+		
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,-1,1);		A_OverlayRotate(20,0,WOF_INTERPOLATE);			A_OverlayOffset(20,116,28,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,-1,1);		A_OverlayRotate(20,0,WOF_INTERPOLATE);			A_OverlayOffset(20,105,23,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,-1,1);		A_OverlayRotate(20,0,WOF_INTERPOLATE);			A_OverlayOffset(20,87,19,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,-1,1);		A_OverlayRotate(20,0,WOF_INTERPOLATE);			A_OverlayOffset(20,78,13,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,-1,1);		A_OverlayRotate(20,0,WOF_INTERPOLATE);			A_OverlayOffset(20,73,11,WOF_INTERPOLATE);}
+		
+		XCSN L 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,-1,1);		A_OverlayRotate(20,0,WOF_INTERPOLATE);			A_OverlayOffset(20,70,10,WOF_INTERPOLATE);}
+		Stop;
+		
+	ChainsawHideWire:
+		XCSN D 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,25);							A_OverlayOffset(20,15,2.5);}
+		XCSN D 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,25,WOF_INTERPOLATE);			A_OverlayOffset(20,15,2.5,WOF_INTERPOLATE);}
+		XCSN D 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,25,WOF_INTERPOLATE);			A_OverlayOffset(20,15,2.5,WOF_INTERPOLATE);}
+		XCSN D 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,25,WOF_INTERPOLATE);			A_OverlayOffset(20,15,2.5,WOF_INTERPOLATE);}
+		XCSN D 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,25,WOF_INTERPOLATE);			A_OverlayOffset(20,15,2.5,WOF_INTERPOLATE);}
+		XCSN D 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,25,WOF_INTERPOLATE);			A_OverlayOffset(20,15,2.5,WOF_INTERPOLATE);}
+		XCSN D 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,25,WOF_INTERPOLATE);			A_OverlayOffset(20,15,2.5,WOF_INTERPOLATE);}
+		XCSN D 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,25,WOF_INTERPOLATE);			A_OverlayOffset(20,15,2.5,WOF_INTERPOLATE);}
+		XCSN D 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,25,WOF_INTERPOLATE);			A_OverlayOffset(20,15,2.5,WOF_INTERPOLATE);}
+		XCSN D 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,25,WOF_INTERPOLATE);			A_OverlayOffset(20,15,2.5,WOF_INTERPOLATE);}
+		XCSN D 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,25,WOF_INTERPOLATE);			A_OverlayOffset(20,15,2.5,WOF_INTERPOLATE);}
+		XCSN D 1 {A_OverlayPivotAlign(20,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(20,1,1);		A_OverlayRotate(20,25,WOF_INTERPOLATE);			A_OverlayOffset(20,15,2.5,WOF_INTERPOLATE);}	//12
+		Stop;
+		
+	ChainsawPullWire:
+		XCSN O 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayPivot(15,-0.25,0);		A_OverlayScale(15,8,1,WOF_INTERPOLATE);		A_OverlayOffset(15,-20,54);}
+		XCSN O 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayPivot(15,-0.25,0);		A_OverlayScale(15,20,1,WOF_INTERPOLATE);	A_OverlayOffset(15,-20,54);}
+		XCSN O 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayPivot(15,-0.25,0);		A_OverlayScale(15,40,1,WOF_INTERPOLATE);	A_OverlayOffset(15,-20,54);}
+		XCSN O 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayPivot(15,-0.25,0);		A_OverlayScale(15,65,1,WOF_INTERPOLATE);	A_OverlayOffset(15,-20,54);}
+		XCSN O 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayPivot(15,-0.25,0);		A_OverlayScale(15,80,1,WOF_INTERPOLATE);	A_OverlayOffset(15,-20,54);}
+		XCSN O 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayPivot(15,-0.25,0);		A_OverlayScale(15,90,1,WOF_INTERPOLATE);	A_OverlayOffset(15,-20,54);}
+		XCSN O 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayPivot(15,-0.25,0);		A_OverlayScale(15,92,1,WOF_INTERPOLATE);	A_OverlayOffset(15,-20,54);}
+		
+		XCSN O 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayPivot(15,-0.25,0);		A_OverlayScale(15,88,1,WOF_INTERPOLATE);	A_OverlayOffset(15,-20,54);}
+		XCSN O 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayPivot(15,-0.25,0);		A_OverlayScale(15,85,1,WOF_INTERPOLATE);	A_OverlayOffset(15,-20,54);}
+		XCSN O 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayPivot(15,-0.25,0);		A_OverlayScale(15,62,1,WOF_INTERPOLATE);	A_OverlayOffset(15,-20,54);}
+		XCSN O 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayPivot(15,-0.25,0);		A_OverlayScale(15,43,1,WOF_INTERPOLATE);	A_OverlayOffset(15,-20,54);}
+		XCSN O 1 {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);		A_OverlayPivot(15,-0.25,0);		A_OverlayScale(15,20,1,WOF_INTERPOLATE);	A_OverlayOffset(15,-20,54);}	//12
+		Stop;
+		
+	PullHandle:
+		XCSN P 1 {A_OverlayPivotAlign(25,PSPA_CENTER,PSPA_CENTER);	A_OverlayPivot(25,-0.25,0);		A_OverlayRotate(25,0);		A_OverlayOffset(25,25,-12);}
+		XCSN P 1 {A_OverlayPivotAlign(25,PSPA_CENTER,PSPA_CENTER);	A_OverlayPivot(25,-0.25,0);		A_OverlayRotate(25,0);		A_OverlayOffset(25,50,-12);} //12
+		XCSN P 1 {A_OverlayPivotAlign(25,PSPA_CENTER,PSPA_CENTER);	A_OverlayPivot(25,-0.25,0);		A_OverlayRotate(25,0);		A_OverlayOffset(25,80,-12);} //32
+		XCSN P 1 {A_OverlayPivotAlign(25,PSPA_CENTER,PSPA_CENTER);	A_OverlayPivot(25,-0.25,0);		A_OverlayRotate(25,0);		A_OverlayOffset(25,130,-12);} //57
+		XCSN P 1 {A_OverlayPivotAlign(25,PSPA_CENTER,PSPA_CENTER);	A_OverlayPivot(25,-0.25,0);		A_OverlayRotate(25,0);		A_OverlayOffset(25,167,-12);} //72
+		XCSN P 1 {A_OverlayPivotAlign(25,PSPA_CENTER,PSPA_CENTER);	A_OverlayPivot(25,-0.25,0);		A_OverlayRotate(25,0);		A_OverlayOffset(25,179,-12);} //82
+		XCSN P 1 {A_OverlayPivotAlign(25,PSPA_CENTER,PSPA_CENTER);	A_OverlayPivot(25,-0.25,0);		A_OverlayRotate(25,0);		A_OverlayOffset(25,180,-12);} //84
+		
+		TNT1 A 0 A_Overlay(5,"HandAfterPull");
+		
+		XCSN Q 1 {A_OverlayPivotAlign(25,PSPA_CENTER,PSPA_CENTER);	A_OverlayPivot(25,-0.25,0);		A_OverlayRotate(25,0);		A_OverlayOffset(25,175,-12);} //80
+		XCSN Q 1 {A_OverlayPivotAlign(25,PSPA_CENTER,PSPA_CENTER);	A_OverlayPivot(25,-0.25,0);		A_OverlayRotate(25,0);		A_OverlayOffset(25,169,-12);} //77
+		XCSN Q 1 {A_OverlayPivotAlign(25,PSPA_CENTER,PSPA_CENTER);	A_OverlayPivot(25,-0.25,0);		A_OverlayRotate(25,0);		A_OverlayOffset(25,120,-12);} //54
+		XCSN Q 1 {A_OverlayPivotAlign(25,PSPA_CENTER,PSPA_CENTER);	A_OverlayPivot(25,-0.25,0);		A_OverlayRotate(25,0);		A_OverlayOffset(25,80,-12);} //35
+		XCSN Q 1 {A_OverlayPivotAlign(25,PSPA_CENTER,PSPA_CENTER);	A_OverlayPivot(25,-0.25,0);		A_OverlayRotate(25,0);		A_OverlayOffset(25,37,-12);} //12
+		Stop;
+	
+	HandAfterPull:
+		XCSN L 1 {A_OverlayPivotAlign(5,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(5,-1,1);		A_OverlayOffset(5,240,30);}
+		XCSN L 1 {A_OverlayPivotAlign(5,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(5,-1,1);		A_OverlayOffset(5,234,30,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(5,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(5,-1,1);		A_OverlayOffset(5,222,30,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(5,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(5,-1,1);		A_OverlayOffset(5,206,30,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(5,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(5,-1,1);		A_OverlayOffset(5,189,31,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(5,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(5,-1,1);		A_OverlayOffset(5,163,32,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(5,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(5,-1,1);		A_OverlayOffset(5,145,33,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(5,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(5,-1,1);		A_OverlayOffset(5,123,36,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(5,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(5,-1,1);		A_OverlayOffset(5,116,39,WOF_INTERPOLATE);}
+		XCSN L 1 {A_OverlayPivotAlign(5,PSPA_CENTER,PSPA_CENTER);		A_OverlayScale(5,-1,1);		A_OverlayOffset(5,110,40,WOF_INTERPOLATE);} //10	//17
+		Stop;
+		
+		///////////////////////////////////////////////Overlays
+		
+	Spawn:
+		EXUC T -1;
+		Stop;
+		
+	Ready:
+		TNT1 A 0 A_SetCrosshair(60);
+		
+		//TEST A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		EXUC A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		//TNT1 A 0 A_Jumpif((QMdoer.IsMeleeing == true),"QuickMeleeStart");
+		Loop;
+		
+	Ready3:
+		TNT1 A 1 A_Jump(255, "Ready3");
+		
+	Select:
+		TNT1 A 0 A_SetCrosshair(60);
+		TNT1 A 0 {invoker.UpCount++;}
+		TNT1 A 0 A_ZoomFactor(1);
+		TNT1 A 0 A_JumpIf(invoker.UpCount == 1, "Reload");
+		//TNT1 A 0 A_StartSound("DeagleDraw",CHAN_5,0,1);
+		TNT1 A 0 A_StartSound("DaulPistolSlideForward",CHAN_6,0,1);
+		
+		TNT1 A 0 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);}
+		TNT1 A 0 A_WeaponReady(WRF_NOFIRE);
+		EXUC A 1 {	A_OverlayRotate(0,-18);		A_WeaponOffset(25,90);}
+		TNT1 A 0 A_WeaponReady(WRF_NOFIRE);
+		EXUC A 1 {	A_OverlayRotate(0,-13,WOF_INTERPOLATE);	 	A_WeaponOffset(10,60,WOF_INTERPOLATE);}
+		TNT1 A 0 A_WeaponReady(WRF_NOFIRE);
+		EXUC A 1 {	A_OverlayRotate(0,-4,WOF_INTERPOLATE); 		A_WeaponOffset(3,45,WOF_INTERPOLATE);}
+		TNT1 A 0 {	A_OverlayRotate(0,0,WOF_INTERPOLATE); 		A_WeaponOffset(0,32,WOF_INTERPOLATE);}
+		
+		Goto Ready;
+	
+	Deselect:
+		TNT1 A 0 A_Overlay(10,"*");
+		TNT1 A 0 A_Overlay(-10,"*");
+		TNT1 A 0 A_ZoomFactor(1);
+		
+		TNT1 A 0 {A_OverlayRotate(0,0,WOF_INTERPOLATE);		A_WeaponOffset(0,32,WOF_INTERPOLATE);}
+		TNT1 A 0 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);}
+		EXUC A 1 {A_OverlayRotate(0,-4);						A_WeaponOffset(3,45);}
+		EXUC A 1 {A_OverlayRotate(0,-13,WOF_INTERPOLATE);		A_WeaponOffset(10,60,WOF_INTERPOLATE);}
+		EXUC A 1 {A_OverlayRotate(0,-18,WOF_INTERPOLATE);		A_WeaponOffset(25,90,WOF_INTERPOLATE);}
+		TNT1 A 0 {A_OverlayRotate(0,20,WOF_INTERPOLATE);		A_WeaponOffset(28,100,WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_Lower;
+		Wait;
+		
+	DeselectQuickMelee:
+		TNT1 A 0 A_Overlay(10,"*");
+		TNT1 A 0 A_Overlay(-10,"*");
+		TNT1 A 0 A_ZoomFactor(1);
+		
+		
+		TNT1 A 0 {A_OverlayPivotAlign(0,PSPA_CENTER,PSPA_CENTER);}
+		EXUC A 1 {A_OverlayRotate(0,-4,WOF_INTERPOLATE);		A_WeaponOffset(3,45,WOF_INTERPOLATE);}
+		//EXUC A 1 {A_OverlayRotate(0,-13,WOF_INTERPOLATE);		A_WeaponOffset(10,60,WOF_INTERPOLATE);}
+		EXUC A 1 {A_OverlayRotate(0,-18,WOF_INTERPOLATE);		A_WeaponOffset(25,90,WOF_INTERPOLATE);}
+		TNT1 A 0 {A_OverlayRotate(0,20,WOF_INTERPOLATE);		A_WeaponOffset(28,100,WOF_INTERPOLATE);}
+		Goto QuickMeleeStart;
+		
+	Feel:
+		TNT1 A 0 A_QuakeEx(1,1,1,4,0,100,"*");
+		TNT1 A 0 A_SetPitch(pitch-1);
+		TNT1 A 1 A_ZoomFactor(0.95);
+		TNT1 A 0 A_SetPitch(pitch+0.5);
+		TNT1 A 1 A_ZoomFactor(0.95);
+		TNT1 A 0 A_SetPitch(pitch+0.5);
+		TNT1 A 1 A_ZoomFactor(0.95);
+		TNT1 A 1 A_ZoomFactor(0.97);
+		TNT1 A 1 A_ZoomFactor(0.99);
+		TNT1 A 1 A_ZoomFactor(1);
+		Stop;
+		
+	OffsetClear:
+		TNT1 A 0 {A_WeaponOffset(0,32); A_OverlayRotate(0,0);}
+		TNT1 A 0 {invoker.Inspect = false;}
+	Fire:
+		TNT1 A 0 A_Jumpif((invoker.Inspect == true),"OffsetClear");
+		TNT1 A 0 A_Jumpif((invoker.Guillotine == true),"AltShoot");
+		
+		
+		TNT1 A 0 A_AlertMonsters;
+		TNT1 A 0 A_Overlay(15,"*");
+		TNT1 A 0 A_Overlay(0,"*");
+		TNT1 A 0 A_Overlay(-15,"*");
+		TNT1 A 0 A_OverlayRotate(0,0);
+		EXUC B 1 A_WeaponReady(WRF_NOFIRE|WRF_NOBOB);
+		
+		TNT1 A 0 A_StartSound("SledgeAddFire",CHAN_6,0,.5);
+		TNT1 A 0 A_StartSound("DeagleFire",CHAN_5,0,.7);
+		TNT1 A 0 A_JumpIf(CountInv("HC_PowerQuadDamage") == 0, 2);
+		TNT1 A 0 A_StartSound("QuadDamageShot",CHAN_7,0,.9);
+		
+		TNT1 A 0 A_FireProjectile("HC_SmallTracer", 0, false, 0, 0, FPF_NOAUTOAIM, 0);
+		
+		TNT1 A 0 A_FireBullets (0, 0, 1, 50, "HC_BulletPuff",FBF_USEAMMO|FBF_NORANDOM);
+										//25
+		TNT1 A 0 {A_Overlay(-5,"Feel");  A_Overlay(-11,"Flash");}
+		TNT1 A 0 A_WeaponReady(WRF_NOFIRE|WRF_NOBOB);
+		EXUC B 1 A_WeaponOffset(Random(-2,2),Random(47,50),WOF_INTERPOLATE);
+		TNT1 A 0 A_WeaponReady(WRF_NOFIRE|WRF_NOBOB);
+		EXUC E 1 A_WeaponOffset(Random(-2,2),Random(53,60),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		EXUC E 1 A_WeaponOffset(Random(-3,3),Random(55,60),WOF_INTERPOLATE);
+		TNT1 A 0 A_FireProjectile("bulletcasingspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		EXUC E 1 A_WeaponOffset(Random(-2,2),Random(54,60),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(Random(-1,1),Random(52,60),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(Random(-1,1),Random(50,56),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(Random(-1,1),Random(46,50),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(0,Random(43,47),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(0,Random(40,45),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(0,Random(35,37),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_OverlayRotate(0,0);
+		TNT1 A 0 A_Refire;
+		Goto Ready;
+		
+	Flash:
+		EXUC U 1 bright{A_OverlayPivotAlign(-11,PSPA_CENTER,PSPA_CENTER); A_OverlayScale(-11,frandom(0.8,1.1),frandom(0.8,1.1)); A_OverlayRotate(-11,random(0,360));}
+		EXUC V 1 bright{A_OverlayPivotAlign(-11,PSPA_CENTER,PSPA_CENTER); A_OverlayScale(-11,frandom(0.8,1.1),frandom(0.8,1.1)); A_OverlayRotate(-11,random(0,360));}
+		Stop;
+		
+/////////////////////////////////////////////////////////////////////////////////////////ALT FIRE STUFF
+		
+	AltOffsetClear:
+		TNT1 A 0 {A_WeaponOffset(0,32); A_OverlayRotate(0,0);}
+		TNT1 A 0 {invoker.Inspect = false;}
+	AltFire:
+		TNT1 A 0 A_Jumpif((invoker.Inspect == true),"AltOffsetClear");
+		
+		TNT1 A 0 A_StartSound("DaulPistolSlideBackward",CHAN_5,0,1); //0.4
+		TNT1 A 0 A_Overlay(-15,"AltHandUp");
+		EXUC E 1 A_WeaponOffset(0,Random(35,40));
+		EXUC E 1 A_WeaponOffset(0,Random(34,38),WOF_INTERPOLATE);
+		EXUC E 1 A_WeaponOffset(0,Random(32,34),WOF_INTERPOLATE);
+		
+		EXUC E 1 A_WeaponOffset(Random(-2,-5),Random(32,34),WOF_INTERPOLATE);
+		EXUC E 1 A_WeaponOffset(Random(-1,-3),32,WOF_INTERPOLATE);
+		EXUC E 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		TNT1 A 0 A_SetCrosshair(99);
+		
+	AltReady:
+		TNT1 A 0 A_Overlay(-15,"AltReadyHand");
+		TNT1 A 0 LineAttack(Angle,1000,Pitch,0,"*","LaserPuff",LAF_NORANDOMPUFFZ|LAF_NOINTERACT);
+		TNT1 A 0 {invoker.Guillotine = true;}
+		EXUC E 1 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 0 A_Refire("AltReady");
+		
+		TNT1 A 0 {invoker.Guillotine = false;}
+	AltDown:
+		TNT1 A 0 A_SetCrosshair(60);
+		TNT1 A 0 A_StartSound("DaulPistolSlideForward",CHAN_6,0,1); //0.4
+		TNT1 A 0 A_Overlay(-15,"AltHandDown");
+		EXUC A 1 A_WeaponOffset(0,Random(28,20));
+		EXUC A 1 A_WeaponOffset(0,Random(30,25),WOF_INTERPOLATE);
+		EXUC A 1 A_WeaponOffset(0,Random(32,28),WOF_INTERPOLATE);
+		
+		EXUC A 1 A_WeaponOffset(Random(1,2),Random(32,34),WOF_INTERPOLATE);
+		EXUC A 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		EXUC A 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		
+		Goto Ready;
+		
+	AltHandUp:
+		EXUC X 1 A_OverlayOffset(-15,16,40);
+		EXUC X 1 A_OverlayOffset(-15,14,23,WOF_INTERPOLATE);
+		EXUC X 1 A_OverlayOffset(-15,10,9,WOF_INTERPOLATE);
+		EXUC X 1 A_OverlayOffset(-15,0,0);
+		EXUC X 1 A_OverlayOffset(-15,0,0);
+		EXUC X 1 A_OverlayOffset(-15,0,0);
+		Stop;
+		
+	AltReadyHand:
+		EXUC X 1 A_OverlayOffset(-15,0,0);
+		EXUC X 1 A_OverlayOffset(-15,10,9,WOF_INTERPOLATE);
+		EXUC X 1 A_OverlayOffset(-15,14,23,WOF_INTERPOLATE);
+		EXUC X 1 A_OverlayOffset(-15,16,40,WOF_INTERPOLATE);
+		Stop;
+		
+	AltHandDown:
+		EXUC X 1 A_OverlayOffset(-15,0,0);
+		EXUC X 1 A_OverlayOffset(-15,0,0);
+		EXUC X 1 A_OverlayOffset(-15,0,0);
+		EXUC X 1 A_OverlayOffset(-15,10,9,WOF_INTERPOLATE);
+		EXUC X 1 A_OverlayOffset(-15,14,23,WOF_INTERPOLATE);
+		EXUC X 1 A_OverlayOffset(-15,16,40,WOF_INTERPOLATE);
+		Stop;
+		
+	AltShoot:
+		//TNT1 A 0 A_Jumpif((invoker.HasFired == true),"ScopedIn");
+		TNT1 A 0 A_JumpIfInventory("HC_Magazine",5,1);
+		Goto Click;
+	
+		
+		TNT1 A 0 A_SetCrosshair(60);
+		TNT1 A 0 A_AlertMonsters;
+		TNT1 A 0 {invoker.Guillotine = false;}
+		TNT1 A 0 A_Overlay(-15,"AltShootHand");
+		
+		TNT1 A 0 A_OverlayRotate(0,0);
+		
+		TNT1 A 0 A_StartSound("SledgeAddFire",CHAN_5,0,.5);
+		TNT1 A 0 A_StartSound("DeagleFire",CHAN_6,0,.7);
+		TNT1 A 0 A_StartSound("BoomStickFire",CHAN_7,0,.8);
+		
+		TNT1 A 0 A_JumpIf(CountInv("HC_PowerQuadDamage") == 0, 2);
+		TNT1 A 0 A_StartSound("QuadDamageShot",CHAN_7,0,.9);
+		
+		TNT1 A 0 A_RailAttack(200,0,True,"","",RGF_SILENT ,0,"FuncRevolverPuff",0,0,0,1,0.1,1,"RevolverTrail",0,270,10);
+		TNT1 A 0 A_FireBullets (0, 0, 1, 0, "RevolverPuff",0);
+		
+		TNT1 A 0 A_FireProjectile("HC_MediumTracer", 0, false, 0, 0, FPF_NOAUTOAIM, 0);
+		
+		TNT1 A 0 {A_Overlay(-5,"AltFeel");  A_Overlay(-11,"AltFlash");}
+		TNT1 A 0 A_TakeInventory("HC_Magazine", 4);
+		
+		EXUC C 1 A_WeaponOffset(Random(-2,2),Random(50,60),WOF_INTERPOLATE);
+		EXUC D 1 A_WeaponOffset(Random(-2,2),Random(65,70),WOF_INTERPOLATE);
+		EXUC E 1 A_WeaponOffset(Random(-3,3),Random(64,70),WOF_INTERPOLATE);
+		TNT1 AAAAA 0 A_FireProjectile("bulletcasingspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+		
+		EXUC E 1 A_WeaponOffset(Random(-2,2),Random(61,70),WOF_INTERPOLATE);
+		
+		EXUC A 1 A_WeaponOffset(Random(-1,1),Random(59,70),WOF_INTERPOLATE);
+		
+		EXUC A 1 A_WeaponOffset(Random(-1,1),Random(56,70),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(Random(-1,1),Random(54,70),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(Random(-1,1),Random(53,60),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(Random(-1,1),Random(54,60),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(Random(-1,1),Random(50,56),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(Random(-1,1),Random(46,50),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(0,Random(43,47),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(0,Random(40,45),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(0,Random(35,37),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		EXUC A 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_OverlayRotate(0,0);
+		TNT1 A 0 A_Refire;
+		Goto Ready;
+		
+	AltShootHand:
+		EXUC X 16 A_OverlayOffset(-15,0,0);
+		EXUC X 1 A_OverlayOffset(-15,10,9,WOF_INTERPOLATE);
+		EXUC X 1 A_OverlayOffset(-15,14,23,WOF_INTERPOLATE);
+		EXUC X 1 A_OverlayOffset(-15,16,40,WOF_INTERPOLATE);
+		Stop;
+		
+	Click:
+		TNT1 A 0 {invoker.Guillotine = false;}
+		TNT1 A 0 A_SetCrosshair(60);
+		TNT1 A 0 A_StartSound("DaulPistolSlideForward",CHAN_6,0,1);
+		EXUC A 1 A_WeaponOffset(0,Random(28,20));
+		EXUC A 1 A_WeaponOffset(0,Random(30,25),WOF_INTERPOLATE);
+		EXUC A 1 A_WeaponOffset(0,Random(32,28),WOF_INTERPOLATE);
+		//TNT1 A 0 A_StartSound("DaulPistolSlideBackward",CHAN_5,0,1);
+		Goto Ready;
+		
+	AltFeel:
+		TNT1 A 0 A_QuakeEx(1,1,1,9,0,100,"*");
+		TNT1 A 0 A_SetPitch(pitch-2.5);
+		TNT1 A 1 A_ZoomFactor(0.80,ZOOM_INSTANT);
+		TNT1 A 0 A_SetPitch(pitch+1.25);
+		TNT1 A 1 A_ZoomFactor(0.80);
+		TNT1 A 0 A_SetPitch(pitch+1.25);
+		TNT1 A 1 A_ZoomFactor(0.81);
+		TNT1 A 1 A_ZoomFactor(0.82);
+		TNT1 A 1 A_ZoomFactor(0.85);
+		TNT1 A 1 A_ZoomFactor(0.88);
+		TNT1 A 1 A_ZoomFactor(0.91);
+		TNT1 A 1 A_ZoomFactor(0.93);
+		TNT1 A 1 A_ZoomFactor(0.95);
+		TNT1 A 1 A_ZoomFactor(0.97);
+		TNT1 A 1 A_ZoomFactor(0.99);
+		TNT1 A 1 A_ZoomFactor(1);
+		Stop;
+		
+	AltFlash:
+		EXUC U 1 bright{A_OverlayPivotAlign(-11,PSPA_CENTER,PSPA_CENTER); A_OverlayScale(-11,frandom(0.8,1.1),frandom(0.8,1.1)); A_OverlayRotate(-11,random(0,360));}
+		EXUC Y 1 bright{A_OverlayPivotAlign(-11,PSPA_CENTER,PSPA_CENTER); A_OverlayScale(-11,1,1); A_OverlayRotate(-11,0);}
+		Stop;
+		
+		TNT1 A 0 {A_OverlayFlags(-11,PSPF_ADDWEAPON|PSPF_ADDBOB,false); A_OverlayOffset(-11,0,32);}
+		
+		TNT1 A 0 A_OverlayFlags(-11,PSPF_ADDWEAPON|PSPF_ADDBOB,false);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+	}
+}
+
+
+Class LaserPuff : actor
+{	
+	Default
+	{
+		Decal "*";
+		+NOBLOCKMAP
+		+NOGRAVITY
+		+FORCEXYBILLBOARD
+		Mass 5;
+		scale 0.75;
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		EXUC W 1 Bright;
+		Stop;
+	}
+}

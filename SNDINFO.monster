@@ -1,0 +1,14 @@
+BloodSpray1 "Sounds/Monsters/Gore/BloodSpray1"
+BloodSpray2 "Sounds/Monsters/Gore/BloodSpray2"
+BloodSpray3 "Sounds/Monsters/Gore/BloodSpray3"
+BloodSpray4 "Sounds/Monsters/Gore/BloodSpray4"
+$random BloodSpray {BloodSpray1 BloodSpray2 BloodSpray3 BloodSpray4}
+
+BigBloodSplash1	"Sounds/Monsters/Gore/BigBloodSplash1"
+BigBloodSplash2	"Sounds/Monsters/Gore/BigBloodSplash2"
+BigBloodSplash3	"Sounds/Monsters/Gore/BigBloodSplash3"
+BigBloodSplash4	"Sounds/Monsters/Gore/BigBloodSplash4"
+BigBloodSplash5	"Sounds/Monsters/Gore/BigBloodSplash5"
+$random BigBloodSplash {BigBloodSplash1 BigBloodSplash2 BigBloodSplash3 BigBloodSplash4 BigBloodSplash5}
+
+MonsterScream	"Sounds/Monsters/MonsterScream"

@@ -1,0 +1,570 @@
+////////////////////////////////////PLAYER
+
+flickerlight BPUFF1
+{
+    color 0.5 0.5 0.0
+    size 9
+    secondarySize 12
+    chance 0.8
+	attenuate 1
+}
+
+flickerlight BPUFF2
+{
+    color 0.5 0.5 0.0
+    size 4
+    secondarySize 6
+    chance 0.8
+	attenuate 1
+}
+
+object HC_BulletPuff
+{
+    frame PUFFA { light BPUFF1 }
+    frame PUFFB { light BPUFF2 }
+}
+
+flickerlight2 PLYRATK
+{
+    color 1.0 0.2 0.2
+    size 200//72
+    secondarySize 350//84
+    interval 1
+    offset 0 40 0
+	attenuate 1
+}
+
+object HellCrusher
+{
+    frame PLAYF { light PLYRATK }
+}
+/*
+object HellCrusherIP
+{
+    frame PLAYF { light PLYRATK }
+}
+
+object HellCrusherSSG
+{
+    frame PLAYF { light PLYRATK }
+}
+
+object HellCrusherDL
+{
+    frame PLAYF { light PLYRATK }
+}
+
+object HellCrusherRV
+{
+    frame PLAYF { light PLYRATK }
+}
+*/
+////////////////////////////////////PLAYER FIRED PROJECTILES
+
+flickerlight BPUFF1
+{
+    color 0.5 0.5 0.0
+    size 9
+    secondarySize 12
+    chance 0.8
+	attenuate 1
+}
+
+flickerlight BPUFF2
+{
+    color 0.5 0.5 0.0
+    size 4
+    secondarySize 6
+    chance 0.8
+	attenuate 1
+}
+
+object HC_BulletPuff
+{
+    frame PUFFA { light BPUFF1 }
+    frame PUFFB { light BPUFF2 }
+}
+
+////////////////////////////// Rocket
+pointlight ROCKET
+{
+    color 1.0 0.7 0.0
+    size 84
+	attenuate 1
+}
+
+flickerlight ROCKET_X1
+{
+    color 1.0 0.7 0.5
+    size 96
+    secondarySize 208
+    chance 0.3
+	attenuate 1
+}
+
+flickerlight ROCKET_X2
+{
+    color 0.5 0.3 0.2
+    size 120
+    secondarySize 232
+    chance 0.3
+	attenuate 1
+}
+
+flickerlight ROCKET_X3
+{
+    color 0.3 0.1 0.1
+    size 144
+    secondarySize 356
+    chance 0.3
+	attenuate 1
+}
+
+object HC_Rocket
+{
+    frame XMISA { light ROCKET    }
+
+    frame MISLB { light ROCKET_X1 }
+    frame MISLC { light ROCKET_X2 }
+    frame MISLD { light ROCKET_X3 }
+}
+
+object HC_SeekerRocket
+{
+    frame XMISA { light ROCKET    }
+
+    frame MISLB { light ROCKET_X1 }
+    frame MISLC { light ROCKET_X2 }
+    frame MISLD { light ROCKET_X3 }
+}
+////////////////////////////////////////PLASMA
+
+pointlight PLASMABALL
+{
+    color 0.2 0.2 0.4
+    size 84
+	attenuate 1
+}
+
+flickerlight PLASMA_X1
+{
+    color 0.5 0.5 1.0
+    size 96
+    secondarySize 108
+    chance 0.4
+	attenuate 1
+}
+
+flickerlight PLASMA_X2
+{
+    color 0.4 0.4 0.8
+    size 120
+    secondarySize 132
+    chance 0.4
+	attenuate 1
+}
+
+flickerlight PLASMA_X3
+{
+    color 0.25 0.25 0.5
+    size 96
+    secondarySize 108
+    chance 0.4
+	attenuate 1
+}
+
+flickerlight PLASMA_X4
+{
+    color 0.1 0.1 0.2
+    size 12
+    secondarySize 24
+    chance 0.4
+	attenuate 1
+}
+
+object HC_PlasmaBall
+{
+    frame PLSSA { light PLASMABALL }
+    frame PLSSB { light PLASMABALL }
+
+    frame PLSEA { light PLASMA_X1 }
+    frame PLSEB { light PLASMA_X2 }
+    frame PLSEC { light PLASMA_X2 }
+    frame PLSED { light PLASMA_X3 }
+    frame PLSEE { light PLASMA_X4 }
+}
+
+pointlight PLASMABALLFX
+{
+    color 0.1 0.1 0.2
+    size 24
+	attenuate 1
+}
+
+object HC_PlasmaBallFX
+{
+    frame PLSSA { light PLASMABALLFX }
+    frame PLSSB { light PLASMABALLFX }
+}
+
+object SiegeModeSparkle
+{
+    frame PLSSA { light PLASMABALL }
+    frame PLSSB { light PLASMABALL }
+
+    frame PLSEA { light PLASMA_X1 }
+    frame PLSEB { light PLASMA_X2 }
+    frame PLSEC { light PLASMA_X2 }
+    frame PLSED { light PLASMA_X3 }
+    frame PLSEE { light PLASMA_X4 }
+}
+
+object GaussSparkle
+{
+    frame PLSSA { light PLASMABALL }
+    frame PLSSB { light PLASMABALL }
+
+    frame PLSEA { light PLASMA_X1 }
+    frame PLSEB { light PLASMA_X2 }
+    frame PLSEC { light PLASMA_X2 }
+    frame PLSED { light PLASMA_X3 }
+    frame PLSEE { light PLASMA_X4 }
+}
+
+object HeatBlastPuff
+{
+    frame PLSSA { light PLASMABALL }
+    frame PLSSB { light PLASMABALL }
+
+    frame PLSEA { light PLASMA_X1 }
+    frame PLSEB { light PLASMA_X2 }
+    frame PLSEC { light PLASMA_X2 }
+    frame PLSED { light PLASMA_X3 }
+    frame PLSEE { light PLASMA_X4 }
+}
+
+////////////////////////////////////////GREEN PLASMA
+
+pointlight PLASMABALLG
+{
+    color 0.15 0.3 0.15
+    size 84
+	attenuate 1
+}
+
+flickerlight PLASMA_X1G
+{
+    color 0.15 0.3 0.15
+    size 96
+    secondarySize 108
+    chance 0.4
+	attenuate 1
+}
+
+flickerlight PLASMA_X2G
+{
+    color 0.4 0.8 0.4
+    size 120
+    secondarySize 132
+    chance 0.4
+	attenuate 1
+}
+
+flickerlight PLASMA_X3G
+{
+    color 0.25 0.5 0.25
+    size 96
+    secondarySize 108
+    chance 0.4
+	attenuate 1
+}
+
+flickerlight PLASMA_X4G
+{
+    color 0.1 0.2 0.1
+    size 12
+    secondarySize 24
+    chance 0.4
+	attenuate 1
+}
+
+object HC_GreenPlasmaBall
+{
+    frame PLRSA { light PLASMABALLG }
+    frame PLRSB { light PLASMABALLG }
+
+    frame PLREA { light PLASMA_X1G }
+    frame PLREB { light PLASMA_X2G }
+    frame PLREC { light PLASMA_X2G }
+    frame PLRED { light PLASMA_X3G }
+    frame PLREE { light PLASMA_X4G }
+}
+
+pointlight PLASMABALLFXG
+{
+    color 0.05 0.1 0.05
+    size 24
+	attenuate 1
+}
+
+object HC_GreenPlasmaBallFX
+{
+    frame PLRSA { light PLASMABALLFXG }
+    frame PLRSB { light PLASMABALLFXG }
+}
+
+/////////////////////////////////BFG
+
+pointlight BFGBALL
+{
+    color 0.5 1.0 0.5
+    size 120
+	attenuate 1
+}
+
+flickerlight BFGBALL_X1
+{
+    color 0.5 1.0 0.5
+    size 120
+    secondarySize 132
+    chance 0.3
+	attenuate 1
+}
+
+flickerlight BFGBALL_X2
+{
+    color 0.6 1.0 0.6
+    size 156
+    secondarySize 168
+    chance 0.3
+	attenuate 1
+}
+
+flickerlight BFGBALL_X3
+{
+    color 0.7 1.0 0.7
+    size 180
+    secondarySize 192
+    chance 0.3
+	attenuate 1
+}
+
+flickerlight BFGBALL_X4
+{
+    color 0.4 0.7 0.4
+    size 84
+    secondarySize 96
+    chance 0.3
+	attenuate 1
+}
+
+flickerlight BFGBALL_X5
+{
+    color 0.1 0.3 0.1
+    size 72
+    secondarySize 84
+    chance 0.3
+	attenuate 1
+}
+
+object HC_BFGBall
+{
+    frame BFS1A { light BFGBALL }
+    frame BFS1B { light BFGBALL }
+
+    frame BFE1A { light BFGBALL_X1 }
+    frame BFE1B { light BFGBALL_X2 }
+    frame BFE1C { light BFGBALL_X3 }
+    frame BFE1D { light BFGBALL_X1 }
+    frame BFE1E { light BFGBALL_X4 }
+    frame BFE1F { light BFGBALL_X5 }
+}
+
+object HammerHit
+{
+    frame BFS1A { light BFGBALL }
+    frame BFS1B { light BFGBALL }
+
+    frame BFE1A { light BFGBALL_X1 }
+    frame BFE1B { light BFGBALL_X2 }
+    frame BFE1C { light BFGBALL_X3 }
+    frame BFE1D { light BFGBALL_X1 }
+    frame BFE1E { light BFGBALL_X4 }
+    frame BFE1F { light BFGBALL_X5 }
+}
+
+object MediumHammerHit
+{
+    frame BFS1A { light BFGBALL }
+    frame BFS1B { light BFGBALL }
+
+    frame BFE1A { light BFGBALL_X1 }
+    frame BFE1B { light BFGBALL_X2 }
+    frame BFE1C { light BFGBALL_X3 }
+    frame BFE1D { light BFGBALL_X1 }
+    frame BFE1E { light BFGBALL_X4 }
+    frame BFE1F { light BFGBALL_X5 }
+}
+
+object BigHammerHit
+{
+    frame BFS1A { light BFGBALL }
+    frame BFS1B { light BFGBALL }
+
+    frame BFE1A { light BFGBALL_X1 }
+    frame BFE1B { light BFGBALL_X2 }
+    frame BFE1C { light BFGBALL_X3 }
+    frame BFE1D { light BFGBALL_X1 }
+    frame BFE1E { light BFGBALL_X4 }
+    frame BFE1F { light BFGBALL_X5 }
+}
+
+object MiniHammerHit
+{
+    frame BFS1A { light BFGBALL }
+    frame BFS1B { light BFGBALL }
+
+    frame BFE1A { light BFGBALL_X1 }
+    frame BFE1B { light BFGBALL_X2 }
+    frame BFE1C { light BFGBALL_X3 }
+    frame BFE1D { light BFGBALL_X1 }
+    frame BFE1E { light BFGBALL_X4 }
+    frame BFE1F { light BFGBALL_X5 }
+}
+
+///////////////////////////////////////////BFE2
+
+object BFGBigSparkle
+{
+    frame BFS1A { light BFGBALL }
+    frame BFS1B { light BFGBALL }
+
+    frame BFE1A { light BFGBALL_X1 }
+    frame BFE1B { light BFGBALL_X2 }
+    frame BFE1C { light BFGBALL_X3 }
+    frame BFE1D { light BFGBALL_X1 }
+    frame BFE1E { light BFGBALL_X4 }
+    frame BFE1F { light BFGBALL_X5 }
+}
+
+object BFGSmallSparkle
+{
+    frame BFE2A { light BFGBALL    }
+    frame BFE2B { light BFGBALL_X1 }
+    frame BFE2C { light BFGBALL_X4 }
+    frame BFE2D { light BFGBALL_X5 }
+}
+
+object BFGMiniSparkle
+{
+    frame BFE2A { light BFGBALL    }
+    frame BFE2B { light BFGBALL_X1 }
+    frame BFE2C { light BFGBALL_X4 }
+    frame BFE2D { light BFGBALL_X5 }
+}
+
+object AltBFGExtra
+{
+    frame BFE2A { light BFGBALL    }
+    frame BFE2B { light BFGBALL_X1 }
+    frame BFE2C { light BFGBALL_X4 }
+    frame BFE2D { light BFGBALL_X5 }
+}
+
+object BFGTail
+{
+    frame BFE2A { light BFGBALL    }
+    frame BFE2B { light BFGBALL_X1 }
+    frame BFE2C { light BFGBALL_X4 }
+    frame BFE2D { light BFGBALL_X5 }
+}
+
+object BFGLightningTracerFX
+{
+	frame TFOG 	{ light BFGBALL_X5 }
+}
+
+object BFG_ALT_LASER
+{
+	frame BALT 	{ light BFGBALL_X5 }
+}
+
+/////////////////////////////////RED_BFG
+
+pointlight RED_BFGBALL
+{
+    color 1.0 0.5 0.5
+    size 120
+	attenuate 1
+}
+
+flickerlight RED_BFGBALL_X1
+{
+    color 1.0 0.5 0.5
+    size 120
+    secondarySize 132
+    chance 0.3
+	attenuate 1
+}
+
+flickerlight RED_BFGBALL_X2
+{
+    color 1.0 0.6 0.6
+    size 156
+    secondarySize 168
+    chance 0.3
+	attenuate 1
+}
+
+flickerlight RED_BFGBALL_X3
+{
+    color 1.0 0.7 0.7
+    size 180
+    secondarySize 192
+    chance 0.3
+	attenuate 1
+}
+
+flickerlight RED_BFGBALL_X4
+{
+    color 0.7 0.4 0.4
+    size 84
+    secondarySize 96
+    chance 0.3
+	attenuate 1
+}
+
+flickerlight RED_BFGBALL_X5
+{
+    color 0.3 0.1 0.1
+    size 72
+    secondarySize 84
+    chance 0.3
+	attenuate 1
+}
+
+object BFGBigSparkleRed
+{
+    frame BFR1A { light RED_BFGBALL_X1 }
+    frame BFR1B { light RED_BFGBALL_X2 }
+    frame BFR1C { light RED_BFGBALL_X3 }
+    frame BFR1D { light RED_BFGBALL_X1 }
+    frame BFR1E { light RED_BFGBALL_X4 }
+    frame BFR1F { light RED_BFGBALL_X5 }
+}
+
+object BFGSmallSparkleRed
+{
+    frame BFR2A { light RED_BFGBALL    }
+    frame BFR2B { light RED_BFGBALL_X1 }
+    frame BFR2C { light RED_BFGBALL_X4 }
+    frame BFR2D { light RED_BFGBALL_X5 }
+}
+
+object BFGMiniSparkleRed
+{
+    frame BFR2A { light RED_BFGBALL    }
+    frame BFR2B { light RED_BFGBALL_X1 }
+    frame BFR2C { light RED_BFGBALL_X4 }
+    frame BFR2D { light RED_BFGBALL_X5 }
+}

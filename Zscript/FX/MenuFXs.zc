@@ -1,0 +1,48 @@
+Class bulletcasingMenuSpiller : Actor
+{
+Default {
+	radius 2;
+	Height 2;
+	Speed 20;
+	Damage 0;
+	Projectile;
+	+THRUACTORS;
+	+NOCLIP;
+	+NOTELEPORT;
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 1;
+	Death:
+		TNT1 A 0
+		{
+			for (int i = random(4,8); i > 0; i--)
+			{
+				A_SpawnItemEx("longbulletcasing",0,0,5, frandom(-10,10),frandom(-10,10),frandom(-10,10), frandom(0,-360), SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+			}
+		}
+		TNT1 A 0
+		{
+			for (int i = random(5,15); i > 0; i--)
+			{
+				A_SpawnItemEx("shotguncasing",0,0,5, frandom(-10,10),frandom(-10,10),frandom(-10,10), frandom(0,-360), SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+			}
+		}
+		TNT1 A 0
+		{
+			for (int i = random(5,15); i > 0; i--)
+			{
+				A_SpawnItemEx("CGTbulletcasing",0,0,5, frandom(-10,10),frandom(-10,10),frandom(-10,10), frandom(0,-360), SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+			}
+		}
+		TNT1 A 0
+		{
+			for (int i = random(6,12); i > 0; i--)
+			{
+				A_SpawnItemEx("shotguncasingSUPER",0,0,5, frandom(-10,10),frandom(-10,10),frandom(-10,10), frandom(0,-360), SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+			}
+		}
+		Stop;
+	}
+}

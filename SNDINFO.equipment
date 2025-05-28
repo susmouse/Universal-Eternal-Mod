@@ -1,0 +1,259 @@
+//////PLAYER
+
+//LedgeClimb
+
+CLIMB_1 CLIMB_1
+CLIMB_2 CLIMB_2
+ClIMB_3 ClIMB_3
+
+$random ledgeclimb {CLIMB_1 CLIMB_2 ClIMB_3}
+
+//DoubleJump
+
+JMPBOT1 JMPBOT1
+JMPBOT2 JMPBOT2
+
+$random JMPBOOT {JMPBOT1 JMPBOT2}
+
+//Dashing
+
+DASH1 DASH1
+DASH2 DASH2
+DASH3 DASH3
+DASH4 DASH4
+DASH5 DASH5
+
+$random Player/Dash {DASH1 DASH2 DASH3 DASH4 DASH5}
+
+DASHR1 DASHR1
+DASHR2 DASHR2
+
+$random Player/DashReady {DASHR1 DASHR2}
+
+//Crucible Armblade
+
+Crucible/Pickup "Sounds/Player/Weapons/Crucible/CruciblePickup.ogg"
+
+Crucible/Slice1 "Sounds/Player/Weapons/Crucible/Slice1.ogg"
+Crucible/Slice2 "Sounds/Player/Weapons/Crucible/Slice2.ogg"
+Crucible/Slice3 "Sounds/Player/Weapons/Crucible/Slice3.ogg"
+Crucible/Slice4 "Sounds/Player/Weapons/Crucible/Slice4.ogg"
+Crucible/Slice5 "Sounds/Player/Weapons/Crucible/Slice5.ogg"
+Crucible/Slice6 "Sounds/Player/Weapons/Crucible/Slice6.ogg"
+$random Crucible/Slice {Crucible/Slice1 Crucible/Slice2 Crucible/Slice3 Crucible/Slice4 Crucible/Slice5 Crucible/Slice6}
+
+Crucible/MeatChop1	"Sounds/Player/Weapons/Crucible/MeatChop1.wav"
+Crucible/MeatChop2	"Sounds/Player/Weapons/Crucible/MeatChop2.wav"
+Crucible/MeatChop3	"Sounds/Player/Weapons/Crucible/MeatChop3.wav"
+Crucible/MeatChop4	"Sounds/Player/Weapons/Crucible/MeatChop4.wav"
+Crucible/MeatChop5	"Sounds/Player/Weapons/Crucible/MeatChop5.wav"
+$random Crucible/MeatChop {Crucible/MeatChop1 Crucible/MeatChop2 Crucible/MeatChop3 Crucible/MeatChop4 Crucible/MeatChop5}
+
+Crucible/HitZap1 "Sounds/Player/Weapons/Crucible/CruciblePuffHit1.ogg"
+Crucible/HitZap2 "Sounds/Player/Weapons/Crucible/CruciblePuffHit2.ogg"
+Crucible/HitZap3 "Sounds/Player/Weapons/Crucible/CruciblePuffHit3.ogg"
+Crucible/HitZap4 "Sounds/Player/Weapons/Crucible/CruciblePuffHit4.ogg"
+Crucible/HitZap5 "Sounds/Player/Weapons/Crucible/CruciblePuffHit5.ogg"
+Crucible/HitZap6 "Sounds/Player/Weapons/Crucible/CruciblePuffHit6.ogg"
+Crucible/HitZap7 "Sounds/Player/Weapons/Crucible/CruciblePuffHit7.ogg"
+Crucible/HitZap8 "Sounds/Player/Weapons/Crucible/CruciblePuffHit8.ogg"
+$random Crucible/HitZap {Crucible/HitZap1 Crucible/HitZap2 Crucible/HitZap3 Crucible/HitZap4 Crucible/HitZap5 Crucible/HitZap6 Crucible/HitZap7 Crucible/HitZap8}
+
+Crucible/Deploy "Sounds/Player/Weapons/Crucible/Deploy.ogg"
+
+Crucible/Return1 "Sounds/Player/Weapons/Crucible/Return1.ogg"
+Crucible/Return2 "Sounds/Player/Weapons/Crucible/Return2.ogg"
+Crucible/Return3 "Sounds/Player/Weapons/Crucible/Return3.ogg"
+Crucible/Return4 "Sounds/Player/Weapons/Crucible/Return4.ogg"
+Crucible/Return5 "Sounds/Player/Weapons/Crucible/Return5.ogg"
+$random Crucible/Return {Crucible/Return1 Crucible/Return2 Crucible/Return3 Crucible/Return4 Crucible/Return5}
+
+Crucible/Swing1 "Sounds/Player/Weapons/Crucible/Swing1.ogg"
+Crucible/Swing2 "Sounds/Player/Weapons/Crucible/Swing2.ogg"
+Crucible/Swing3 "Sounds/Player/Weapons/Crucible/Swing3.ogg"
+Crucible/Swing4 "Sounds/Player/Weapons/Crucible/Swing4.ogg"
+Crucible/Swing5 "Sounds/Player/Weapons/Crucible/Swing5.ogg"
+Crucible/Swing6 "Sounds/Player/Weapons/Crucible/Swing6.ogg"
+Crucible/Swing7 "Sounds/Player/Weapons/Crucible/Swing7.ogg"
+$random Crucible/Swing {Crucible/Swing1 Crucible/Swing2 Crucible/Swing3 Crucible/Swing4 Crucible/Swing5 Crucible/Swing6 Crucible/Swing7}
+
+Crucible/PuffHit1	"Sounds/Player/Weapons/Crucible/CruciblePuffHit1.ogg"
+Crucible/PuffHit2	"Sounds/Player/Weapons/Crucible/CruciblePuffHit2.ogg"
+Crucible/PuffHit3	"Sounds/Player/Weapons/Crucible/CruciblePuffHit3.ogg"
+Crucible/PuffHit4	"Sounds/Player/Weapons/Crucible/CruciblePuffHit4.ogg"
+Crucible/PuffHit5	"Sounds/Player/Weapons/Crucible/CruciblePuffHit5.ogg"
+Crucible/PuffHit6	"Sounds/Player/Weapons/Crucible/CruciblePuffHit6.ogg"
+Crucible/PuffHit7	"Sounds/Player/Weapons/Crucible/CruciblePuffHit7.ogg"
+Crucible/PuffHit8	"Sounds/Player/Weapons/Crucible/CruciblePuffHit8.ogg"
+$random Crucible/PuffHit {Crucible/PuffHit1 Crucible/PuffHit2 Crucible/PuffHit3 Crucible/PuffHit4 Crucible/PuffHit5 Crucible/PuffHit6 Crucible/PuffHit7 Crucible/PuffHit8}
+
+//BloodPunch
+
+BloodPunch/ChargeGet	"Sounds/Player/Weapons/Melee/BPCharge.ogg"
+$limit BloodPunch/ChargeGet 2
+
+BloodPunch/HitSuccess	"Sounds/Player/Weapons/Melee/FistBloodPunchSuccess"
+$limit BloodPunch/HitSuccess 0
+
+//Melee
+
+STATK1 STATK1
+STATK2 STATK2
+STATK3 STATK3
+$random PunchSwing {STATK1 STATK2 STATK3}
+
+PunchSwingAdd	STATKADD
+
+ZRKSWNG1 ZRKSWNG1
+ZRKSWNG2 ZRKSWNG2
+$random BerzerkSwing {ZRKSWNG1 ZRKSWNG2}
+
+PunchHit DSPUNCH
+
+$limit PunchHit 0
+
+MELEHIT1 MELEHIT1
+MELEHIT2 MELEHIT2
+MELEHIT3 MELEHIT3
+MELEHIT4 MELEHIT4
+MELEHIT5 MELEHIT5
+$random MeleeHit {MELEHIT1 MELEHIT2 MELEHIT3 MELEHIT4 MELEHIT5}
+$limit MeleeHit 0
+
+WALLHIT1 WALLHIT1
+WALLHIT2 WALLHIT2
+WALLHIT3 WALLHIT3
+WALLHIT4 WALLHIT4
+WALLHIT5 WALLHIT5
+$random BigWallHit {WALLHIT1 WALLHIT2 WALLHIT3 WALLHIT4 WALLHIT5}
+
+ZERKHIT1 ZERKHIT1
+ZERKHIT2 ZERKHIT2
+ZERKHIT3 ZERKHIT3
+ZERKHIT4 ZERKHIT4
+$random BerzerkHit {ZERKHIT1 ZERKHIT2 ZERKHIT3 ZERKHIT4}
+$limit BerzerkHit 0
+
+ZERKHTM1 ZERKHTM1
+ZERKHTM2 ZERKHTM2
+ZERKHTM3 ZERKHTM3
+ZERKHTM4 ZERKHTM4
+ZERKHTM5 ZERKHTM5
+$random BerzerkHitMonster {ZERKHTM1 ZERKHTM2 ZERKHTM3 ZERKHTM4 ZERKHTM5}
+$limit BerzerkHitMonster 0
+
+KICK01 KICK01
+KICK02 KICK02
+
+//$random Kick {KICK01 KICK02}
+
+		
+Kick 		KICK
+KickWall	FOOTWALL
+$limit KickWall 0
+
+
+
+//Chainsaw
+Chainsaw/AmmoGet1	"Sounds/Player/Weapons/Chainsaw/chainsaw_ammo_get_1.ogg"
+Chainsaw/AmmoGet2	"Sounds/Player/Weapons/Chainsaw/chainsaw_ammo_get_2.ogg"
+
+Chainsaw/inspect	"Sounds/Player/Weapons/Chainsaw/chainsaw_inspect.ogg"
+
+Chainsaw/idle		"Sounds/Player/Weapons/Chainsaw/chainsaw_idle.ogg"
+
+Chainsaw/OutRange	"Sounds/Player/Weapons/Chainsaw/chainsaw_out_of_range.ogg"
+
+Chainsaw/Full1		"Sounds/Player/Weapons/Chainsaw/chainsaw_full_1.ogg"
+Chainsaw/Full2		"Sounds/Player/Weapons/Chainsaw/chainsaw_full_2.ogg"
+Chainsaw/Full3		"Sounds/Player/Weapons/Chainsaw/chainsaw_full_3.ogg"
+$random Chainsaw/Full {Chainsaw/Full1 Chainsaw/Full2 Chainsaw/Full3}
+/*
+Chainsaw/CutFlesh1	"Sounds/Player/Weapons/Chainsaw/CuttingMeat/chainsaw_cut_1.ogg"
+Chainsaw/CutFlesh2	"Sounds/Player/Weapons/Chainsaw/CuttingMeat/chainsaw_cut_2.ogg"
+$random Chainsaw/CutFlesh {Chainsaw/CutFlesh1 Chainsaw/CutFlesh2}
+*/
+Chainsaw/CutFlesh	"Sounds/Player/Weapons/Chainsaw/CuttingMeat/chainsaw_cut_2.ogg"
+
+Chainsaw/LowFuel1	"Sounds/Player/Weapons/Chainsaw/chainsaw_insufficient_fuel.ogg"
+Chainsaw/LowFuel2	"Sounds/Player/Weapons/Chainsaw/chainsaw_insufficient_fuel_02.ogg"
+Chainsaw/LowFuel3	"Sounds/Player/Weapons/Chainsaw/chainsaw_insufficient_fuel_03.ogg"
+$random Chainsaw/LowFuel {Chainsaw/LowFuel1 Chainsaw/LowFuel2 Chainsaw/LowFuel3}
+
+Chainsaw/Swing1 "Sounds/Player/Weapons/Chainsaw/CSROAR01.ogg"
+Chainsaw/Swing2 "Sounds/Player/Weapons/Chainsaw/CSROAR02.ogg"
+$random Chainsaw/Swing {Chainsaw/Swing1 Chainsaw/Swing2}
+
+Chainsaw/End1	"Sounds/Player/Weapons/Chainsaw/chainsaw_end1.ogg"
+Chainsaw/End2	"Sounds/Player/Weapons/Chainsaw/chainsaw_end2.ogg"
+$random Chainsaw/End {Chainsaw/End1 Chainsaw/End2}
+
+
+////////////////Grenade Launchers
+
+EQLNMI1 EQLNMI1
+EQLNMI2 EQLNMI2
+EQLNMI3 EQLNMI3
+$random EquipmentMoveIn {EQLNMI1 EQLNMI2 EQLNMI3}
+
+EQLNMO1 EQLNMO1
+EQLNMO2 EQLNMO2
+EQLNMO3 EQLNMO3
+$random EquipmentMoveOut {EQLNMO1 EQLNMO2 EQLNMO3}
+
+EQLNGL1 EQLNGL1
+EQLNGL2 EQLNGL2
+EQLNGL3 EQLNGL3
+EQLNGL4 EQLNGL4
+EQLNGL5 EQLNGL5
+$random EquipmentGrenadeLauncher {EQLNGL1 EQLNGL2 EQLNGL3 EQLNGL4 EQLNGL5}
+
+EquipmentGrenadeLauncherCantUse EQLNGLC1
+EquipmentGrenadeLauncherDoneCharging EQLNGLC2
+EquipmentGrenadeLauncherTimer EQLNGLT
+
+////////////////Flame Belch
+
+EQLNFB1 EQLNFB1
+EQLNFB2 EQLNFB2
+EQLNFB3 EQLNFB3
+$random EquipmentFlameBelch {EQLNFB1 EQLNFB2 EQLNFB3}
+
+EquipmentFlameBelchNotReady EQLNFL
+EquipmentFlameBelchReady EQLNFBR
+
+////////////////Ice Bomb
+
+EquipmentIceBombFire EQLNICF
+EquipmentIceBombReload EQLNIR
+EquipmentIceBombFail EQLNIFL
+
+EQLNIE1 EQLNIE1
+EQLNIE2 EQLNIE2
+EQLNIE3 EQLNIE3
+EQLNIE4 EQLNIE4
+$random EquipmentIceExplode {EQLNIE1 EQLNIE2 EQLNIE3 EQLNIE4}
+
+EQLNIEA1 EQLNIEA1
+EQLNIEA2 EQLNIEA2
+EQLNIEA3 EQLNIEA3
+EQLNIEA4 EQLNIEA4
+EQLNIEA5 EQLNIEA5
+EQLNIEA6 EQLNIEA6
+$random EquipmentIceExplodeAdd {EQLNIEA1 EQLNIEA2 EQLNIEA3 EQLNIEA4 EQLNIEA5 EQLNIEA6}
+
+ICEDMB1 ICEDMB1
+ICEDMB2 ICEDMB2
+ICEDMB3 ICEDMB3
+ICEDMB4 ICEDMB4
+ICEDMB5 ICEDMB5
+ICEDMB6 ICEDMB6
+ICEDMB7 ICEDMB7
+ICEDMB8 ICEDMB8
+ICEDMB9 ICEDMB9
+$random	EquipmentIceMonsterBreak {ICEDMB1 ICEDMB2 ICEDMB3 ICEDMB4 ICEDMB5 ICEDMB6 ICEDMB7 ICEDMB8 ICEDMB9}
+
+ICEDAMB1 ICEDAMB1
+ICEDAMB2 ICEDAMB2
+ICEDAMB3 ICEDAMB3
+$random EquipmentIceAmbient {ICEDAMB1 ICEDAMB2 ICEDAMB3}

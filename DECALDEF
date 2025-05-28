@@ -1,0 +1,249 @@
+decal BladeCutLeft
+{
+	flipx
+	pic BLDCUT1
+	x-scale 0.4
+	y-scale 0.4
+}
+
+decal BladeCutRight
+{
+	pic BLDCUT1
+	x-scale 0.4
+	y-scale 0.4
+}
+
+////
+
+decal PunchRight
+{
+	pic PUNCDR
+	x-scale 0.3
+	y-scale 0.3
+}
+
+decal PunchLeft
+{
+	pic PUNCDL
+	x-scale 0.3
+	y-scale 0.3
+}
+
+decal PunchCrack
+{
+	randomflipx
+	randomflipy
+	pic PUNCB1
+	x-scale 0.3
+	y-scale 0.3
+}
+
+decal PunchRightBerserk
+{
+	lowerdecal PunchCrack
+	pic PUNCDR
+	x-scale 0.3
+	y-scale 0.3
+}
+
+decal PunchLeftBerserk
+{
+	lowerdecal PunchCrack
+	pic PUNCDL
+	x-scale 0.3
+	y-scale 0.3
+}
+
+decal PunchBurn
+{
+	pic BLDBRN2
+	x-scale 0.4
+	y-scale 0.4
+	translucent 0.5
+}
+
+
+////
+
+decal Kick
+{
+	pic KIKDENT
+	x-scale 0.3
+	y-scale 0.3
+}
+
+decal KickCrack
+{
+	randomflipx
+	randomflipy
+	pic KIKDENB
+	x-scale 0.3
+	y-scale 0.3
+}
+
+decal BerserkKick
+{
+	pic KIKDENT
+	x-scale 0.3
+	y-scale 0.3
+	lowerdecal KickCrack
+}
+
+decal KickBurn
+{
+	pic BLDBRN1
+	x-scale 0.4
+	y-scale 0.4
+	translucent 0.5
+}
+
+//////////////////Bullet chips
+
+decal BDBulletChip1
+{
+	pic CHIZ1
+	x-scale 0.75
+	y-scale 0.75
+	randomflipx
+}
+
+decal BDBulletChip2
+{
+	pic CHIZ2
+	x-scale 0.6
+	y-scale 0.6
+	randomflipx
+}
+
+decal BDBulletChip3
+{
+	pic CHIZ3
+	x-scale 0.6
+	y-scale 0.6
+	randomflipx
+}
+
+decal BDBulletChip4
+{
+	pic CHIZ4
+	x-scale 0.7
+	y-scale 0.7
+	randomflipx
+}
+
+
+decalgroup BulletChip
+{
+	BDBulletChip1	1
+	BDBulletChip2	1
+	BDBulletChip3	1
+	BDBulletChip4	1
+}
+
+generator HC_GaussPuff Scorch
+
+//////////////////Plasma_Burn
+
+decal PlasmaScorchRed1
+{
+	pic PLRSA0
+	add 1.0
+	fullbright
+	animator GoAway
+	lowerdecal PlasmaScorchLower1
+}
+
+decal PlasmaScorchRed2
+{
+	pic PLRSB0
+	add 1.0
+	fullbright
+	animator GoAway
+	lowerdecal PlasmaScorchLower2
+}
+
+decalgroup PlasmaScorchRed
+{
+	PlasmaScorchRed1	1
+	PlasmaScorchRed2	1
+}
+
+decal RightEnergyBladeCutLower
+{
+	pic ENEBLD1
+	x-scale 0.6
+	y-scale 0.6
+}
+decal RightEnergyBladeCut
+{
+	pic ENEBLD2
+	add 1.0
+	fullbright
+	animator GoAway
+	shade "80 ff 80"
+	x-scale 0.6
+	y-scale 0.6
+	lowerdecal RightEnergyBladeCutLower
+}
+
+
+decal LeftEnergyBladeCutLower
+{
+	pic ENEBLD1
+	x-scale 0.6
+	y-scale 0.6
+	flipx
+}
+decal LeftEnergyBladeCut
+{
+	pic ENEBLD2
+	add 1.0
+	fullbright
+	animator GoAway
+	shade "80 ff 80"
+	x-scale 0.6
+	y-scale 0.6
+	lowerdecal LeftEnergyBladeCutLower
+	flipx
+}
+
+//////////////////Big_Burns
+
+decal NukeBurn
+{
+	pic SBSCOR1
+	shade "00 00 00"
+	x-scale 1.25
+	y-scale 1.25
+	randomflipx
+	randomflipy
+}
+
+decal BFGBurn2
+{
+	pic SBSCOR2
+	shade "00 00 00"
+	x-scale 1
+	y-scale 1
+	randomflipx
+	randomflipy
+}
+
+fader GoAway3
+{
+	DecayStart	3.0
+	DecayTime	10.0
+}
+
+decal BFGLightning3
+{
+	pic BFGLIT2
+	shade "80 ff 80"
+	fullbright
+	x-scale 1
+	y-scale 1
+	randomflipx
+	randomflipy
+	animator GoAway3
+	lowerdecal BFGBurn2
+}

@@ -1,0 +1,654 @@
+/////////////////////////////Grenade
+
+class Shoulder_Grenade_FX : Actor{
+Default
+	{
+	+NOBLOCKMAP
+	+NOCLIP
+	+NOGRAVITY
+	+DONTSPLASH
+	+NOTELEPORT
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	+ZDOOMTRANS
+	RenderStyle "Translucent";
+	Alpha 0.50;
+	}
+	States{
+
+		Spawn:
+		TNT1 A 0;
+		TNT1 A 0
+		{
+			for (int i = random(20,30); i > 0; i--)
+			{
+				A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-20,20),frandom(-20,20),frandom(-20,20));
+			}
+		}
+		HCEX ABCDEF 1 Bright;
+		Stop;
+	}
+}
+
+class ExplosionAddG : Actor {
+Default
+	{
+	+NOBLOCKMAP
+	+NOCLIP
+	+NOGRAVITY
+	+DONTSPLASH
+	+NOTELEPORT
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	+ZDOOMTRANS
+	RenderStyle "Translucent";
+	Alpha 0.50;
+	}
+	States{
+		Spawn:
+		TNT1 A 0;
+		HCEX ABCDEF 1 Bright;
+		Stop;
+	}
+}
+
+class ExplosionAddBig : ExplosionAddG{
+Default
+	{
+	+NOBLOCKMAP
+	+NOCLIP
+	+NOGRAVITY
+	+DONTSPLASH
+	+NOTELEPORT
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	+ZDOOMTRANS
+	RenderStyle "Translucent";
+	Alpha 0.50;
+	Scale 2;
+	}
+	States{
+		Spawn:
+		TNT1 A 0;
+		HCEX ABCDEF 1 Bright;
+		TNT1 A 0
+		{
+			for (int i = random(1,3); i > 0; i--)
+			{
+				A_SpawnItemEx("HUGERocketSmokeTrail",0,0,0,frandom(-5,5),frandom(-5,5),frandom(-5,5));
+			}
+		}
+		Stop;
+	}
+}
+
+/////////////////ICE
+
+Class Ice_Grenade_Smoke : Actor
+{
+	Default
+	{
+  RenderStyle "Add";
+  Alpha 0.4;
+  VSpeed 1;
+  +NOBLOCKMAP
+  +NOCLIP
+  +NOGRAVITY
+  +DONTSPLASH
+  +NOTELEPORT
+  +FORCEXYBILLBOARD
+  }
+  States
+  {
+  Spawn:
+    ICBB KL 10;
+	ICBB MNO 3;
+    Stop;
+  }
+}
+
+class ICEExplosionAddG : Actor {
+Default
+	{
+	+NOBLOCKMAP
+	+NOCLIP
+	+NOGRAVITY
+	+DONTSPLASH
+	+NOTELEPORT
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	+ZDOOMTRANS
+	RenderStyle "Translucent";
+	Alpha 0.50;
+	}
+	States{
+		Spawn:
+		TNT1 A 0;
+		ICBX ABCDEF 1 Bright;
+		Stop;
+	}
+}
+
+class ICEExplosionShockWave : Actor 
+{
+	Default
+	{
+	+NOBLOCKMAP
+	+NOCLIP
+	+NOGRAVITY
+	+DONTSPLASH
+	+NOTELEPORT
+	+NOGRAVITY
+	+FLATSPRITE
+	+ZDOOMTRANS
+	RenderStyle "Add";
+	Alpha 0.75;
+	}
+	States{
+		Spawn:
+		TNT1 A 0;
+		TNT1 A 0 {A_SetRoll(Random(0,359)); A_SetPitch(Random(-90,90)); A_SetAngle(Random(0,359));}
+		ICBX G 1 {A_SetScale(0.4); A_FadeOut(0.05);}
+		ICBX G 1 {A_SetScale(0.8); A_FadeOut(0.05);}
+		ICBX G 1 {A_SetScale(1.0); A_FadeOut(0.05);}
+		ICBX G 1 {A_SetScale(1.4); A_FadeOut(0.05);}
+		ICBX G 1 {A_SetScale(1.8); A_FadeOut(0.05);}
+		ICBX G 1 {A_SetScale(2.0); A_FadeOut(0.05);}
+		ICBX G 1 {A_SetScale(2.4); A_FadeOut(0.05);}
+		ICBX G 1 {A_SetScale(2.8); A_FadeOut(0.05);}
+		ICBX G 1 {A_SetScale(3.0); A_FadeOut(0.05);}
+		ICBX G 1 {A_SetScale(3.4); A_FadeOut(0.05);}
+		ICBX G 1 {A_SetScale(3.8); A_FadeOut(0.05);}
+		ICBX G 1 {A_SetScale(4.0); A_FadeOut(0.05);}
+		ICBX G 1 {A_SetScale(4.4); A_FadeOut(0.05);}
+		ICBX G 1 {A_SetScale(4.8); A_FadeOut(0.05);}
+		Stop;
+	}
+}
+
+class ExplosiveDebrisICE : Actor
+{
+	Default
+	{
+	scale 0.30;
+	radius 2;
+	
+	bouncefactor 0.6;
+	wallbouncefactor 0.6;
+	bouncecount 7;
+	bouncetype "Doom";
+	
+	projectile;
+	-NOGRAVITY
+	-NOBLOCKMAP
+	+NOTELEPORT
+	+THRUACTORS
+	+DROPOFF
+	+FLOORCLIP
+	-BOUNCEONACTORS
+	+FORCEXYBILLBOARD
+	}
+	States{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_SpawnItemEx("Ice_Grenade_Smoke",0,0,0,frandom(-2,2),frandom(-2,2),frandom(-2,2));
+		TNT1 A 1 A_Jump(10,"Death");
+		TNT1 A 1;
+		Loop;
+	Death:
+		TNT1 A 0 A_SpawnItemEx("Ice_Grenade_Smoke",0,0,0,frandom(-2,2),frandom(-2,2),frandom(-2,2));
+		TNT1 A 1;
+		Stop;
+		
+	}	
+}
+
+class Ice_Grenade_FX : Actor{
+Default
+	{
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	+ZDOOMTRANS
+	RenderStyle "Add";
+	Alpha 0.50;
+	}
+	States{
+
+		Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound("EquipmentIceExplode",0,0,1);
+		/*
+		TNT1 A 0
+		{
+			for (int i = random(20,30); i > 0; i--)
+			{
+				A_SpawnItemEx("Ice_Grenade_Smoke",0,0,0,frandom(-20,20),frandom(-20,20),frandom(-20,20));
+			}
+		}
+		*/
+		
+		TNT1 A 0
+		{
+			for (int i = random(6,10); i > 0; i--)
+			{
+				A_SpawnItemEx("ICEExplosionAddG",frandom(-7,7),frandom(-7,7),frandom(-7,7),frandom(-18,18),frandom(-18,18),frandom(-18,18));
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(2,5); i > 0; i--)
+			{
+				A_SpawnItemEx("ICEExplosionShockWave",0,0,0,0,0,0);
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(15,20); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosiveDebrisICE",0,0,0,frandom(-30,30),frandom(-30,30),frandom(-30,30));
+			}
+		}
+		
+		ICBX ABCD 1 Bright;
+		ICBX EF 1 Bright;
+		Stop;
+	}
+}
+
+/////////////////////////////Barrel
+
+Class BarrelFX : Actor
+{
+  States
+  {
+  Spawn:
+	TNT1 A 0;
+	
+	TNT1 A 0 A_StartSound("BarrelAdd",CHAN_5);
+	TNT1 A 0 A_StartSound("BarrelDebris",CHAN_6);
+	TNT1 A 0 A_StartSound("BarrelExplode",CHAN_7);
+	TNT1 A 5;
+	
+	TNT1 A 0
+		{
+			for (int i = random(4,7); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosionAddG",frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-15,15),frandom(-15,15),frandom(-15,15));
+			}
+		}
+		
+	TNT1 A 0
+		{
+			for (int i = random(1,3); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosionShockWave",0,0,0,0,0,0);
+			}
+		}
+		
+	TNT1 A 0
+		{
+			for (int i = random(6,13); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosiveDebris",0,0,0,frandom(-30,30),frandom(-30,30),frandom(-30,30));
+			}
+		}
+	
+	TNT1 A 0 A_SpawnItemEx("BarrelFire");
+	TNT1 A 0 A_QuakeEx(1,1,1,10,0,500,"*");
+	TNT1 A 60;
+    Stop;
+  }
+}
+
+Class AfterBarrelEX : Actor
+{
+	Default{
+	Radius 0;
+	Height 0;
+	//-SOLID
+	}
+  States
+  {
+  Spawn:
+	 BAR1 D -1;
+    Stop;
+  }
+}
+
+Class BarrelFire : Actor
+{
+	Default{
+	+ZDOOMTRANS
+	RenderStyle "Translucent";
+	Alpha 0.50;
+	}
+	States
+	{
+	Spawn:
+		FIRE ABCDEFGH 1 BRIGHT;
+		Stop;
+	}
+}
+
+/////////////////////////////Rocket
+
+Class RocketSFX : Actor
+{
+Default
+	{
+	+NOBLOCKMAP
+	+NOCLIP
+	+NOGRAVITY
+	+DONTSPLASH
+	+NOTELEPORT
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	+ZDOOMTRANS
+	RenderStyle "Translucent";
+	Alpha 0.50;
+	}
+  States
+  {
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound("RocketExplode",CHAN_5);
+		TNT1 A 0 A_StartSound("RocketExplodeAdd",CHAN_6);
+		TNT1 A 0 A_QuakeEx(1,1,1,10,0,500,"*");
+		
+		TNT1 A 0
+		{
+			for (int i = random(20,30); i > 0; i--)
+			{
+				A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-20,20),frandom(-20,20),frandom(-20,20));
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(3,5); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosionAddG",frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-15,15),frandom(-15,15),frandom(-15,15));
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(1,3); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosionShockWave",0,0,0,0,0,0);
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(5,15); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosiveDebris",0,0,0,frandom(-30,30),frandom(-30,30),frandom(-30,30));
+			}
+		}
+		
+		HCEX ABCDEF 1 Bright;
+		
+		TNT1 A 60;
+		Stop;
+  }
+}
+
+Class MiniNukeSFX : Actor
+{
+Default
+	{
+	+NOBLOCKMAP
+	+NOCLIP
+	+NOGRAVITY
+	+DONTSPLASH
+	+NOTELEPORT
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	+ZDOOMTRANS
+	RenderStyle "Translucent";
+	Alpha 0.50;
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound("RocketExplode",CHAN_5);
+		TNT1 A 0 A_StartSound("RocketExplodeAdd",CHAN_6);
+		TNT1 A 0 A_QuakeEx(2,2,2,20,0,1024,"*");
+		
+		TNT1 A 0
+		{
+			for (int i = random(20,30); i > 0; i--)
+			{
+				A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-20,20),frandom(-20,20),frandom(-20,20));
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(10,15); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosionAddBig",frandom(-20,20),frandom(-20,20),frandom(-20,20),frandom(-15,15),frandom(-15,15),frandom(-15,15));
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(1,3); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosionShockWave",0,0,0,0,0,0);
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(5,15); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosiveDebris",0,0,0,frandom(-30,30),frandom(-30,30),frandom(-30,30));
+			}
+		}
+		
+		HCEX A 1 Bright; //////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		TNT1 A 0
+		{
+			for (int i = random(20,30); i > 0; i--)
+			{
+				A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-20,20),frandom(-20,20),frandom(-20,20));
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(10,15); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosionAddBig",frandom(-50,50),frandom(-50,50),frandom(-50,50),frandom(-15,15),frandom(-15,15),frandom(-15,15));
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(1,3); i > 0; i--)
+			{
+				A_SpawnItemEx("BIGExplosionShockWave",0,0,0,0,0,0);
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(5,15); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosiveDebris",0,0,0,frandom(-30,30),frandom(-30,30),frandom(-30,30));
+			}
+		}
+		
+		HCEX B 1 Bright; //////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		TNT1 A 0
+		{
+			for (int i = random(20,30); i > 0; i--)
+			{
+				A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-20,20),frandom(-20,20),frandom(-20,20));
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(10,15); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosionAddBig",frandom(-100,100),frandom(-100,100),frandom(-100,100),frandom(-15,15),frandom(-15,15),frandom(-15,15));
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(5,15); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosiveDebris",0,0,0,frandom(-30,30),frandom(-30,30),frandom(-30,30));
+			}
+		}
+		
+		HCEX C 1 Bright; //////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		TNT1 A 0
+		{
+			for (int i = random(10,15); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosionAddBig",frandom(-200,200),frandom(-200,200),frandom(-200,200),frandom(-15,15),frandom(-15,15),frandom(-15,15));
+			}
+		}
+		
+		HCEX D 1 Bright; //////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		TNT1 A 0
+		{
+			for (int i = random(10,15); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosionAddBig",frandom(-300,300),frandom(-300,300),frandom(-300,300),frandom(-15,15),frandom(-15,15),frandom(-15,15));
+			}
+		}
+		
+		HCEX E 1 Bright; //////////////////////////////////////////////////////////////////////////////////////////////////////
+		HCEX F 1 Bright; //////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		TNT1 A 60;
+		Stop;
+	}
+}
+
+/////////////////////////////Genral
+
+class ExplosionShockWave : Actor 
+{
+	Default
+	{
+	+NOBLOCKMAP
+	+NOCLIP
+	+NOGRAVITY
+	+DONTSPLASH
+	+NOTELEPORT
+	+NOGRAVITY
+	+FLATSPRITE
+	+ZDOOMTRANS
+	RenderStyle "Add";
+	Alpha 0.75;
+	}
+	States{
+		Spawn:
+		TNT1 A 0;
+		TNT1 A 0 {A_SetRoll(Random(0,359)); A_SetPitch(Random(-90,90)); A_SetAngle(Random(0,359));}
+		HCEX G 1 {A_SetScale(0.4); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(0.6); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(0.8); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(1.0); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(1.2); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(1.4); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(1.6); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(1.8); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(2.0); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(2.2); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(2.4); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(2.6); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(2.8); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(3.0); A_FadeOut(0.05);}
+		Stop;
+	}
+}
+
+class BIGExplosionShockWave : Actor 
+{
+	Default
+	{
+	+NOBLOCKMAP
+	+NOCLIP
+	+NOGRAVITY
+	+DONTSPLASH
+	+NOTELEPORT
+	+NOGRAVITY
+	+FLATSPRITE
+	+ZDOOMTRANS
+	RenderStyle "Add";
+	Alpha 0.75;
+	}
+	States{
+		Spawn:
+		TNT1 A 0;
+		TNT1 A 0 {A_SetRoll(Random(0,359)); A_SetPitch(Random(-90,90)); A_SetAngle(Random(0,359));}
+		HCEX G 1 {A_SetScale(0.4); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(0.8); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(1.0); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(1.4); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(1.8); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(2.0); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(2.4); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(2.8); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(3.0); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(3.4); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(3.8); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(4.0); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(4.4); A_FadeOut(0.05);}
+		HCEX G 1 {A_SetScale(4.8); A_FadeOut(0.05);}
+		Stop;
+	}
+}
+
+class ExplosiveDebris : HC_FXClass
+{
+	Default
+	{
+	scale 0.30;
+	radius 2;
+	
+	bouncefactor 0.6;
+	wallbouncefactor 0.6;
+	bouncecount 7;
+	bouncetype "Doom";
+	
+	projectile;
+	-NOGRAVITY
+	-NOBLOCKMAP
+	+NOTELEPORT
+	+THRUACTORS
+	+DROPOFF
+	+FLOORCLIP
+	-BOUNCEONACTORS
+	+FORCEXYBILLBOARD
+	}
+	States{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-2,2),frandom(-2,2),frandom(-2,2));
+		TNT1 A 1 A_Jump(10,"Death");
+		Loop;
+		
+		
+	Death:
+		TNT1 A 0 A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-2,2),frandom(-2,2),frandom(-2,2));
+		TNT1 A 1;
+		Stop;
+		
+	}	
+}

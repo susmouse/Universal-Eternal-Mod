@@ -1,0 +1,96 @@
+Class VoidSplicer : Actor
+{
+	Default
+	{
+	Scale .5;
+	Radius 5;
+	Height 100;
+	+FLOATBOB;
+	/*
+	Obituary "$OB_MPPISTOL";
+	Inventory.Pickupmessage "You got the VOID SPLICER... I hear the calling beyond...";
+	Inventory.PickupSound "PistolGet";
+	Tag "VOID SPLICER";
+	*/
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_Log("Something Greater is here...");
+		TNT1 A 0;
+		Loopy:
+		TNT1 AAA 0 A_SpawnItemEx("VoidSmoke",FRandom(-Radius,Radius),FRandom(-Radius,Radius),Random(25,100),frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		VSPA A 2 Bright A_SpawnItemEx("VoidSplicerEcho",0,0,21);
+		Loop;
+	}
+}
+
+Class VoidSplicerEcho : Actor
+{
+
+	Float ScaleEcho;
+
+	Default
+	{
+		//RenderStyle "Add";
+		Alpha 0.3;
+		Scale .5;
+		+NOBLOCKMAP;
+		+NOCLIP;
+		+NOGRAVITY;
+		+DONTSPLASH;
+		+NOTELEPORT;
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 1 {invoker.ScaleEcho = .5;}
+		TNT1 A 0;
+	Loopy:
+		TNT1 A 0 {invoker.ScaleEcho = invoker.ScaleEcho + .01;}
+		VSPA B 1 Bright {A_FadeOut(0.025); A_SetScale(invoker.ScaleEcho);}
+		Loop;
+	}
+}
+
+Class VoidSmoke : Actor
+{
+	Default
+	{
+		Alpha 0.3;
+		+NOBLOCKMAP;
+		+NOCLIP;
+		+NOGRAVITY;
+		+DONTSPLASH;
+		+NOTELEPORT;
+		+ROLLSPRITE;
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_SetScale(Frandom(0.2,1.5));
+		TNT1 A 0 A_SetRoll(Random(0,360),SPF_INTERPOLATE);
+		TNT1 A 0 A_Jump(128,"Flip");
+		TNT1 A 0 A_Jump(256,"Particle1","Particle2","Particle3");
+	
+	Particle1:
+		VSPA C 1 A_FadeOut(0.01);
+		Loop;
+	
+	Particle2:
+		VSPA D 1 A_FadeOut(0.01);
+		Loop;
+	
+	Particle3:
+		VSPA E 1 A_FadeOut(0.01);
+		Loop;
+		
+	Flip:
+		TNT1 A 0 {bXFLIP = true;}
+		TNT1 A 0 A_Jump(256,"Particle1","Particle2","Particle3");
+		Goto Particle1;
+	}
+}

@@ -1,0 +1,46 @@
+Class NewRocketSmokeTrail : HC_FXClass Replaces RocketSmokeTrail
+{
+	Default
+	{
+  RenderStyle "Shaded";
+  Alpha 0.6;
+  VSpeed 1;
+  +NOBLOCKMAP
+  +NOCLIP
+  +NOGRAVITY
+  +DONTSPLASH
+  +NOTELEPORT
+  +FORCEXYBILLBOARD
+  }
+  States
+  {
+  Spawn:
+    RSMK ABCDE 5;
+    Stop;
+  }
+}
+
+Class HUGERocketSmokeTrail : NewRocketSmokeTrail
+{
+	Default
+	{
+  RenderStyle "Shaded";
+  Alpha 0.6;
+  Scale 10;
+  VSpeed 1;
+  +NOBLOCKMAP
+  +NOCLIP
+  +NOGRAVITY
+  +DONTSPLASH
+  +NOTELEPORT
+  +FORCEXYBILLBOARD
+  }
+  States
+  {
+  Spawn:
+	RSMK A random(10,30);
+  FadeOut:
+    RSMK A 1 A_Fadeout(0.025);
+    Loop;
+  }
+}

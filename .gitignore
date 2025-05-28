@@ -1,0 +1,21 @@
+
+# --- Auto-added by script ---
+
+# Binary file extensions:
+*.fon2
+*.lmp
+*.md3
+*.o
+*.ogg
+*.png
+*.tga
+*.wad
+*.wav
+
+# Extensionless binary files (paths):
+BRIGHTMAPS/*
+Graphics/*
+Models/x
+Sounds/*
+Sprites/*
+Textures/*

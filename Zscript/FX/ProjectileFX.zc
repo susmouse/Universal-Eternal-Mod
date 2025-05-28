@@ -1,0 +1,92 @@
+Class HC_SmallTracer : FastProjectile
+{
+	Default{
+		Projectile;
+		+BLOODSPLATTER;
+		+THRUGHOST;
+		
+		+NOFRICTION;
+		
+		height 2;
+		radius 2;
+		DamageFunction 0;
+		speed 250;
+		scale 1.2;
+		
+		RenderStyle "Add";
+		Alpha 1.0;
+	}
+States
+{
+	Spawn:
+		TNT1 A 1;
+	Flying:
+		TRCR A 1 BRIGHT A_Quake(1,4,0,100,0);
+        Loop;
+	Death:
+		TNT1 A 1;
+		Stop;
+	}
+}
+
+Class HC_MediumTracer : FastProjectile
+{
+	Default{
+		Projectile;
+		+BLOODSPLATTER;
+		+THRUGHOST;
+		
+		+NOFRICTION;
+		
+		height 2;
+		radius 2;
+		DamageFunction 0;
+		speed 250;
+		scale 1.2;
+		
+		RenderStyle "Add";
+		Alpha 1.0;
+	}
+States
+{
+	Spawn:
+		TNT1 A 1;
+	Flying:
+		TRCR A 1 BRIGHT A_Quake(1,4,0,100,0);
+        Loop;
+	Death:
+		TNT1 A 1;
+		Stop;
+	}
+}
+
+Class HC_LargeTracer : FastProjectile
+{
+	Default{
+		Projectile;
+		+BLOODSPLATTER;
+		+THRUGHOST;
+		
+		+NOFRICTION;
+		
+		height 2;
+		radius 2;
+		DamageFunction 0;
+		speed 250;
+		scale 1.2;
+		
+		RenderStyle "Add";
+		Alpha 1.0;
+	}
+States
+{
+	Spawn:
+		TNT1 A 1;
+	Flying:
+		TRCR A 1 BRIGHT A_Quake(1,4,0,100,0);
+        Loop;
+	Death:
+		TNT1 A 1;
+		Stop;
+	}
+}

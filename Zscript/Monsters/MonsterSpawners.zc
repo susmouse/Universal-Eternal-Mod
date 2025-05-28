@@ -1,0 +1,11 @@
+//Also barrowed from insanitys-requiem... pls don't kill me tib...
+
+Class MonsterReplacementHander : EventHandler {
+    override void CheckReplacement (ReplaceEvent e) {
+        if (HC_ReplaceMons) {   
+            switch (e.Replacee.GetClassName()) {
+            case 'Doomimp'           : e.Replacement = 'Doomimp';      break;
+            }
+        }
+    }
+}

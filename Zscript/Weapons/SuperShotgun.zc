@@ -1,0 +1,645 @@
+Class DevilsCry : HellCrusherW Replaces SuperShotgun {
+
+	Bool SuperMode;
+	Bool SuperFired;
+	Bool Fired;
+	Int BlinkCounter;
+
+	Default{
+	Weapon.BobRangeX 0.2;//0.7;
+	Weapon.BobRangeY 0.6;//0.5;
+	
+	Weapon.SelectionOrder 400;
+	Weapon.AmmoUse 6;
+	Weapon.AmmoGive 8;//16; //24
+	Weapon.AmmoType "HC_Shell";
+	
+	Inventory.PickupMessage "You got the Devil's Cry Hexa Blunderbuss! Eviscerate your enemies with a wall of lead!";
+	Inventory.PickupSound "HexShotgunGet";
+	Obituary "$OB_MPSSHOTGUN";
+	Tag "Devil's Cry";
+	
+	+WEAPON.NOALERT
+	}
+	
+	States
+	{
+  
+	Ready3:
+		TNT1 A 1 A_Jump(255, "Ready3");
+  
+  Ready:
+		TNT1 A 0 A_SetCrosshair(51);
+		TNT1 A 0 {	invoker.SuperMode = false;
+					invoker.BlinkCounter++;	}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		HSGS E 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIf((invoker.BlinkCounter >= random(100,1500)),"Blink");
+		//TNT1 A 0 A_Jump(10,"Blink");
+		Loop;
+		
+	Blink:
+		TNT1 A 0 {invoker.BlinkCounter=0;}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		HSGS E 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		HSGS D 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		HSGS C 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		HSGS B 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		HSGS A 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		HSGS A 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		HSGS B 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		HSGS C 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		HSGS D 1 A_WeaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		HSGS E 1 A_WeaponReady;
+		Goto Ready;
+	
+	Ready3:
+		TNT1 A 1 A_Jump(255, "Ready3");
+	
+	Select:
+		TNT1 A 0 {invoker.SuperMode = false;}
+		TNT1 A 0 A_StartSound("HexShotgunSelect",CHAN_5,0,.4);
+		TNT1 A 0 A_SetCrosshair(51);
+		TNT1 A 0 A_ZoomFactor(1);
+		HSGU ABC 1 {A_WeaponReady(WRF_NOFIRE);	A_OverlayRotate(0,0);	A_WeaponOffset(0,32);}
+		Goto Ready;
+	
+	Deselect:
+		
+		TNT1 A 0 A_Jumpif((invoker.Fired == false),"SkipDeselEject");
+		TNT1 A 0 A_Jumpif((invoker.SuperFired == true),"SuperDeselEject");
+		TNT1 AAAAAA 0 A_FireProjectile("Supershotguncasingspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+		Goto SkipDeselEject;
+	SuperDeselEject:
+		TNT1 AAAAAA 0 A_FireProjectile("shotguncasingSUPERspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+	SkipDeselEject:
+		
+		TNT1 A 0 {invoker.Fired = false;}
+		TNT1 A 0 A_Stopsound(CHAN_7);
+		TNT1 A 0 A_Stopsound(CHAN_6);
+		TNT1 A 0 {invoker.SuperFired = false;}
+		TNT1 A 0 {invoker.SuperMode = false;}
+		TNT1 A 0 A_ZoomFactor(1);
+		HSGU CBA 1 Offset(0,32);
+		TNT1 A 0 A_Lower;
+		Wait;
+		
+		
+		
+	DeselectQuickMelee:
+		TNT1 A 0 A_Jumpif((invoker.Fired == false),"QuickSkipDeselEject");
+		TNT1 A 0 A_Jumpif((invoker.SuperFired == true),"QuickSuperDeselEject");
+		TNT1 AAAAAA 0 A_FireProjectile("Supershotguncasingspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+		Goto QuickSkipDeselEject;
+	QuickSuperDeselEject:
+		TNT1 AAAAAA 0 A_FireProjectile("shotguncasingSUPERspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+	QuickSkipDeselEject:
+		TNT1 A 0 {invoker.Fired = false;}
+		TNT1 A 0 A_Stopsound(CHAN_7);
+		TNT1 A 0 A_Stopsound(CHAN_6);
+		TNT1 A 0 {invoker.SuperFired = false;}
+		TNT1 A 0 {invoker.SuperMode = false;}
+		TNT1 A 0 A_ZoomFactor(1);
+		HSGU CA 1 Offset(0,32);
+		TNT1 A 0 A_Lower;
+		Goto QuickMeleeStart;
+	
+	Feel:
+		TNT1 A 0 A_QuakeEx(1,1,1,26,0,100,"*");
+		TNT1 A 0 A_SetPitch(pitch-6);
+		TNT1 A 1 A_ZoomFactor(0.80);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.80);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.81);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.83);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.94);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.95);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.97);
+		TNT1 A 1 A_ZoomFactor(0.98);
+		TNT1 A 1 A_ZoomFactor(0.99);
+		TNT1 A 1 A_ZoomFactor(1);
+		Stop;
+	
+	Fire:
+		TNT1 A 0 A_AlertMonsters;
+		
+		TNT1 A 0 {invoker.Fired = true;}
+		
+		TNT1 A 0 A_Jumpif((invoker.SuperMode == true),"SuperFire");
+		
+		
+		//TNT1 A 0 A_FireBullets (13, 7, 60, 1, "HexaPuff",0,200);
+		   //AAAAAAAAAAAAAAAAAAAA
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_FireProjectile("HC_SmallTracer", frandom(-13,13), false, 0, 0, FPF_NOAUTOAIM, frandom(-7,7));
+		TNT1 A 0 A_FireBullets(13, 7, 60, 18, "HexaPuff",FBF_NORANDOM|FBF_USEAMMO);
+										 //9
+		TNT1 A 0 A_Overlay(-5,"Feel");
+		TNT1 A 0 A_JumpIf(CountInv("HC_PowerQuadDamage") == 0, 2);
+		TNT1 A 0 A_StartSound("QuadDamageShot",0,0,.7);
+		
+		TNT1 A 0 A_StartSound("HexShotgunFire",CHAN_5,0,1);
+		TNT1 A 0 A_StartSound("HexShotgunFire",CHAN_6,0,0.2);
+		//TNT1 A 0 A_StartSound("BoomStickFire",CHAN_WEAPON,0,.6);
+		HSGF AB 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSGR A 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSGR B 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSGR B 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSGR C 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSGR C 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSGR D 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSGR D 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+	Reloadssg:
+		
+		HSGR D 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		TNT1 A 0 A_CheckReload;
+		HSGR E 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		HSGR F 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		HSGR G 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		HSGR G 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		HSGR H 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		HSGR H 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		HSGR H 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		TNT1 A 0 A_StartSound("HexShotgunOpen",CHAN_6,0,.5);
+		HSGR G 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		HSGR G 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		HSGR I 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		HSGR I 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		HSGR J 1;
+		TNT1 A 0 A_QuakeEx(1,1,1,7,0,100,"*");
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		HSGR K 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		HSGR L 1;
+		
+		TNT1 A 0 A_Jumpif((invoker.SuperFired == true),"SuperEject");
+		TNT1 AAAAAA 0 A_FireProjectile("Supershotguncasingspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+		Goto Ejected;
+	
+	SuperEject:
+		TNT1 A 0 {invoker.SuperFired = false;}
+		TNT1 AAAAAA 0 A_FireProjectile("shotguncasingSUPERspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+	Ejected:
+		
+		TNT1 A 0 {invoker.Fired = false;}
+		
+		//TNT1 A 0 A_StartSound("NewShotgunAltSteam",CHAN_WEAPON,0,.8);
+		HSGR MNNMMMM 1;
+		//HSGR MMMMMMMMMMMMMMMMMMMMMMMMM 1;
+		TNT1 A 0 A_Overlay(5,"Shellhand");
+		HSGR M 7;
+		TNT1 A 0 A_StartSound("HexShotgunShellIn",CHAN_WEAPON,0,.5);
+		TNT1 A 0 A_QuakeEx(1,1,1,7,0,100,"*");
+		HSPO ABBC 1;
+		TNT1 A 0 A_StartSound("HexShotgunClose",CHAN_7,0,.5);
+		HSPO C 1;
+		HSGR L 1;
+		
+		HSGR KJ 1;
+		TNT1 A 0 A_QuakeEx(1,1,1,7,0,100,"*");
+		HSGR IGHHHGGGG 1;
+		HSGD ABCDEF 1;
+		HSGS A 1;
+		Goto Ready;
+	
+	Shellhand:
+		HSGO ABCDEFGHHIIJ 1;
+		Stop;
+	
+	Altfire:
+	
+		TNT1 A 0 A_StartSound("HexShotgunCharge1",CHAN_7,CHANF_LOOP,.7);
+		TNT1 A 0 A_StartSound("HexShotgunCharge3",CHAN_6,CHANF_LOOP,.4);
+		
+		HSAF A 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		HSAF A 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		HSAF B 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		HSAF A 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		HSAF B 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		HSAF A 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		HSAF B 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		HSAF B 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		HSAF B 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		HSAF C 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		HSAF B 1 A_WeaponOffset(Random(-2,2),Random(33,35),WOF_INTERPOLATE);
+		HSAF C 1 A_WeaponOffset(Random(-2,2),Random(33,35),WOF_INTERPOLATE);
+		HSAF B 1 A_WeaponOffset(Random(-2,2),Random(33,35),WOF_INTERPOLATE);
+		HSAF B 1 A_WeaponOffset(Random(-3,3),Random(33,35),WOF_INTERPOLATE);
+		HSAF C 1 A_WeaponOffset(Random(-3,3),Random(34,36),WOF_INTERPOLATE);
+		HSAF C 1 A_WeaponOffset(Random(-3,3),Random(34,36),WOF_INTERPOLATE);
+		HSAF C 1 A_WeaponOffset(Random(-3,3),Random(34,36),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_StartSound("HexShotgunFireAdd2",CHAN_WEAPON,0,.5);
+		TNT1 A 0 A_StartSound("HexShotgunShing",CHAN_5,0,1);
+		
+		HSAF D 1 A_WeaponOffset(Random(-5,5),Random(35,39),WOF_INTERPOLATE);
+		HSAF D 1 A_WeaponOffset(Random(-4,4),Random(36,38),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_StartSound("HexShotgunCharge2",CHAN_7,CHANF_LOOP,.7);
+		TNT1 A 0 A_StartSound("HexShotgunCharge4",CHAN_6,CHANF_LOOP,.5);
+							//HexShotgun/DemonScreamLoop
+	SuperReady:
+		
+		TNT1 A 0 A_SetCrosshair(61);
+		TNT1 A 0 {invoker.SuperMode = true;}
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		HSAF C 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		HSAF C 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		HSAF E 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		HSAF E 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		HSAF F 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		HSAF F 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("SuperReady");
+		
+		
+		TNT1 A 0 A_SetCrosshair(51);
+		TNT1 A 0 {invoker.SuperMode = false;}
+		
+		TNT1 A 0 A_Stopsound(CHAN_7);
+		TNT1 A 0 A_Stopsound(CHAN_6);
+		
+		HSAF C 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		HSAF C 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		HSAF B 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		HSAF B 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		HSAF A 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		HSAF A 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		Goto Ready;
+	
+	SuperFeel:
+		TNT1 A 0 A_SetPitch(pitch-8);
+		TNT1 A 1 A_ZoomFactor(0.70);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.70);
+		TNT1 A 0 A_QuakeEx(4,4,4,5,0,100,"*");
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.65);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.65);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.70);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.75);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.80);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.85);
+		TNT1 A 0 A_QuakeEx(2,2,2,30,0,100,"*");
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.90);
+		TNT1 A 1 A_ZoomFactor(0.93);
+		TNT1 A 1 A_ZoomFactor(0.95);
+		TNT1 A 1 A_ZoomFactor(0.96);
+		TNT1 A 1 A_ZoomFactor(0.97);
+		TNT1 A 1 A_ZoomFactor(1);
+		Stop;
+		
+		/*
+	
+	SuperFire:
+		TNT1 A 0 A_SetCrosshair(51);
+		TNT1 A 0 {invoker.SuperFired = true;}
+		
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_FireProjectile("HC_MediumTracer", frandom(-13,13), false, 0, 0, FPF_NOAUTOAIM, frandom(-7,7));
+		TNT1 A 0 A_FireBullets (13, 7, 60, 36, "SuperShotgunPuff",FBF_NORANDOM|FBF_USEAMMO);
+										  //18
+		TNT1 A 0 A_RailAttack(0,0,False,"","",RGF_SILENT,0,"HexaPuff",0,0,0,1,25,1,"SuperShotgunTrail",0,270);
+		TNT1 A 0 A_Overlay(-5,"SuperFeel");
+		TNT1 A 0 A_JumpIf(CountInv("HC_PowerQuadDamage") == 0, 2);
+		TNT1 A 0 A_StartSound("QuadDamageShot",0,0,.7);
+		
+		TNT1 A 0 A_StartSound("HexShotgunFireAdd1",CHAN_7,0,.8);
+		//TNT1 A 0 A_StartSound("HexShotgunFireAdd2",CHAN_7,0,.8);
+		TNT1 A 0 A_StartSound("HexShotgunFireAdd3",CHAN_6,0,.8);
+		TNT1 A 0 A_StartSound("HexShotgunFire",CHAN_5,0,.8);
+		HSFF AB 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF C 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF D 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF D 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF E 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF E 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF F 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF F 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF F 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF G 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF G 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF G 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF G 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		Goto Reloadssg;
+		
+		*/
+	
+	SuperFire:
+		TNT1 A 0 A_SetCrosshair(51);
+		TNT1 A 0 {invoker.SuperFired = true;}
+		
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_FireProjectile("HC_SmallTracer", frandom(-13,13), false, 0, 0, FPF_NOAUTOAIM, frandom(-7,7));
+		TNT1 A 0 A_FireBullets(13, 7, 60, 18, "HexaPuff",FBF_NORANDOM);
+										 //9
+		TNT1 A 0 A_Overlay(-5,"Feel");
+		TNT1 A 0 A_JumpIf(CountInv("HC_PowerQuadDamage") == 0, 2);
+		TNT1 A 0 A_StartSound("QuadDamageShot",0,0,.7);
+		
+		TNT1 A 0 A_StartSound("HexShotgunFire",CHAN_5,0,1);
+		TNT1 A 0 A_StartSound("HexShotgunFire",CHAN_6,0,0.2);
+		HSGF AB 1;
+		
+		HSAF D 2;
+		
+		//////////////////////////////////
+		
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_FireProjectile("HC_MediumTracer", frandom(-13,13), false, 0, 0, FPF_NOAUTOAIM, frandom(-7,7));
+		TNT1 A 0 A_FireBullets (13, 7, 60, 18, "SuperShotgunPuff",FBF_NORANDOM|FBF_USEAMMO);
+										  //18
+		TNT1 A 0 A_RailAttack(0,0,False,"","",RGF_SILENT,0,"HexaPuff",0,0,0,1,25,1,"SuperShotgunTrail",0,270);
+		TNT1 A 0 A_Overlay(-5,"SuperFeel");
+		TNT1 A 0 A_JumpIf(CountInv("HC_PowerQuadDamage") == 0, 2);
+		TNT1 A 0 A_StartSound("QuadDamageShot",0,0,.7);
+		
+		TNT1 A 0 A_StartSound("HexShotgunFireAdd1",CHAN_7,0,.9);
+		//TNT1 A 0 A_StartSound("HexShotgunFireAdd2",CHAN_7,0,.8);
+		TNT1 A 0 A_StartSound("HexShotgunFireAdd3",CHAN_6,0,.9);
+		TNT1 A 0 A_StartSound("HexShotgunFire",10,0,1);
+		TNT1 A 0 A_StartSound("HexShotgunFire",15,0,0.2);
+		HSFF AB 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF C 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF D 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF D 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF E 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF E 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF F 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF F 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF F 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF G 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF G 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF G 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		HSFF G 1 A_WeaponOffset(Random(-2,2),Random(32,34),WOF_INTERPOLATE);
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOPRIMARY|WRF_NOBOB);
+		
+		Goto Reloadssg;
+	
+	Spawn:
+		HSGP A -1;
+		Stop;
+	}
+}
+
+
+Class HexaPuff : HC_BulletPuff
+{	
+	Default
+	{
+	//ProjectileKickback 1000;
+	+EXTREMEDEATH
+	-NOEXTREMEDEATH
+	}
+}
+
+Class SuperShotgunPuff : HC_BulletPuff
+{	
+	Default
+	{
+		+EXTREMEDEATH
+		+NOBLOCKMAP
+		+NOGRAVITY
+		+ALLOWPARTICLES
+		+RANDOMIZE
+		+ZDOOMTRANS
+		+ROLLSPRITE
+		+FORCEXYBILLBOARD
+		Decal "PlasmaScorchLower";
+		Renderstyle "Add";
+		radius 2;
+		Height 2;
+		Scale 0.7;
+	}
+			States
+	{
+	Spawn:
+		TNT1 A 0;
+		
+		TNT1 A 0
+		{
+			for (int i = random(15,20); i > 0; i--)
+			{
+				A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-3,3),frandom(-3,3),frandom(-3,3));
+			}
+		}
+		
+		TNT1 A 0
+		{
+			for (int i = random(0,1); i > 0; i--)
+			{
+				A_SpawnItemEx("ExplosiveDebris",0,0,0,frandom(-30,30),frandom(-30,30),frandom(-30,30));
+			}
+		}
+		
+		TNT1 A 0 A_StartSound("BulletImpactMedium",0,CHANF_DEFAULT,0.7);
+		
+		TNT1 AAA 0 A_SpawnItemEx("HC_PuffParticlesBase",0,0,0,frandom(-10,10),frandom(-10,10),frandom(-10,10));
+		TNT1 AA 0 A_SpawnItemEx("HC_PuffParticlesBig",0,0,0,frandom(-15,15),frandom(-15,15),frandom(-15,15));
+		TNT1 A 0 A_SpawnItemEx("HC_PuffParticlesHUGE",0,0,0,frandom(-10,10),frandom(-10,10),frandom(-10,10));
+		
+		TNT1 A 0 A_SetRoll(random(0,359));
+		PUFB ABCDEF 1 Bright;
+		//PUFF A 1 Bright;
+		//PUFF B 1;
+		//PUFF CD 1;
+		Stop;
+	}
+}
+
+Class SuperShotgunTrail : Actor
+{
+	Default {
+	Radius 32;
+	//Height 56
+	}
+	States
+	{
+	Spawn:
+	TNT1 A 0;
+	TNT1 A 0 A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-10,10),frandom(-10,10),frandom(-10,10));
+	Stop;
+	}
+}

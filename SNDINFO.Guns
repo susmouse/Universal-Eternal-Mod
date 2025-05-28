@@ -1,0 +1,461 @@
+//Generic Bullet Impacts
+
+B/I/Med01	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_01.ogg"
+B/I/Med02	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_02.ogg"
+B/I/Med03	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_03.ogg"
+B/I/Med04	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_04.ogg"
+B/I/Med05	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_05.ogg"
+B/I/Med06	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_06.ogg"
+B/I/Med07	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_07.ogg"
+B/I/Med08	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_08.ogg"
+B/I/Med09	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_09.ogg"
+B/I/Med10	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_10.ogg"
+B/I/Med11	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_11.ogg"
+B/I/Med12	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_12.ogg"
+B/I/Med13	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_13.ogg"
+B/I/Med14	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_14.ogg"
+B/I/Med15	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Medium_15.ogg"
+$random BulletImpactMedium {B/I/Med01 B/I/Med02 B/I/Med03 B/I/Med04 B/I/Med05 B/I/Med06 B/I/Med07 B/I/Med08 B/I/Med09 B/I/Med10 B/I/Med11 B/I/Med12 B/I/Med13 B/I/Med14 B/I/Med15}
+//$limit BulletImpactMedium 0
+
+B/I/Lar01	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Large_01.ogg"
+B/I/Lar02	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Large_02.ogg"
+B/I/Lar03	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Large_03.ogg"
+B/I/Lar04	"Sounds/Player/Weapons/BulletImpacts/Bullet_Impacts_Large_04.ogg"
+$random BulletImpactLarge {B/I/Lar01 B/I/Lar02 B/I/Lar03 B/I/Lar04}
+$limit BulletImpactLarge 0
+
+//Weapons
+
+WEPDRAW1 WEPDRAW1
+WEPDRAW2 WEPDRAW2
+WEPDRAW3 WEPDRAW3
+WEPDRAW4 WEPDRAW4
+WEPDRAW5 WEPDRAW5
+WEPDRAW6 WEPDRAW6
+WEPDRAW7 WEPDRAW7
+
+$random WeaponDraw {WEPDRAW1 WEPDRAW2 WEPDRAW3 WEPDRAW4 WEPDRAW5 WEPDRAW6 WEPDRAW7}
+
+//SWORD
+
+EnergySword/Deploy	"Sounds/Player/Weapons/Sword/EnergySwordCast.wav"
+
+EnergySword/Swing1	"Sounds/Player/Weapons/Sword/EnergySwordswing1.wav"
+EnergySword/Swing2	"Sounds/Player/Weapons/Sword/EnergySwordswing2.wav"
+EnergySword/Swing3	"Sounds/Player/Weapons/Sword/EnergySwordswing3.wav"
+EnergySword/Swing4	"Sounds/Player/Weapons/Sword/EnergySwordswing4.wav"
+EnergySword/Swing5	"Sounds/Player/Weapons/Sword/EnergySwordswing5.wav"
+EnergySword/Swing6	"Sounds/Player/Weapons/Sword/EnergySwordswing6.wav"
+EnergySword/Swing7	"Sounds/Player/Weapons/Sword/EnergySwordswing7.wav"
+EnergySword/Swing8	"Sounds/Player/Weapons/Sword/EnergySwordswing8.wav"
+$random EnergySword/Swing	{EnergySword/Swing1 EnergySword/Swing2 EnergySword/Swing3 EnergySword/Swing4 EnergySword/Swing5 EnergySword/Swing6 EnergySword/Swing7 EnergySword/Swing8}
+
+EnergySword/hit1	"Sounds/Player/Weapons/Sword/EnergySwordhit1.ogg"
+EnergySword/hit2	"Sounds/Player/Weapons/Sword/EnergySwordhit2.ogg"
+EnergySword/hit3	"Sounds/Player/Weapons/Sword/EnergySwordhit3.ogg"
+EnergySword/hit4	"Sounds/Player/Weapons/Sword/EnergySwordhit4.ogg"
+EnergySword/hit5	"Sounds/Player/Weapons/Sword/EnergySwordhit5.ogg"
+$random EnergySword/hit {EnergySword/hit1 EnergySword/hit2 EnergySword/hit3 EnergySword/hit4 EnergySword/hit5}
+$limit EnergySword/hit 0
+
+//HAMMER
+
+HAMSL1 HAMSL1
+HAMSL2 HAMSL2
+HAMSL3 HAMSL3
+
+$random HammerSelect {HAMSL1 HAMSL2 HAMSL3}
+
+HAMSW1 HAMSW1
+HAMSW2 HAMSW2
+HAMSW3 HAMSW3
+
+$random HammerSwing {HAMSW1 HAMSW2 HAMSW3}
+
+HAMHI1 HAMHI1
+HAMHI2 HAMHI2
+HAMHI3 HAMHI3
+
+$random HammerHit {HAMHI1 HAMHI2 HAMHI3}
+
+HammerGet HAMPCK
+HammerGetHum HAMHUM
+
+//BoomStick
+
+BoomStickFire 		BOOMSF
+
+BoomStickShellIn 	BOOMR
+
+BoomStickOpen		BOOMOP
+BoomStickClose		BOOMCL
+
+BoomStickGet		BOOMCL
+$volume BoomStickGet .4
+
+//Deagle
+DEAGFIR1	DEAGFIR1
+DEAGFIR2	DEAGFIR2
+DEAGFIR3	DEAGFIR3
+
+$random DeagleFire {DEAGFIR1 DEAGFIR2 DEAGFIR3}
+
+SledgeAddFire	SLEDGAD
+
+DEAGLD1 DEAGLD1
+DEAGLD2 DEAGLD2
+DEAGLD3 DEAGLD3
+
+$random DeagleDraw {DEAGLD1 DEAGLD2 DEAGLD3}
+
+DeagleAirGrab DEAGLAG
+/*
+PistolGet PISGET
+$volume PistolGet .4
+*/
+PistolGet	"Sounds/Player/Weapons/Pistol/Big_Pistol_Pickup1.ogg"
+
+DeagleMagIn		DEAGLIN
+DeagleMagOut	DEAGLOUT
+
+//Daul
+
+DaulPistolSlideBackward	DEAGLS1
+DaulPistolSlideForward	DEAGLS2
+
+//Revolver
+
+RevolverFireAdd			REVFIRAD
+RevolverFire 			REVFIR
+
+RevolverSpin			REVSPIN
+RevolverHammer			REVHAM
+RevolverCharge			REVCHARG
+
+//RevolverChargeSingle	REVCHRGS
+
+RevolverChargeSingle 			REVCHRG1
+
+//$pitchshiftrange RevolverChargeSingle 0.5,4
+//$pitchset RevolverChargeSingle 0.5 10
+
+//REVCHRG2 				REVCHRG2 
+
+//$random RevolverChargeSingle {REVCHRG1 REVCHRG2}
+
+REVSPIN1	REVSPIN1
+REVSPIN2	REVSPIN2
+REVSPIN3	REVSPIN3
+REVSPIN4	REVSPIN4
+REVSPIN5	REVSPIN5
+REVSPIN6	REVSPIN6
+REVSPIN7	REVSPIN7
+REVSPIN8	REVSPIN8
+REVSPIN9	REVSPIN9
+$random RevolverFullSpin {REVSPIN1 REVSPIN2 REVSPIN3 REVSPIN4 REVSPIN5 REVSPIN6 REVSPIN7 REVSPIN8 REVSPIN9}	//Pulled from the Sony Pictures Sound Effects Series
+
+//Infinity Pistol
+EnergyPistolfire 	ENGPFIR
+
+ENGPFIR1 ENGPFR1
+ENGPFIR2 ENGPFR2
+ENGPFIR3 ENGPFR3
+ENGPFIR4 ENGPFR4
+ENGPFIR5 ENGPFR5
+ENGPFIR6 ENGPFR6
+ENGPFIR7 ENGPFR7
+ENGPFIR8 ENGPFR8
+ENGPFIR9 ENGPFR9
+ENGPFIR10 ENGPFR10
+ENGPFIR11 ENGPFR11
+ENGPFIR12 ENGPFR12
+ENGPFIR13 ENGPFR13
+
+$random EnergyPistolfireAdd {ENGPFIR1 ENGPFIR2 ENGPFIR3 ENGPFIR4 ENGPFIR5 ENGPFIR6 ENGPFIR7 ENGPFIR8 ENGPFIR9 ENGPFIR10 ENGPFIR11 ENGPFIR12 ENGPFIR13}
+
+EnergyPistolCharge 		EMGCHRG
+EnergyPistolCharged 	EMGCHRGI
+EnergyPistolChargeBeep	EMGCHRGB
+EnergyPistolChargeVent	EMGVENT
+
+EnergyPistolChargeFire	ENGPCF
+
+//NewShotgun
+NewShotgunFire NSGFIRE
+NewShotgunPump NSGPUMP
+NewShotgunPump1 NSGPUMP1
+NewShotgunPump2 NSGPUMP2
+NewShotgunAltSteam STEAM
+NewShotgunSelect NSGPUMP2
+NewShotgunGet NSGPCK
+$volume NewShotgunGet .4
+
+//HexSSG
+HexShotgunFire HSSGF
+HexShotgunOpen HSSGOP
+HexShotgunClose HSSGCL
+HexShotgunShellIn SHEIN
+HexShotgunGet HSSGPCK
+$volume HexShotgunGet .4
+
+HexShotgunSelect HSSGRAIS
+
+HexShotgunCharge1 	HSGAL1
+HexShotgunCharge2 	HSGAL2
+HexShotgunCharge3 	HSGAL3
+HexShotgunCharge4 	HSGAL4
+
+HexShotgunShing		HSAFRD
+
+ZERKHIT1 ZERKHIT1
+ZERKHIT2 ZERKHIT2
+ZERKHIT3 ZERKHIT3
+ZERKHIT4 ZERKHIT4
+
+$random HexShotgunFireAdd1 {ZERKHIT1 ZERKHIT2 ZERKHIT3 ZERKHIT4}
+
+HexShotgunFireAdd2 HSGAA1
+HexShotgunFireAdd3 HSGAA2
+
+HexShotgun/DemonScreamLoop	"Sounds/Player/Weapons/SuperShotgun/DemonScreamLoop"
+
+//Rifle
+
+ScopeIn 	SCPZI
+ScopeOut 	SCPZO
+ScopeReady 	SCPRDY
+ScopeDry 	SCPDRY
+ScopeAdd1 	SCPAD1
+ScopeAdd2 	SCPAD2
+RifleFire 	RIFIRE
+
+RifleGet RIPCK
+RifleSelect RIRAISE
+
+Rifle/SniperModeFire	"Sounds/Player/Weapons/Rifle/SniperFireTest.ogg"
+
+//Chaingun
+
+ChaingunGet 		CHNGPK
+ChaingunSelect 		CHNRAISE
+
+ChaingunShoot 		CHNSHOT
+ChaingunClunk 		CHNCC
+ChaingunCasingLoop 	CHNCAS
+
+ChaingunFireLoop 	CHNLOOP
+ChaingunFireLoop2 	CHNLOOP2
+ChaingunFireLoop3 	CHNLOOP3
+ChaingunFireLoop4 	CHNLOOP4
+
+ChaingunFireLoopStop CHNSTP
+
+ChaingunTurretOpen1 		TUROPEN1
+ChaingunTurretOpen 			TUROPEN
+ChaingunTurretClose 		TURCLOSE
+ChaingunTurretBarrelsOut 	CHNBCNK
+
+//RocketLauncer
+RocketlauncherFire RLSTART
+RocketMid RCKTFLY
+$volume RocketMid .6
+
+$random RocketExplode {RCKTEXP1 RCKTEXP2 RCKTEXP3 RCKTEXP4 RCKTEXP5 RCKTEXP6}
+RCKTEXP1 RCKTEXP1
+RCKTEXP2 RCKTEXP2
+RCKTEXP3 RCKTEXP3
+RCKTEXP4 RCKTEXP4
+RCKTEXP5 RCKTEXP5
+RCKTEXP6 RCKTEXP6
+$limit RocketExplode 4
+$rolloff  RocketExplode 900 1400
+
+$random RocketExplodeAdd {RCKTADD1 RCKTADD2 RCKTADD3 RCKTADD4}
+RCKTADD1 RCKTADD1
+RCKTADD2 RCKTADD2
+RCKTADD3 RCKTADD3
+RCKTADD4 RCKTADD4
+$limit RocketExplodeAdd 4
+$rolloff  RocketExplodeAdd 900 1400
+
+RocketLauncher/BoomDistant		"Sounds/Player/Weapons/RocketLauncher/RocketBoomDistant01"
+$limit RocketLauncher/BoomDistant 4
+$rolloff RocketLauncher/BoomDistant 1000 9000
+
+
+RocketBurstLoadFail RKLDFL 
+
+RocketBurstLoad1 RKLD1
+RocketBurstLoad2 RKLD2
+RocketBurstLoad3 RKLD3
+
+RocketLauncherSelect RLRAISE
+RocketLauncherGet RLPCK
+
+RocketLauncher/Nuke/Fire		"Sounds/Player/Weapons/RocketLauncher/RocketNukeFireFull"
+
+$random RocketLauncher/Nuke/BoomA {RocketLauncher/Nuke/BoomA01 RocketLauncher/Nuke/BoomA02 RocketLauncher/Nuke/BoomA03}
+RocketLauncher/Nuke/BoomA01			"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomA01"
+RocketLauncher/Nuke/BoomA02			"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomA02"
+RocketLauncher/Nuke/BoomA03			"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomA03"
+$limit RocketLauncher/Nuke/BoomA 4
+$rolloff RocketLauncher/Nuke/BoomA 1000 7500
+
+$random RocketLauncher/Nuke/BoomB {RocketLauncher/Nuke/BoomB01 RocketLauncher/Nuke/BoomB02 RocketLauncher/Nuke/BoomB03 RocketLauncher/Nuke/BoomB04}
+RocketLauncher/Nuke/BoomB01			"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomB01"
+RocketLauncher/Nuke/BoomB02			"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomB02"
+RocketLauncher/Nuke/BoomB03			"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomB03"
+RocketLauncher/Nuke/BoomB04			"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomB04"
+$limit RocketLauncher/Nuke/BoomB 4
+$rolloff RocketLauncher/Nuke/BoomB 1000 7500
+
+$random RocketLauncher/Nuke/BoomC {RocketLauncher/Nuke/BoomC01 RocketLauncher/Nuke/BoomC02 RocketLauncher/Nuke/BoomC03}
+RocketLauncher/Nuke/BoomC01			"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomC01"
+RocketLauncher/Nuke/BoomC02			"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomC02"
+RocketLauncher/Nuke/BoomC03			"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomC03"
+$limit RocketLauncher/Nuke/BoomC 4
+$rolloff RocketLauncher/Nuke/BoomC 1000 7500
+
+$random RocketLauncher/Nuke/BoomDistant {RocketLauncher/Nuke/BoomDistant01 RocketLauncher/Nuke/BoomDistant02 RocketLauncher/Nuke/BoomDistant03 RocketLauncher/Nuke/BoomDistant04 RocketLauncher/Nuke/BoomDistant05 RocketLauncher/Nuke/BoomDistant06 RocketLauncher/Nuke/BoomDistant07}
+RocketLauncher/Nuke/BoomDistant01	"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomDistant01"
+RocketLauncher/Nuke/BoomDistant02	"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomDistant02"
+RocketLauncher/Nuke/BoomDistant03	"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomDistant03"
+RocketLauncher/Nuke/BoomDistant04	"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomDistant04"
+RocketLauncher/Nuke/BoomDistant05	"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomDistant05"
+RocketLauncher/Nuke/BoomDistant06	"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomDistant06"
+RocketLauncher/Nuke/BoomDistant07	"Sounds/Player/Weapons/RocketLauncher/RocketNukeBoomDistant07"
+$limit RocketLauncher/Nuke/BoomDistant 4
+$rolloff RocketLauncher/Nuke/BoomDistant 1000 9000
+
+
+
+//Plasma Rifle
+
+PlasmaAltfire		PLSALT
+
+PlasmaRifleSelect 	PLSRAISE
+
+PlasmaRifleFire 	PLSFIRE
+PlasmaRifleHiss 	PLSHISS
+
+PHBLAST1			PHBLAST1
+PHBLAST2 			PHBLAST2
+PHBLAST3 			PHBLAST3
+
+$random HeatBlast {PHBLAST1 PHBLAST2 PHBLAST3}
+
+PHBADD1 PHBADD1
+PHBADD2 PHBADD2
+PHBADD3 PHBADD3
+PHBADD4 PHBADD4
+
+$random HeatBlastAdd {PHBADD1 PHBADD2 PHBADD3 PHBADD4}
+
+HBDSTRT1 HBDSTRT1
+HBDSTRT2 HBDSTRT2
+HBDSTRT3 HBDSTRT3
+HBDSTRT4 HBDSTRT4
+
+$random HeatBlastStart {HBDSTRT1 HBDSTRT2 HBDSTRT3 HBDSTRT4}
+
+PlasmaRifleGet PLSPCK
+
+PLASDRY1 PLASDRY1
+PLASDRY2 PLASDRY2
+PLASDRY3 PLASDRY3
+PLASDRY4 PLASDRY4
+$random HeatBlastFail {PLASDRY1 PLASDRY2 PLASDRY3 PLASDRY4}
+
+//Gauss Cannon
+
+GaussCannonFire GCNFIRE
+
+GaussCannonFireAdd	"Sounds/Player/Weapons/GaussCannon/GaussCannonFireAdd"
+
+GCNADD1 GCNADD1
+GCNADD2 GCNADD2
+GCNADD3 GCNADD3
+GCNADD4 GCNADD4
+$random GaussCannonAdd {GCNADD1 GCNADD2 GCNADD3 GCNADD4}
+
+GaussCannonClose GCNCYCLE
+
+GCIMPCT1 GCIMPCT1
+GCIMPCT2 GCIMPCT2
+GCIMPCT3 GCIMPCT3
+$random GaussCannonHit {GCIMPCT1 GCIMPCT2 GCIMPCT3}
+$limit GaussCannonHit 2
+
+GaussCannonSiegeCharge GCSCHRG
+
+GCSFIRE1 GCSFIRE1
+GCSFIRE2 GCSFIRE2
+GCSFIRE3 GCSFIRE3
+$random GaussCannonSiegeFire {GCSFIRE1 GCSFIRE2 GCSFIRE3}
+
+GCSADD1 GCSADD1
+GCSADD2 GCSADD2
+GCSADD3 GCSADD3
+GCSADD4 GCSADD4
+$random GaussCannonSiegeAdd {GCSADD1 GCSADD2 GCSADD3 GCSADD4}
+
+GaussCannonSiegeClose GCSCLOSE
+GaussCannonSiegeReady GCSCHRGI
+
+GaussCannonGet GCPCK
+GaussCannonSelect GCRAISE
+
+GaussCannonDestroyerBladeFire	GCDESTFR
+
+GaussCannon/Idle "Sounds/Player/Weapons/GaussCannon/GaussCannonIdle"
+
+//BFG
+$random BFGFireD16 {BFGFIRE1 BFGFIRE2 BFGFIRE3}
+BFGFIRE1 		BFGFIRE1
+BFGFIRE2 		BFGFIRE2
+BFGFIRE3 		BFGFIRE3
+
+BFGAddD16 		BFGADD
+BFGChargeD16 	BFGCHRGE
+BFGidle 		BFGIDLE
+
+BFGballexplode BFGEXP
+$limit BFGballexplode 4
+$rolloff BFGballexplode 1200 2000
+
+$random BFGballexplodeadd {BFGEXPS1 BFGEXPS2 BFGEXPS3 BFGEXPS4 BFGEXPS5 BFGEXPS6}
+BFGEXPS1 		BFGEXPS1
+BFGEXPS2 		BFGEXPS2
+BFGEXPS3 		BFGEXPS3
+BFGEXPS4 		BFGEXPS4
+BFGEXPS5 		BFGEXPS5
+BFGEXPS6 		BFGEXPS6
+$limit BFGballexplodeadd 4
+$rolloff BFGballexplodeadd 1200 2000
+
+BFGBall/Explode/Distant "Sounds/Player/Weapons/BFG/BFGBallExplodeDistant"
+$limit BFGBall/Explode/Distant 4
+$rolloff BFGBall/Explode/Distant 5000 10000
+
+
+BFGBALL1 		BFGBALL1
+BFGBALL2 		BFGBALL2
+BFGBALL3 		BFGBALL3
+
+$random BFGBall {BFGBALL1 BFGBALL2 BFGBALL3}
+
+BFGup 				BFGRAISE
+BFGGet 				BFGPCK
+
+BFGLazorChargeAdd	BFGLAZCU
+BFGLazorCharge		BFGLAZCG
+
+BFGLazorStart		BFGLAZST
+
+BFGLazorAdd			BFGLAZAD
+BFGLazorSpin		BFGSPIN
+BFGLazorShoot 		BFGLAZOR
+
+BFGLazorSpinStop	BFGSPINP
+BFGLazorStop		BFGLAZSP

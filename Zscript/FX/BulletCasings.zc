@@ -1,0 +1,921 @@
+Class HC_bulletcasing : HC_DebrisClass
+{
+/*
+  override void Tick()
+  {
+    super.Tick();
+    if (CasingCVAR == -1 )
+      return;
+	if (GetAge() > CasingCVAR)
+      A_Fadeout(0.05);
+  }
+*/
+	Default {
+	scale 0.18;
+	radius 2;
+	
+	bouncefactor 0.5;
+	wallbouncefactor 0.4;
+	bouncecount 5;
+	bouncesound "casings/bullet/bounce";
+	bouncetype "Doom";
+	
+	projectile;
+	
+	+NOFRICTION;
+	
+	-NOGRAVITY
+	-NOBLOCKMAP
+	+NOTELEPORT
+	+THRUACTORS
+	+DROPOFF
+	+FLOORCLIP
+	-BOUNCEONACTORS
+	+FORCEXYBILLBOARD
+	}
+states
+	{
+	Spawn:
+		TNT1 A 0;
+		CAS1 A 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS1 B 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS1 C 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS1 D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS1 E 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS1 F 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS1 G 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS1 H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		loop;
+	Death:
+		TNT1 A 0 A_Jump(255, "Death1", "Death2", "Death3", "Death4", "Death5", "Death6");
+		goto death1;
+	Death1:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS1 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 J -1;
+		stop;
+	Death2:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS1 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 K -1;
+		stop;
+	Death3:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS1 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 L -1;
+		stop;
+	Death4:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS1 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 M -1;
+		stop;
+	Death5:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS1 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 N -1;
+		stop;
+	Death6:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS1 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 O -1;
+		stop;
+	disappear:
+		tnt1 a 1;
+		stop;
+	}
+}
+
+Class longbulletcasing : HC_DebrisClass
+{
+/*
+  override void Tick()
+  {
+    super.Tick();
+    if (CasingCVAR == -1 )
+      return;
+	if (GetAge() > CasingCVAR)
+      A_Fadeout(0.05);
+  }
+*/
+	Default {
+	scale 0.2;
+	radius 2;
+	
+	bouncefactor 0.5;
+	wallbouncefactor 0.4;
+	bouncecount 5;
+	bouncesound "casings/bullet/bounce";
+	bouncetype "Doom";
+	
+	projectile;
+	-NOGRAVITY
+	-NOBLOCKMAP
+	+NOTELEPORT
+	+THRUACTORS
+	+DROPOFF
+	+FLOORCLIP
+	-BOUNCEONACTORS
+	+FORCEXYBILLBOARD
+	}
+states
+	{
+	Spawn:
+		TNT1 A 0;
+		CAS2 A 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS2 B 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS2 C 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS2 D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS2 E 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS2 F 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS2 G 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS2 H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		loop;
+	Death:
+		TNT1 A 0 A_Jump(255, "Death1", "Death2", "Death3", "Death4", "Death5", "Death6");
+		goto death1;
+	Death1:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 J -1;
+		stop;
+	Death2:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 K -1;
+		stop;
+	Death3:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 L -1;
+		stop;
+	Death4:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 M -1;
+		stop;
+	Death5:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 N -1;
+		stop;
+	Death6:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS2 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS2 O -1;
+		stop;
+	disappear:
+		tnt1 a 1;
+		stop;
+	}
+}
+
+Class bulletcasingspawner : Actor
+{
+	Default {
+	radius 2;
+	Height 2;
+	Speed 20;
+	Damage 0;
+	Projectile;
+	+THRUACTORS;
+	+NOCLIP;
+	+NOTELEPORT;
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 1;
+	Death:
+		TNT1 A 0 A_SpawnItemEx("HC_bulletcasing",0,8,0, frandom(7,8),frandom(2.5,1.5),frandom(3,5), frandom(-55,-80), SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+		Stop;
+	}
+}
+
+Class Revolverbulletcasingspawner : bulletcasingspawner
+{
+	States
+	{
+	Spawn:
+		TNT1 A 1;
+	Death:
+		TNT1 A 0 A_SpawnItemEx("longbulletcasing",0,8,0, frandom(-8,8),frandom(-8,8),frandom(-8,8), frandom(-55,-80), SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+		Stop;
+	}
+}
+
+Class Daulonebulletcasingspawner : bulletcasingspawner
+{
+	States
+	{
+	Spawn:
+		TNT1 A 1;
+	Death:
+		TNT1 A 0 A_SpawnItemEx("HC_bulletcasing",0,-8,0, frandom(-1,1),frandom(-7,-5),frandom(3,5),0, SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+		Stop;
+	}
+}
+
+Class Daultwobulletcasingspawner : bulletcasingspawner
+{
+	States
+	{
+	Spawn:
+		TNT1 A 1;
+	Death:
+		TNT1 A 0 A_SpawnItemEx("HC_bulletcasing",0,8,0, frandom(-1,1),frandom(-7,-5),frandom(3,5),0, SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+		Stop;
+	}
+}
+
+Class chaingunbulletcasingspawner : bulletcasingspawner
+{
+	States
+	{
+	Spawn:
+		TNT1 A 1;
+	Death:
+		TNT1 A 0 A_SpawnItemEx("HC_bulletcasing",0,10,-10, frandom(7,8),frandom(2.5,1.5),frandom(2,3), frandom(-55,-80), SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+		Stop;
+	}
+}
+
+////////////////////////RIFLE////////////////////////////
+
+Class Riflebulletcasing : HC_bulletcasing
+{
+	Default {
+	scale .3;
+	}
+}
+
+Class Riflebulletcasingspawner : bulletcasingspawner
+{
+	States
+	{
+	Spawn:
+		TNT1 A 1;
+	Death:
+		TNT1 A 0 A_SpawnItemEx("Riflebulletcasing",-7,8,-12, frandom(-1,1),frandom(5,9),frandom(3,5), 0, SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+		Stop;	//A_SpawnItemEx("Riflebulletcasing",0,15,0, frandom(7,8),frandom(2.5,1.5),frandom(3,5), frandom(-55,-80), SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+	}
+}
+
+////////////////////////CHAINGUN////////////////////////////
+
+Class CGTbulletcasing : HC_bulletcasing
+{
+/*
+  override void Tick()
+  {
+    super.Tick();
+    if (CasingCVAR == -1 )
+      return;
+	if (GetAge() > CasingCVAR)
+      A_Fadeout(0.05);
+  }
+*/
+states
+	{
+	Spawn:
+		TNT1 A 0;
+		CAS1 A 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		CAS1 B 1;
+		CAS1 C 1;
+		CAS1 D 1;
+		CAS1 E 1;
+		CAS1 F 1;
+		CAS1 G 1;
+		CAS1 H 1;
+		loop;
+	Death:
+		TNT1 A 0 A_Jump(255, "Death1", "Death2", "Death3", "Death4", "Death5", "Death6");
+		goto death1;
+	Death1:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS1 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 J -1;
+		stop;
+	Death2:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS1 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 K -1;
+		stop;
+	Death3:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS1 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 L -1;
+		stop;
+	Death4:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS1 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 M -1;
+		stop;
+	Death5:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS1 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 N -1;
+		stop;
+	Death6:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		CAS1 O 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		CAS1 O -1;
+		stop;
+	disappear:
+		tnt1 a 1;
+		stop;
+	}
+}
+
+Class CGTcasingspawner : bulletcasingspawner
+{
+	States
+	{
+	Spawn:
+		TNT1 A 1;
+	Death:
+		TNT1 A 0 A_SpawnItemEx("CGTbulletcasing",0,10,-10, frandom(7,8),frandom(2.5,1.5),frandom(2,3), frandom(-55,-80), SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+		Stop;
+	}
+}
+
+
+///////////////////////SHOTGUN//////////////////////////////
+
+Class shotguncasing : HC_DebrisClass
+{
+/*
+  override void Tick()
+  {
+    super.Tick();
+    if (CasingCVAR == -1 )
+      return;
+	if (GetAge() > CasingCVAR)
+      A_Fadeout(0.05);
+  }
+*/
+Default {
+	scale 0.30;
+	radius 2;
+	
+	bouncefactor 0.6;
+	wallbouncefactor 0.5;
+	bouncecount 6;
+	bouncesound "casings/shell/bounce";
+	bouncetype "Doom";
+	
+	projectile;
+	-NOGRAVITY
+	-NOBLOCKMAP
+	+NOTELEPORT
+	+THRUACTORS
+	+DROPOFF
+	+FLOORCLIP
+	-BOUNCEONACTORS
+	+FORCEXYBILLBOARD
+	}
+	states
+	{
+	Spawn:
+		C4S2 A 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S2 B 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S2 C 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S2 D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S2 E 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S2 F 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S2 G 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S2 H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		loop;
+	Death:
+		TNT1 A 0 A_Jump(255, "Death1", "Death2", "Death3", "Death4", "Death5", "Death6");
+		goto death1;
+	Death1:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound ("casings/shell/die");
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 I -1;
+		stop;
+	Death2:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound ("casings/shell/die");
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 J -1;
+		stop;
+	Death3:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound ("casings/shell/die");
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 K -1 ;
+		stop;
+	Death4:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound ("casings/shell/die");
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 L -1;
+		stop;
+	Death5:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound ("casings/shell/die");
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 M -1;
+		stop;
+	Death6:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound ("casings/shell/die");
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S2 N -1;
+		stop;
+	disappear:
+		tnt1 a 1;
+		stop;
+	}
+}
+
+Class shotguncasingSUPER : HC_DebrisClass
+{
+/*
+  override void Tick()
+  {
+    super.Tick();
+    if (CasingCVAR == -1 )
+      return;
+	if (GetAge() > CasingCVAR)
+      A_Fadeout(0.05);
+  }
+*/
+	Default {
+	scale 0.3;
+	radius 2;
+	
+	bouncefactor 0.5;
+	wallbouncefactor 0.4;
+	bouncecount 5;
+	bouncesound "casings/bullet/bounce";
+	bouncetype "Doom";
+	
+	projectile;
+	-NOGRAVITY
+	-NOBLOCKMAP
+	+NOTELEPORT
+	+THRUACTORS
+	+DROPOFF
+	+FLOORCLIP
+	-BOUNCEONACTORS
+	+FORCEXYBILLBOARD
+	}
+states
+	{
+	Spawn:
+		TNT1 A 0;
+		C4S3 A 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S3 B 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S3 C 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S3 D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S3 E 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S3 F 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S3 G 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		C4S3 H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		loop;
+	Death:
+		TNT1 A 0 A_Jump(255, "Death1", "Death2", "Death3", "Death4", "Death5", "Death6");
+		goto death1;
+	Death1:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		C4S3 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 I 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 I -1;
+		stop;
+	Death2:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		C4S3 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 J 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		C4S3 J -1;
+		stop;
+	disappear:
+		tnt1 a 1;
+		stop;
+	}
+}
+
+Class shotguncasingspawner : ACTOR
+{
+	Default {
+	radius 2;
+	Height 2;
+	Speed 20;
+	Damage 0;
+	
+	Projectile;
+	+THRUACTORS
+	+NOCLIP
+	+NOTELEPORT
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 1;
+	Death:
+		TNT1 A 0 A_SpawnItemEx("shotguncasing",-5,0,-10, frandom(-1,1),frandom(5,7),frandom(3,5), 0, SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+		Stop;
+	}
+}
+
+Class Supershotguncasingspawner : shotguncasingspawner
+{
+	States
+	{
+	Spawn:
+		TNT1 A 1;
+	Death:
+		TNT1 A 0 A_SpawnItemEx("shotguncasing",-5,0,-10, frandom(-1,1),frandom(-7,-5),frandom(4,6), 0, SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+		Stop;
+	}
+}
+
+Class shotguncasingSUPERspawner : shotguncasingspawner
+{
+	States
+	{
+	Spawn:
+		TNT1 A 1;
+	Death:
+		TNT1 A 0 A_SpawnItemEx("shotguncasingSUPER",-5,0,-10, frandom(-1,1),frandom(-7,-5),frandom(4,6), 0, SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+		Stop;
+	}
+}
+
+///////////////////////////////////////////////EMGCASING
+
+Class EMGcasing : HC_DebrisClass
+{
+
+/*
+  override void Tick()
+  {
+    super.Tick();
+    if (CasingCVAR == -1 )
+      return;
+	if (GetAge() > CasingCVAR)
+      A_Fadeout(0.05);
+  }
+*/
+	Default {
+	scale 0.18;
+	radius 2;
+	
+	bouncefactor 0.5;
+	wallbouncefactor 0.4;
+	bouncecount 5;
+	bouncesound "casings/bullet/bounce";
+	bouncetype "Doom";
+	
+	projectile;
+	-NOGRAVITY
+	-NOBLOCKMAP
+	+NOTELEPORT
+	+THRUACTORS
+	+DROPOFF
+	+FLOORCLIP
+	-BOUNCEONACTORS
+	+FORCEXYBILLBOARD
+	}
+states
+	{
+	Spawn:
+		TNT1 A 0;
+		PBCS A 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		PBCS B 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		PBCS C 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		PBCS D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		PBCS E 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		PBCS F 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		PBCS G 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		PBCS H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+		loop;
+	Death:
+		TNT1 A 0 A_Jump(255, "Death1", "Death2");
+		goto death1;
+	Death1:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		PBCS H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS H 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS H -1;
+		stop;
+	Death2:
+		TNT1 A 0;
+		TMT1 A 0 A_StartSound ("casings/bullet/die");
+		PBCS D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS D 1 A_SpawnItemEx("CasingSmoketrail",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),1);
+		PBCS D -1;
+		stop;
+	disappear:
+		tnt1 a 1;
+		stop;
+	}
+}
+
+Class EMGCasingSpawner : Actor
+{
+	Default {
+	radius 2;
+	Height 2;
+	Speed 20;
+	Damage 0;
+	
+	Projectile;
+	+THRUACTORS
+	+NOCLIP
+	+NOTELEPORT
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 1;
+	Death:
+		TNT1 A 0 A_SpawnItemEx("EMGcasing",0,8,0, frandom(7,8),frandom(2.5,1.5),frandom(3,5), frandom(-55,-80), SXF_NOCHECKPOSITION | SXF_ORIGINATOR);
+		Stop;
+	}
+}
+
+///////////////////////////////////////////////CASINGSMOKE
+
+Class CasingSmoketrail : ACTOR
+{
+	Default
+	{
+	Speed 2;
+	Height 2;
+	Radius 4;
+	
+	Scale 0.3;
+	RenderStyle "Shaded";
+	Alpha 0.2;
+	
+	Projectile;
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	}
+	
+	States
+	{
+	Spawn:
+		RSMK A 0;
+		goto death;
+	Death:
+		RSMK A random(1,3);
+		RSMK B random(1,3);
+		RSMK C random(1,3);
+		RSMK D random(1,3);
+		RSMK E random(1,3);
+	STOP;
+	}
+}

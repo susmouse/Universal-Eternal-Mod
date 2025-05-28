@@ -1,0 +1,164 @@
+/////////////////////////////////HEALTH////////////////////////////////////////
+
+Class HC_HealthBonusSpawner : RandomSpawner Replaces HealthBonus
+{
+	Default {
+    DropItem "HC_HealthBonus", 256, 256;
+    DropItem "HC_HealthBonus2", 256, 255;
+	}
+}
+
+Class HC_HealthBonus : Health
+{
+	Default {
+	+COUNTITEM;
+	+INVENTORY.ALWAYSPICKUP;
+	+RANDOMIZE;
+	Inventory.Amount 1;
+	Inventory.MaxAmount 200;
+	Inventory.PickupMessage "Picked up a health bonus.";
+	Inventory.PickupSound "HealthBonus";
+	Inventory.Icon "HELICO1";
+	}
+	
+	States
+	{
+	Spawn:
+	XHBN B random(1,10);
+	FlashLoop:
+	XHBN B 5;
+	XHBN CDE 1;
+	XHBN F 5;
+	XHBN EDC 1;
+	Loop;
+	}
+}
+
+Class HC_HealthBonus2 : HC_HealthBonus
+{
+	States
+	{
+	Spawn:
+	XHBN A -1;
+	Stop;
+	}
+}
+
+Class HC_Stimpack : Health Replaces Stimpack
+{
+	Default{
+  Inventory.Amount 10;
+  Inventory.PickupMessage "$GOTSTIM"; // "Picked up a stimpack."
+  Inventory.PickupSound "HealthStimpack";
+  Inventory.Icon "HELICO1";
+  }
+  States
+  {
+  Spawn:
+  TNT1 A 1;
+  TNT1 A 1 A_Jump(128,"Stim2");
+	Stim1:
+	XSTM A -1;
+	Stop;
+	Stim2:
+	XSTM B -1;
+	Stop;
+
+  }
+}
+
+Class HC_Medikit : Health Replaces Medikit
+{
+Default {
+  Inventory.Amount 25;
+  Inventory.PickupMessage "$GOTMEDIKIT"; // "Picked up a medikit."
+  Health.LowMessage 25, "$GOTMEDINEED"; // "Picked up a medikit that you REALLY need!"
+  Inventory.PickupSound "HealthMedipack";
+  Inventory.Icon "HELICO1";
+ }
+ States
+  {
+  Spawn:
+    TNT1 A 1;
+	TNT1 A 1 A_Jump(128,"Med1");
+	
+	Med2:
+	XMDK A -1;
+	Stop;
+	
+	Med1:
+	XMDK B -1;
+    Stop;
+  }
+}
+
+/////////////////////////////////ARMOR////////////////////////////////////////
+
+Class HC_ArmorBonus : BasicArmorBonus Replaces ArmorBonus
+{
+	Default {
+  Radius 20;
+  Height 16;
+  Inventory.PickupMessage "Picked up an armor bonus.";
+  Inventory.Icon "ARMICO1";
+  Inventory.PickupSound "ArmorBonus";
+  Armor.SavePercent 50;//33.335;
+  Armor.SaveAmount 1;
+  Armor.MaxSaveAmount 200;
+  +COUNTITEM;
+  +INVENTORY.ALWAYSPICKUP;
+  }
+  States
+  {
+  Spawn:
+    ARMB A 10;
+	ARMB BCD 1;
+	ARMB E 10;
+	ARMB DCB 1;
+    Loop;
+  }
+}
+
+Class HC_GreenArmor : BasicArmorPickup Replaces GreenArmor
+{
+	Default {
+  Radius 20;
+  Height 16;
+  Inventory.PickupMessage "$GOTARMOR"; // "Picked up the armor."
+  Inventory.Icon "ARMICO2";
+  Inventory.PickupSound "ArmorFull";
+  Armor.SavePercent 75;//33.335;
+  Armor.SaveAmount 100;
+  }
+  States
+  {
+  Spawn:
+	ARM1 A 10;
+	ARM1 BCD 1;
+	ARM1 E 10; 
+    ARM1 DCB 1;
+	Loop;
+  }
+}
+
+Class HC_BlueArmor : BasicArmorPickup Replaces BlueArmor
+{
+	Default {
+  Radius 20;
+  Height 16;
+  Inventory.PickupMessage "$GOTMEGA"; // "Picked up the MegaArmor!"
+  Inventory.Icon "ARMICO3";
+  Inventory.PickupSound "ArmorFull";
+  Armor.SavePercent 100;//50;
+  Armor.SaveAmount 200;
+	}
+  States
+  {
+  Spawn:
+    ARM2 A 10;
+	ARM2 BCD 1;
+	ARM2 E 10; 
+    ARM2 DCB 1;
+    Loop;
+  }
+}

@@ -1,0 +1,692 @@
+Class PistolUpgrader : Custominventory Replaces Pistol
+{
+	Default
+	{
+	Inventory.Pickupmessage "You got a utterly massive 700 nitro revolver hand cannon! Normals would break their wrists with this...";
+	Inventory.PickupSound "PistolGet";
+	
+	+WEAPONSPAWN;
+	
+	Scale .5;
+	}
+	States
+	{
+		Spawn:
+			XREV A -1;
+			Stop;
+	
+		Pickup:
+			TNT1 A 0 A_JumpIfInventory("Executioner", 1, "MammothTuskPickup");
+			TNT1 A 0 A_GiveInventory("HC_Magazine");
+			Stop;
+
+		MammothTuskPickup:
+			TNT1 A 0 A_TakeInventory("Executioner");
+			TNT1 A 0 A_GiveInventory("MammothTusk");
+			TNT1 A 0 A_SelectWeapon("MammothTusk");
+			Stop;
+	}
+}
+
+Class MammothTusk : HellCrusherW {
+
+	double ChargePitch;
+	Int FiredShots, SuperDamage, UpCount;
+	Bool Fancyspin;
+	
+ 	Default
+	{
+	Weapon.BobRangeX 0.2;//0.7;
+	Weapon.BobRangeY 0.5;//0.5;
+	
+	Scale .5;
+	
+	Weapon.SelectionOrder 1900;
+	
+	Weapon.AmmoUse 5;
+	Weapon.AmmoGive 20;
+	Weapon.AmmoType "HC_Magazine";
+	
+	Obituary "$OB_MPPISTOL";
+	//Inventory.Pickupmessage "You got a utterly massive 700 nitro revolver hand cannon! Normals would break their wrists with this...";
+	//Inventory.PickupSound "PistolGet";
+	Tag "Mammoth Tusk";
+	
+	+WEAPON.NOALERT
+	+WEAPON.NOAUTOFIRE
+	}
+	States
+	{
+	
+///////////////////////////////////////////////INSPECT ANIM
+	
+	Inspect:
+		TNT1 A 0 A_JumpIf(IntroAnim == 0, "Ready");
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 10 A_WeaponReady;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRVS ABCDEFGH 1 A_weaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRVS I 10 A_weaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_Overlay(5,"SpinCylinder");
+		XRVS I 5 A_weaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_StartSound("RevolverSpin",CHAN_5,0,.8);
+		XRVS JKLI 1 A_weaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRVS JKLI 1 A_weaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRVS JKLII 1 A_weaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRVS JJKKLLIII 1 A_weaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRVS I 10 A_weaponReady;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRFS ABCD 1 A_weaponReady;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRFS EFGHI 1 A_weaponReady;
+		TNT1 A 0 A_StartSound("RevolverFullSpin",CHAN_5,0,1);
+		TNT1 A 0 A_StartSound("DeagleAirGrab",CHAN_6,0,.4);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRFS JKL 1 A_weaponReady;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRFS EFGHI 1 A_weaponReady;
+		TNT1 A 0 A_StartSound("RevolverFullSpin",CHAN_5,0,1);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRFS JKL 1 A_weaponReady;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRFS MNOONM 1 A_weaponReady;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRFS LKJ 1 A_weaponReady;
+		TNT1 A 0 A_StartSound("RevolverFullSpin",CHAN_5,0,1);
+		TNT1 A 0 A_StartSound("DeagleAirGrab",CHAN_6,0,.4);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRFS IHGFE 1 A_weaponReady;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRFS LKJ 1 A_weaponReady;
+		TNT1 A 0 A_StartSound("RevolverFullSpin",CHAN_5,0,1);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRFS IHGFE 1 A_weaponReady;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRFS DCBA 1 A_weaponReady;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XRVS HGFEDCBA 1 A_weaponReady;
+		Goto Ready;
+		
+	SpinCylinder:
+		XRVS MNOPQ 1;
+		XRVS RST 1;
+		XRVS UVW 1;
+		Stop;
+		
+///////////////////////////////////////////////INSPECT ANIM
+	Reload:
+		TNT1 A 0;
+		//TNT1 A 0 A_Jumpif((invoker.Fancyspin == true),"Fancyspin");
+		XRSP ABCDEFG 1;
+	Fancyspin:
+		//TNT1 A 0 {invoker.Fancyspin = true;}
+		//TNT1 A 0 A_StartSound("RevolverFullSpin",CHAN_5,0,1);
+		XRSP HIJK 1;
+		TNT1 A 0 A_StartSound("RevolverFullSpin",CHAN_5,0,1);
+		XRSP LMNO 1;
+		//TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB|WRF_ALLOWRELOAD);
+		//TNT1 A 0 A_WeaponReady(WRF_ALLOWRELOAD);
+		XRSP STUVWX 1; //PQR
+		//TNT1 A 0 {invoker.Fancyspin = false;}
+		Goto Ready;
+
+		
+	Ready:
+		//TNT1 A 0 {invoker.Rapid=false;}
+		TNT1 A 0 A_Jumpif((invoker.FiredShots >= 4),"Eject");
+		TNT1 A 0 A_SetCrosshair(64);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XREV B 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		Loop;
+		
+	Eject:
+		//TNT1 A 0 {invoker.Rapid=false;}
+		TNT1 AAAA 0 {invoker.FiredShots--;}
+		TNT1 AAAA 0 A_FireProjectile("Revolverbulletcasingspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XREV B 1 A_WeaponReady;
+		//Loop;
+		Goto Ready;
+		
+	Ready3:
+		TNT1 A 1 A_Jump(255, "Ready3");
+		
+	Select:
+		TNT1 A 0 {invoker.UpCount++;}
+		TNT1 A 0 A_SetCrosshair(64);
+		TNT1 A 0 A_ZoomFactor(1);
+		TNT1 A 0 A_JumpIf(invoker.UpCount == 1, "Inspect");
+		//XRAU ABC 1 {A_WeaponReady(WRF_NOFIRE);	A_OverlayRotate(0,0);	A_WeaponOffset(0,32);}
+		//XRAU DEFGHIJKLM 1 {A_WeaponReady();	A_OverlayRotate(0,0);	A_WeaponOffset(0,32);}
+		XREU ABC 1 {A_WeaponReady(WRF_NOFIRE);	A_OverlayRotate(0,0);	A_WeaponOffset(0,32);}
+		Goto Ready;
+		
+	Deselect:
+		//TNT1 A 0 {invoker.Rapid=false;}
+		TNT1 A 0 A_Overlay(15,"*");
+		TNT1 A 0 A_ZoomFactor(1);
+		XREU CBA 1 Offset(0,32);
+		TNT1 A 0 A_Lower;
+		Wait;
+		
+	DeselectQuickMelee:
+		//TNT1 A 0 {invoker.Rapid=false;}
+		TNT1 A 0 A_Overlay(15,"*");
+		TNT1 A 0 A_ZoomFactor(1);
+		XREU CA 1 Offset(0,32);
+		Goto QuickMeleeStart;
+		
+		
+	Feel:
+		TNT1 A 0 A_QuakeEx(1,1,1,9,0,100,"*");
+		TNT1 A 0 A_SetPitch(pitch-2);
+		TNT1 A 1 A_ZoomFactor(0.80);
+		TNT1 A 0 A_SetPitch(pitch-1);
+		TNT1 A 1 A_ZoomFactor(0.80);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.81);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.82);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.85);
+		TNT1 A 1 A_ZoomFactor(0.88);
+		TNT1 A 1 A_ZoomFactor(0.91);
+		TNT1 A 1 A_ZoomFactor(0.93);
+		TNT1 A 1 A_ZoomFactor(0.95);
+		TNT1 A 1 A_ZoomFactor(0.97);
+		TNT1 A 1 A_ZoomFactor(0.99);
+		TNT1 A 1 A_ZoomFactor(1);
+		Stop;
+		
+		
+		/*
+	Feel:
+		TNT1 A 0 A_QuakeEx(1,1,1,9,0,100,"*");
+		TNT1 A 0 A_SetPitch(pitch-2);
+		TNT1 A 1 A_ZoomFactor(0.78);
+		TNT1 A 0 A_SetPitch(pitch-1);
+		TNT1 A 1 A_ZoomFactor(0.76);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.75);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.76);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.77);
+		TNT1 A 1 A_ZoomFactor(0.74);
+		TNT1 A 1 A_ZoomFactor(0.85);
+		TNT1 A 1 A_ZoomFactor(0.93);
+		TNT1 A 1 A_ZoomFactor(0.95);
+		TNT1 A 1 A_ZoomFactor(0.99);
+		TNT1 A 1 A_ZoomFactor(1);
+		Stop;
+		*/
+	Fire:
+		
+		//TNT1 A 0 A_Jump(128,3);
+		//TNT1 A 0 A_Overlay(15,"FireAnimation1");
+		//TNT1 A 0 A_Jump(256,2);
+		//TNT1 A 0 A_Overlay(15,"FireAnimation2");
+		
+		TNT1 A 0 A_Jump(256,1,3);
+		TNT1 A 0 A_Overlay(15,"FireAnimation1");
+		TNT1 A 0 A_Jump(256,2);
+		TNT1 A 0 A_Overlay(15,"FireAnimation2");
+		//TNT1 A 0 A_Jump(256,2);
+		//TNT1 A 0 A_Overlay(15,"FireAnimation3");
+		
+		TNT1 A 0 {invoker.FiredShots++;}
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB|WRF_NOSWITCH);
+		TNT1 A 1;
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB|WRF_NOSWITCH);
+		TNT1 A 1;
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB|WRF_NOSWITCH);
+		TNT1 A 1;
+		TNT1 A 0 A_AlertMonsters;
+		
+		TNT1 A 0 A_JumpIf(CountInv("HC_PowerQuadDamage") == 0, 2);
+		TNT1 A 0 A_StartSound("QuadDamageShot",0,0,.7);
+		
+		TNT1 A 0 A_StartSound("RevolverFire",CHAN_5,0,.7);
+		
+		TNT1 A 0 A_FireProjectile("HC_MediumTracer", 0, false, 0, 0, FPF_NOAUTOAIM, 0);
+		
+		TNT1 A 0 A_RailAttack(200,0,True,"","",RGF_SILENT ,0,"FuncRevolverPuff",0,0,0,1,0.1,1,"RevolverTrail",0,270,10);
+							//100
+		TNT1 A 0 A_FireBullets (0, 0, 1, 0, "RevolverPuff",0);
+		
+		
+		
+		TNT1 A 0 A_Overlay(-5,"Feel");
+		
+		
+		
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB|WRF_NOSWITCH);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB|WRF_NOSWITCH);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB|WRF_NOSWITCH);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOSECONDARY|WRF_NOBOB);
+		TNT1 A 1;						//18
+		
+		TNT1 A 0 A_Refire;
+		Goto Ready;
+		
+	FireAnimation1:
+		//TNT1 A 0  		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0);					A_OverlayOffset(15,0,0);}
+		
+		XREV C 1		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);	A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+		
+		XREV G 1		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);	A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+		
+		XREV B 1		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);	A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+		
+		XREV D 1 BRIGHT {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);	A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+	
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,20,WOF_INTERPOLATE);	A_OverlayOffset(15,-60,-20,WOF_INTERPOLATE); 	A_OverlayScale(15,1.3,1.3,WOF_RELATIVE|WOF_INTERPOLATE);}
+	
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,23,WOF_INTERPOLATE);	A_OverlayOffset(15,-64,-25,WOF_INTERPOLATE); 	A_OverlayScale(15,1.3,1.3,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,25,WOF_INTERPOLATE);	A_OverlayOffset(15,-65,-27,WOF_INTERPOLATE); 	A_OverlayScale(15,1.3,1.3,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,24,WOF_INTERPOLATE);	A_OverlayOffset(15,-63,-26,WOF_INTERPOLATE); 	A_OverlayScale(15,1.2,1.2,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,22,WOF_INTERPOLATE);	A_OverlayOffset(15,-61,-24,WOF_INTERPOLATE); 	A_OverlayScale(15,1.2,1.2,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,21,WOF_INTERPOLATE);	A_OverlayOffset(15,-59,-21,WOF_INTERPOLATE); 	A_OverlayScale(15,1.2,1.2,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,22,WOF_INTERPOLATE);	A_OverlayOffset(15,-51,-18,WOF_INTERPOLATE); 	A_OverlayScale(15,1.2,1.2,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,22,WOF_INTERPOLATE);	A_OverlayOffset(15,-48,-15,WOF_INTERPOLATE); 	A_OverlayScale(15,1.1,1.1,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,23,WOF_INTERPOLATE);	A_OverlayOffset(15,-43,-12,WOF_INTERPOLATE); 	A_OverlayScale(15,1.1,1.1,WOF_RELATIVE|WOF_INTERPOLATE);}
+		
+		XREV E 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,23);					A_OverlayOffset(15,-38,-8);						A_OverlayScale(15,1.1,1.1,WOF_RELATIVE);}
+		XREV E 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,21,WOF_INTERPOLATE);	A_OverlayOffset(15,-30,-2,WOF_INTERPOLATE); 	A_OverlayScale(15,1.1,1.1,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV E 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,18,WOF_INTERPOLATE);	A_OverlayOffset(15,-20,-1,WOF_INTERPOLATE); 		A_OverlayScale(15,1,1,WOF_RELATIVE|WOF_INTERPOLATE);}
+		
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,15);					A_OverlayOffset(15,-13,2);}
+		XREV B 1		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,7,WOF_INTERPOLATE);	A_OverlayOffset(15,1,2,WOF_INTERPOLATE);}
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,3,WOF_INTERPOLATE);	A_OverlayOffset(15,4,1,WOF_INTERPOLATE);}
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-1,WOF_INTERPOLATE);	A_OverlayOffset(15,2,1,WOF_INTERPOLATE);}
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-2,WOF_INTERPOLATE);	A_OverlayOffset(15,1,0,WOF_INTERPOLATE);}
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);	A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+		//18
+		Stop;
+		
+	FireAnimation2:
+		//TNT1 A 0  		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0);					A_OverlayOffset(15,0,0);}
+		
+		XREV C 1		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);	A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+		
+		XREV G 1		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);	A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+		
+		XREV B 1		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);	A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+		
+		XREV D 1 BRIGHT {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);	A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+	
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,25,WOF_INTERPOLATE);	A_OverlayOffset(15,-70,-20,WOF_INTERPOLATE); 	A_OverlayScale(15,1.3,1.3,WOF_RELATIVE|WOF_INTERPOLATE);}
+	
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,28,WOF_INTERPOLATE);	A_OverlayOffset(15,-74,-25,WOF_INTERPOLATE); 	A_OverlayScale(15,1.3,1.3,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,30,WOF_INTERPOLATE);	A_OverlayOffset(15,-75,-27,WOF_INTERPOLATE); 	A_OverlayScale(15,1.3,1.3,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,28,WOF_INTERPOLATE);	A_OverlayOffset(15,-73,-26,WOF_INTERPOLATE); 	A_OverlayScale(15,1.2,1.2,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,26,WOF_INTERPOLATE);	A_OverlayOffset(15,-71,-24,WOF_INTERPOLATE); 	A_OverlayScale(15,1.2,1.2,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,25,WOF_INTERPOLATE);	A_OverlayOffset(15,-69,-21,WOF_INTERPOLATE); 	A_OverlayScale(15,1.2,1.2,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,24,WOF_INTERPOLATE);	A_OverlayOffset(15,-61,-18,WOF_INTERPOLATE); 	A_OverlayScale(15,1.2,1.2,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,23,WOF_INTERPOLATE);	A_OverlayOffset(15,-58,-15,WOF_INTERPOLATE); 	A_OverlayScale(15,1.1,1.1,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,24,WOF_INTERPOLATE);	A_OverlayOffset(15,-53,-12,WOF_INTERPOLATE); 	A_OverlayScale(15,1.1,1.1,WOF_RELATIVE|WOF_INTERPOLATE);}
+		
+		XREV E 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,25);					A_OverlayOffset(15,-48,-8);						A_OverlayScale(15,1.1,1.1,WOF_RELATIVE);}
+		XREV E 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,21,WOF_INTERPOLATE);	A_OverlayOffset(15,-32,-2,WOF_INTERPOLATE); 	A_OverlayScale(15,1.1,1.1,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV E 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,18,WOF_INTERPOLATE);	A_OverlayOffset(15,-19,-1,WOF_INTERPOLATE); 		A_OverlayScale(15,1,1,WOF_RELATIVE|WOF_INTERPOLATE);}
+		
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,15);					A_OverlayOffset(15,-13,2);}
+		XREV B 1		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,7,WOF_INTERPOLATE);	A_OverlayOffset(15,1,2,WOF_INTERPOLATE);}
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,3,WOF_INTERPOLATE);	A_OverlayOffset(15,4,1,WOF_INTERPOLATE);}
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-1,WOF_INTERPOLATE);	A_OverlayOffset(15,2,1,WOF_INTERPOLATE);}
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-2,WOF_INTERPOLATE);	A_OverlayOffset(15,1,0,WOF_INTERPOLATE);}
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);	A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+		//18
+		Stop;
+		
+	FireAnimation3:
+		//TNT1 A 0  		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0);					A_OverlayOffset(15,0,0);}
+		
+		XREV C 1		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);		A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+		
+		XREV G 1		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);		A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+		
+		XREV B 1		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);		A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+		
+		XREV D 1 BRIGHT {A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);		A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+	
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-15,WOF_INTERPOLATE);	A_OverlayOffset(15,50,-20,WOF_INTERPOLATE); 	A_OverlayScale(15,1.3,1.3,WOF_RELATIVE|WOF_INTERPOLATE);}
+	
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-18,WOF_INTERPOLATE);	A_OverlayOffset(15,54,-25,WOF_INTERPOLATE); 	A_OverlayScale(15,1.3,1.3,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-20,WOF_INTERPOLATE);	A_OverlayOffset(15,55,-27,WOF_INTERPOLATE); 	A_OverlayScale(15,1.3,1.3,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-18,WOF_INTERPOLATE);	A_OverlayOffset(15,53,-26,WOF_INTERPOLATE); 	A_OverlayScale(15,1.2,1.2,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-16,WOF_INTERPOLATE);	A_OverlayOffset(15,51,-24,WOF_INTERPOLATE); 	A_OverlayScale(15,1.2,1.2,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-15,WOF_INTERPOLATE);	A_OverlayOffset(15,49,-21,WOF_INTERPOLATE); 	A_OverlayScale(15,1.2,1.2,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-14,WOF_INTERPOLATE);	A_OverlayOffset(15,41,-18,WOF_INTERPOLATE); 	A_OverlayScale(15,1.2,1.2,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-13,WOF_INTERPOLATE);	A_OverlayOffset(15,38,-15,WOF_INTERPOLATE); 	A_OverlayScale(15,1.1,1.1,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV F 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-14,WOF_INTERPOLATE);	A_OverlayOffset(15,33,-12,WOF_INTERPOLATE); 	A_OverlayScale(15,1.1,1.1,WOF_RELATIVE|WOF_INTERPOLATE);}
+		
+		XREV E 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-15);					A_OverlayOffset(15,28,-8);						A_OverlayScale(15,1.1,1.1,WOF_RELATIVE);}
+		XREV E 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-11,WOF_INTERPOLATE);	A_OverlayOffset(15,12,-2,WOF_INTERPOLATE); 	A_OverlayScale(15,1.1,1.1,WOF_RELATIVE|WOF_INTERPOLATE);}
+		XREV E 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-8,WOF_INTERPOLATE);		A_OverlayOffset(15,9,-1,WOF_INTERPOLATE); 		A_OverlayScale(15,1,1,WOF_RELATIVE|WOF_INTERPOLATE);}
+		
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-5);						A_OverlayOffset(15,3,2);}
+		XREV B 1		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-2,WOF_INTERPOLATE);		A_OverlayOffset(15,-1,2,WOF_INTERPOLATE);}
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,-1,WOF_INTERPOLATE);		A_OverlayOffset(15,-4,1,WOF_INTERPOLATE);}
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,1,WOF_INTERPOLATE);		A_OverlayOffset(15,-2,1,WOF_INTERPOLATE);}
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,2,WOF_INTERPOLATE);		A_OverlayOffset(15,-1,0,WOF_INTERPOLATE);}
+		XREV B 1 		{A_OverlayPivotAlign(15,PSPA_CENTER,PSPA_CENTER);	A_OverlayRotate(15,0,WOF_INTERPOLATE);		A_OverlayOffset(15,0,0,WOF_INTERPOLATE);}
+		//18
+		Stop;
+		
+		
+	AltFire:
+		TNT1 A 0 A_JumpIfInventory("HC_Magazine",5,1);
+		Goto Ready;
+		
+		TNT1 A 0 {invoker.SuperDamage = 75;}
+		TNT1 A 0 {invoker.ChargePitch = 0.25;}
+		//TNT1 A 0 A_Jumpif((invoker.Rapid == true),"LoopSpinCharge");
+		
+		XRAS AB 1;
+		TNT1 A 0 A_Overlay(5,"HammerPullHand");
+		XRAS CDEF 1;
+		TNT1 A 0 A_StartSound("RevolverHammer",CHAN_6,0,.6);
+		XRAS GHIJKKLLMMMNO 1;
+		
+	LoopSpinCharge:
+		TNT1 A 0 A_StartSound("RevolverFullSpin",CHAN_BODY,0,1);
+		TNT1 A 0 A_QuakeEx(1,1,1,4,0,100,"*");
+		TNT1 A 0 {invoker.SuperDamage = invoker.SuperDamage + 25; }
+		TNT1 A 0 {invoker.ChargePitch = invoker.ChargePitch + 0.025; }
+		
+		XRAM A 1;
+		XRAM B 1;
+		XRAM C 1;
+		XRAM D 1;
+
+		TNT1 A 0 A_StartSound("RevolverChargeSingle",CHAN_7,CHANF_OVERLAP,1,ATTN_NORM,invoker.ChargePitch);
+		
+		XRAM E 1;
+		XRAM F 1;
+		XRAM G 1;
+		XRAM H 1;
+		
+		TNT1 A 0 A_Refire("LoopSpinCharge");
+		
+	ChargedFire:
+		
+		XRAF A 1;
+		
+		TNT1 A 0 A_AlertMonsters;
+		TNT1 A 0 A_TakeInventory("HC_Magazine",5);
+		
+		TNT1 A 0 A_JumpIf(CountInv("HC_PowerQuadDamage") == 0, 2);
+		TNT1 A 0 A_StartSound("QuadDamageShot",0,0,.7);
+		
+		TNT1 A 0 A_StartSound("RevolverFire",CHAN_5,0,.8);
+		TNT1 A 0 A_StartSound("RevolverFireAdd",CHAN_6,0,.9);
+		
+		TNT1 A 0 A_FireProjectile("HC_LargeTracer", 0, false, 0, 0, FPF_NOAUTOAIM, 0);
+		TNT1 A 0 A_RailAttack(invoker.SuperDamage,0,True,"","",RGF_SILENT ,0,"FuncRevolverPuff",0,0,0,1,0.1,1,"RevolverTrail",0,270,10);
+		TNT1 A 0 A_FireBullets (0, 0, 1, 0, "RiflePuffBIG",0);
+		
+		TNT1 A 0 A_Overlay(-5,"SuperFeel");
+		TNT1 A 0 {invoker.FiredShots++;}
+		//TNT1 A 0 {invoker.Rapid=true;}
+		
+		
+		
+		
+		
+		XREV D 1 BRIGHT;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF B 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF C 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF C 1 A_WeaponOffset(Random(-4,4),Random(28,36),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF C 1 A_WeaponOffset(Random(-4,4),Random(28,36),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF D 1 A_WeaponOffset(Random(-4,4),Random(28,36),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF D 1 A_WeaponOffset(Random(-4,4),Random(28,36),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF D 1 A_WeaponOffset(Random(-4,4),Random(28,36),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF E 1 A_WeaponOffset(Random(-4,4),Random(28,36),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF E 1 A_WeaponOffset(Random(-4,4),Random(28,36),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF E 1 A_WeaponOffset(Random(-3,3),Random(29,35),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF E 1 A_WeaponOffset(Random(-3,3),Random(29,35),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF E 1 A_WeaponOffset(Random(-3,3),Random(29,35),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF F 1 A_WeaponOffset(Random(-3,3),Random(29,35),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF F 1 A_WeaponOffset(Random(-2,2),Random(30,34),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF F 1 A_WeaponOffset(Random(-2,2),Random(30,34),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF G 1 A_WeaponOffset(Random(-1,1),Random(31,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF G 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF H 1;
+		//TNT1 A 0 {invoker.Rapid=false;}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF I 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF J 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF K 1;
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOPRIMARY|WRF_NOSECONDARY|WRF_NOBOB);
+		XRAF L 1;
+		XRAS A 1;
+		Goto Ready;
+		
+	HammerPullHand:
+		XRAH ABCD 1;
+		XRAH EFG 1;
+		Stop;
+		
+	SuperFeel:
+		TNT1 A 0 A_QuakeEx(2,2,2,20,0,100,"*");
+		TNT1 A 0 A_SetPitch(pitch-4);
+		TNT1 A 1 A_ZoomFactor(0.70);
+		TNT1 A 0 A_SetPitch(pitch-2);
+		TNT1 A 1 A_ZoomFactor(0.70);
+		TNT1 A 0 A_SetPitch(pitch-1);
+		TNT1 A 1 A_ZoomFactor(0.71);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.72);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.74);
+		TNT1 A 0 A_SetPitch(pitch+1);
+		TNT1 A 1 A_ZoomFactor(0.75);
+		TNT1 A 0 A_SetPitch(pitch+2);
+		TNT1 A 1 A_ZoomFactor(0.77);
+		TNT1 A 0 A_SetPitch(pitch+2);
+		TNT1 A 1 A_ZoomFactor(0.79);
+		TNT1 A 1 A_ZoomFactor(0.81);
+		TNT1 A 1 A_ZoomFactor(0.84);
+		TNT1 A 1 A_ZoomFactor(0.87);
+		TNT1 A 1 A_ZoomFactor(0.90);
+		TNT1 A 1 A_ZoomFactor(0.93);
+		TNT1 A 1 A_ZoomFactor(0.96);
+		TNT1 A 1 A_ZoomFactor(0.97);
+		TNT1 A 1 A_ZoomFactor(0.99);
+		TNT1 A 1 A_ZoomFactor(1);
+		Stop;
+		
+ 	Spawn:
+		XREV A -1;
+		Stop;
+	}
+}
+
+Class FuncRevolverPuff : HC_BulletPuff
+{	
+	Default
+	{
+		//ProjectileKickback 500;
+		+EXTREMEDEATH
+		-NOEXTREMEDEATH
+	}
+}
+
+Class RevolverPuff : HC_BulletPuff
+{	
+	Default
+	{
+		+NOBLOCKMAP
+		+NOGRAVITY
+		+ALLOWPARTICLES
+		+RANDOMIZE
+		+ZDOOMTRANS
+		+ROLLSPRITE
+		+FORCEXYBILLBOARD
+		Decal "PlasmaScorchLower";
+		Renderstyle "Add";
+		radius 2;
+		Height 2;
+		Scale 0.7;
+	}
+			States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0
+		{
+			for (int i = random(20,30); i > 0; i--)
+			{
+				A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-3,3),frandom(-3,3),frandom(-3,3));
+			}
+		}
+		
+		TNT1 A 0 A_StartSound("BulletImpactLarge",0,CHANF_DEFAULT,0.6);
+		
+		TNT1 AAAAA 0 A_SpawnItemEx("HC_PuffParticlesBase",0,0,0,frandom(-10,10),frandom(-10,10),frandom(-10,10));
+		TNT1 AAAA 0 A_SpawnItemEx("HC_PuffParticlesBig",0,0,0,frandom(-15,15),frandom(-15,15),frandom(-15,15));
+		TNT1 AA 0 A_SpawnItemEx("HC_PuffParticlesHUGE",0,0,0,frandom(-10,10),frandom(-10,10),frandom(-10,10));
+		
+		TNT1 A 0 A_SetRoll(random(0,359));
+		PUFB ABCDEF 1 Bright;
+		Stop;
+	}
+}
+
+Class RevolverTrail : Actor
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-3,3),frandom(-3,3),frandom(-3,3));
+	Stop;
+	}
+}

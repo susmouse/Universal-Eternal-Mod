@@ -1,0 +1,79 @@
+map TITLEMAP "Titlemap"
+{
+	Music = "HC_Theme.ogg"
+	sky1 = DestSky
+}
+
+gameinfo {
+	playerclasses = "HellCrusher"
+	
+	StatusbarClass = "HellCrusherHUD"
+	
+	AddEventHandlers = "HC_DebrisNumberControl","HC_FXControl","StepEventHandler","HC_MonsterKills_BP","HC_MonsterKills_CF","HC_OwwIndicator"
+
+	quitmessages =	"Cancel contract? Termination will follow...",
+					"Exit helmet cam?",
+					"Devil's Cry will miss you if you leave :("
+}
+
+DoomEdNums
+{
+	30001 = FearsEnd
+	30002 = ApocalypseKiller
+	30003 = PlasmaticLance
+	30004 = HeliosCannon
+	30100 = bulletcasingMenuSpiller
+}
+
+clearskills
+
+skill baby
+{
+   name = "I'm Too Young To Die."
+   SpawnFilter = Baby
+   Key = 1
+   Textcolor = Cyan
+   AutoUseHealth
+   EasyBossBrain
+   EasyKey
+}
+
+skill easy
+{
+   name = "Hey, not to rough."
+   SpawnFilter = easy
+   Key = 2
+   Textcolor = Green
+   EasyKey
+}
+
+skill normal
+{
+   name = "Hurt me plenty."
+   SpawnFilter = normal
+   Key = 3
+   Textcolor = Yellow
+   EasyKey
+}
+
+skill hard
+{
+   name = "Ultra-Violence."
+   SpawnFilter = hard
+   Key = 4
+   Textcolor = Gold
+   DefaultSkill
+   EasyKey
+}
+
+skill nightmare
+{
+   name = "Nightmare!"
+   RespawnTime = 12
+   SpawnFilter = Nightmare
+   MustConfirm = "Are you sure? No, I know you're sure."
+   Key = 5
+   Textcolor = Orange
+   FastMonsters
+   EasyKey
+}

@@ -1,0 +1,925 @@
+//Don't look at this... it hurts, just how much of a mess this is...
+Class FearsEnd : HellCrusherW
+{
+
+	Double VRecoil, HRecoil;
+	Bool TurretMode;
+
+	Default {
+	Weapon.BobRangeX 0.2;//0.5;
+	Weapon.BobRangeY 0.4;//0.3;
+	
+	Weapon.SelectionOrder 700;
+	Weapon.AmmoUse 1;
+	Weapon.AmmoGive 10; //20; //50
+	Weapon.AmmoType "HC_Magazine";
+	Inventory.PickupMessage "You got the Fear's End Minigun! Drown them in an ocean of lead!";
+	Inventory.PickupSound "ChaingunGet";
+	Obituary "$OB_MPCHAINGUN"; // "%o was mowed down by %k's chaingun."
+	Tag "Fear's End";
+
+	+WEAPON.NOALERT
+	}
+	States
+	{
+
+	Spawn:
+		CHNG A 1;
+		TNT1 A 0 A_Jump(256,"Spawn1","Spawn2");
+
+	Spawn1:
+		CHNG A -1;
+		Stop;
+
+	Spawn2:
+		CHNG B -1;
+		Stop;
+
+	Ready:
+		TNT1 A 0 A_SetCrosshair(52);
+		TNT1 A 0 {invoker.TurretMode = false;}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		CHGN D 1 A_WeaponReady;
+		Loop;
+
+	Ready3:
+		TNT1 A 1 A_Jump(255, "Ready3");
+
+	Select:
+		TNT1 A 0 A_SetCrosshair(52);
+		TNT1 A 0 A_StartSound("ChaingunSelect",CHAN_6,0,1);
+		TNT1 A 0 A_ZoomFactor(1);
+		CHGN ABC 1 {A_WeaponReady(WRF_NOFIRE);	A_OverlayRotate(0,0);	A_WeaponOffset(0,32);}
+		Goto Ready;
+	
+	Deselect:
+		TNT1 A 0 A_ZoomFactor(1);
+		TNT1 A 0 A_Jumpif((invoker.TurretMode == true),"TurretDeselect");
+		TNT1 A 0 {invoker.TurretMode = false;}
+		TNT1 A 0 A_Stopsound(CHAN_7);
+		TNT1 A 0 A_Stopsound(CHAN_5);
+		TNT1 A 0 A_Stopsound(CHAN_WEAPON);
+		TNT1 A 0 A_Stopsound(CHAN_BODY);
+		CHGN CBA 1 Offset(0,32);
+		TNT1 A 0 A_Lower;
+		Wait;
+		
+	DeselectQuickMelee:
+		TNT1 A 0 A_ZoomFactor(1);
+		TNT1 A 0 A_Jumpif((invoker.TurretMode == true),"QuickTurretDeselect");
+		TNT1 A 0 {invoker.TurretMode = false;}
+		TNT1 A 0 A_Stopsound(CHAN_7);
+		TNT1 A 0 A_Stopsound(CHAN_5);
+		TNT1 A 0 A_Stopsound(CHAN_WEAPON);
+		TNT1 A 0 A_Stopsound(CHAN_BODY);
+		CHGN CA 1 Offset(0,32);
+		Goto QuickMeleeStart;
+
+	TurretDeselect:
+		TNT1 A 0 A_ClearOverlays;
+		TNT1 A 0 {invoker.TurretMode = false;}
+		TNT1 A 0 A_Stopsound(CHAN_7);
+		TNT1 A 0 A_Stopsound(CHAN_5);
+		TNT1 A 0 A_Stopsound(CHAN_WEAPON);
+		TNT1 A 0 A_Stopsound(CHAN_BODY);
+		XCGD ABC 1 Offset(0,32);
+		TNT1 A 0 A_Lower;
+		Wait;
+		
+	QuickTurretDeselect:
+		TNT1 A 0 A_ClearOverlays;
+		TNT1 A 0 {invoker.TurretMode = false;}
+		TNT1 A 0 A_Stopsound(CHAN_7);
+		TNT1 A 0 A_Stopsound(CHAN_5);
+		TNT1 A 0 A_Stopsound(CHAN_WEAPON);
+		TNT1 A 0 A_Stopsound(CHAN_BODY);
+		XCGD AC 1 Offset(0,32);
+		TNT1 A 0 A_Lower;
+		Goto QuickMeleeStart;
+
+	Feel:
+		TNT1 A 0 A_QuakeEx(1,1,1,6,0,100,"*");
+		TNT1 A 1 A_ZoomFactor(frandom(0.96,0.97));
+		TNT1 A 1 A_ZoomFactor(0.97);
+		TNT1 A 1 A_ZoomFactor(0.98);
+		TNT1 A 1 A_ZoomFactor(0.99);
+		TNT1 A 1 A_ZoomFactor(0.99);
+		TNT1 A 1 A_ZoomFactor(1);
+		Stop;
+
+
+	Fire:
+		TNT1 A 0 A_Jumpif((invoker.TurretMode == true),"TurretFire");
+		TNT1 A 0 A_ZoomFactor(0.90);
+		
+		//TNT1 A 0 {Invoker.VRecoil = 0.35;} //Recoiltest
+		//TNT1 A 0 {Invoker.HRecoil = 0.15;} //Recoiltest
+
+	StartFire:
+		TNT1 A 0 A_StartSound("ChaingunShoot",CHAN_6,0,1);
+		TNT1 A 0 A_StartSound("ChaingunFireLoop2",CHAN_7,CHANF_LOOP,.9);
+		TNT1 A 0 A_StartSound("ChaingunFireLoop",CHAN_5,CHANF_LOOP,1);
+
+	StartFire1:
+		TNT1 A 0 A_Overlay(-5,"Shoot");
+		CHGN H 1 A_WeaponOffset(Random(-1,1),Random(36,42),WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("StartFire2");
+		Goto SpindownALT2;
+
+	StartFire2:
+		TNT1 A 0 A_Overlay(-5,"Shoot");
+		CHGN I 1 A_WeaponOffset(Random(-1,1),Random(38,46),WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("StartFire3");
+		Goto Spindown3;
+
+	StartFire3:
+		TNT1 A 0 A_Overlay(-5,"Shoot");
+		CHGN J 1 A_WeaponOffset(Random(-1,1),Random(42,47),WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("StartFire4");
+		Goto Spindown4;
+
+	StartFire4:
+		TNT1 A 0 A_Overlay(-5,"Shoot");
+		CHGN K 1 A_WeaponOffset(Random(-1,1),Random(45,49),WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("FullFire");
+		Goto Spindown;
+
+	FullFire:
+
+	FullFire1:
+		TNT1 A 0 A_Overlay(-5,"Shoot");
+		CHGN H 1 A_WeaponOffset(Random(-1,1),Random(45,49),WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("FullFire2");
+		Goto Spindown2;
+	FullFire2:
+		TNT1 A 0 A_Overlay(-5,"Shoot");
+		CHGN I 1 A_WeaponOffset(Random(-1,1),Random(45,49),WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("FullFire3");
+		Goto Spindown3;
+	FullFire3:
+		TNT1 A 0 A_Overlay(-5,"Shoot");
+		CHGN J 1 A_WeaponOffset(Random(-1,1),Random(45,49),WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("FullFire4");
+		Goto Spindown4;
+	FullFire4:
+		TNT1 A 0 A_Overlay(-5,"Shoot");
+		CHGN K 1 A_WeaponOffset(Random(-1,1),Random(45,49),WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("FullFire");
+		Goto Spindown;
+
+	Spindown:
+
+	Spindown1:
+		TNT1 A 0 A_StartSound("ChaingunShoot",CHAN_5,0,.8);
+		CHGN D 1 A_WeaponOffset(Random(-1,1),Random(43,47),WOF_INTERPOLATE);
+		CHGN E 1 A_WeaponOffset(Random(-1,1),Random(38,45),WOF_INTERPOLATE);
+		CHGN F 1 A_WeaponOffset(Random(-1,1),Random(36,40),WOF_INTERPOLATE);
+		CHGN G 1 A_WeaponOffset(Random(-1,1),Random(32,36),WOF_INTERPOLATE);
+		TNT1 A 0 A_StartSound("ChaingunClunk",CHAN_7,0,.8);
+		Goto Ready;
+
+	Spindown2:
+		TNT1 A 0 A_StartSound("ChaingunShoot",CHAN_5,0,.8);
+		CHGN E 1 A_WeaponOffset(Random(-1,1),Random(38,45),WOF_INTERPOLATE);
+		CHGN F 1 A_WeaponOffset(Random(-1,1),Random(36,40),WOF_INTERPOLATE);
+		CHGN G 1 A_WeaponOffset(Random(-1,1),Random(32,36),WOF_INTERPOLATE);
+		TNT1 A 0 A_StartSound("ChaingunClunk",CHAN_7,0,.8);
+		Goto Ready;
+
+	Spindown3:
+		TNT1 A 0 A_StartSound("ChaingunShoot",CHAN_5,0,.8);
+		CHGN F 1 A_WeaponOffset(Random(-1,1),Random(36,40),WOF_INTERPOLATE);
+		CHGN G 1 A_WeaponOffset(Random(-1,1),Random(32,36),WOF_INTERPOLATE);
+		TNT1 A 0 A_StartSound("ChaingunClunk",CHAN_7,0,.8);
+		Goto Ready;
+
+	Spindown4:
+		TNT1 A 0 A_StartSound("ChaingunShoot",CHAN_5,0,.8);
+		CHGN G 1 A_WeaponOffset(Random(-1,1),Random(32,36),WOF_INTERPOLATE);
+		TNT1 A 0 A_StartSound("ChaingunClunk",CHAN_7,0,.8);
+		Goto Ready;
+
+
+	SpindownALT2:
+		TNT1 A 0 A_StartSound("ChaingunShoot",CHAN_5,0,.8);
+		//CHGN D 1 A_WeaponOffset(Random(-1,1),Random(32,36),WOF_INTERPOLATE);
+		CHGN E 1 A_WeaponOffset(Random(-1,1),Random(32,35),WOF_INTERPOLATE);
+		CHGN F 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		CHGN G 1 A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);
+		TNT1 A 0 A_StartSound("ChaingunClunk",CHAN_7,0,.8);
+		Goto Ready;
+		//TNT1 A 0 A_StopSound(CHAN_5);
+
+	Shoot:
+		TNT1 A 0 A_JumpIf(CountInv("HC_PowerQuadDamage") == 0, 2);
+		TNT1 A 0 A_StartSound("QuadDamageShot",CHAN_ITEM,0,.7);
+		TNT1 A 0 A_Overlay(-15,"Recoil");
+		TNT1 A 0 A_Overlay(5,"Feel");
+		TNT1 A 0 A_FireProjectile("HC_SmallTracer", frandom(-3.6,3.6), false, 0, 0, FPF_NOAUTOAIM, frandom(-3.6,3.6));
+		TNT1 A 0 A_FireBullets (3.6, 3.6, -1, 30, "MinigunPuff",FBF_NORANDOM|FBF_USEAMMO);
+											//15
+		TNT1 A 0 A_FireProjectile("chaingunbulletcasingspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+		TNT1 A 0 A_AlertMonsters;
+		Stop;
+
+/*
+	Recoil:
+		TNT1 A 0 {Invoker.VRecoil = Invoker.VRecoil/1.05;}
+		TNT1 A 0 {Invoker.HRecoil = Invoker.HRecoil/1.025;}
+		TNT1 A 0 A_SetPitch(Pitch-invoker.VRecoil);
+		TNT1 A 0 A_SetAngle(angle+(Frandom(-invoker.HRecoil,invoker.HRecoil)),SPF_INTERPOLATE);
+		TNT1 A 1;
+		//TNT1 A 0 A_JumpIf((invoker.buttons & BT_ATTACK),"Recoil");//{if (invoker.buttons & BT_ATTACK) A_Jump(256,"Recoil");}
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS) & BT_ATTACK, "Recoil");
+		
+	RecoilEnd:
+		TNT1 A 1;
+		TNT1 A 1 A_SetPitch(Pitch+0.5);
+		TNT1 A 1 A_SetPitch(Pitch+0.5);
+		TNT1 A 1 A_SetPitch(Pitch+0.25);
+		TNT1 A 1 A_SetPitch(Pitch+0.25);
+		TNT1 A 1 A_SetPitch(Pitch+0.15);
+		TNT1 A 1 A_SetPitch(Pitch+0.1);
+		Stop;
+*/
+	
+
+
+
+
+
+
+
+
+	TurretFire:
+		//TNT1 A 0 {Invoker.VRecoil = 0.75;} //Recoiltest
+		//TNT1 A 0 {Invoker.HRecoil = 0.5;} //Recoiltest
+	
+		TNT1 A 0 A_StartSound("ChaingunShoot",CHAN_6,0,1);
+		
+		TNT1 A 0 A_StartSound("ChaingunFireLoop",CHAN_5,CHANF_LOOP,1);
+		TNT1 A 0 A_StartSound("ChaingunFireLoop2",CHAN_7,CHANF_LOOP,1); 
+		TNT1 A 0 A_StartSound("ChaingunFireLoop3",CHAN_WEAPON,CHANF_LOOP,1); 
+		TNT1 A 0 A_StartSound("ChaingunFireLoop4",CHAN_BODY,CHANF_LOOP,1); 
+
+
+
+
+	TurretFireFull:
+		TNT1 A 0 {A_Overlay(-3,"Handdownlooplong"); A_Overlay(-4,"RightBBS"); A_Overlay(-6,"LeftBBS"); A_Overlay(-9,"RightSBS"); A_Overlay(-10,"LeftSBS");}
+		TNT1 A 0 A_Overlay(-5,"TurretShoot");
+		XACG E 1  A_WeaponOffset(Random(-1,1),Random(47,50),WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("TurretFireFull1");
+		Goto TurretStop2;
+
+	TurretFireFull1:
+		TNT1 A 0 A_Overlay(-5,"TurretShoot");
+		XACG F 1  A_WeaponOffset(Random(-1,1),Random(47,50),WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("TurretFireFull2");
+		Goto TurretStop3;
+
+
+	TurretFireFull2:
+		TNT1 A 0 A_Overlay(-5,"TurretShoot");
+		XACG G 1  A_WeaponOffset(Random(-1,1),Random(47,50),WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("TurretFireFull3");
+		Goto TurretStop4;
+
+	TurretFireFull3:
+		TNT1 A 0 A_Overlay(-5,"TurretShoot");
+		XACG H 1  A_WeaponOffset(Random(-1,1),Random(47,50),WOF_INTERPOLATE);
+		TNT1 A 0 A_Refire("TurretFireFull");
+		TNT1 A 0 A_StartSound("ChaingunShoot",CHAN_5,0,.8);
+		TNT1 A 0 A_Stopsound(CHAN_WEAPON);
+		TNT1 A 0 A_Stopsound(CHAN_BODY);
+		TNT1 A 0 A_StartSound("ChaingunClunk",CHAN_7,0,.8);
+		Goto TurretReady;
+
+	/*
+	TurretStop1:
+		TNT1 A 0 {A_Overlay(-3,"Handdownlooplong"); A_Overlay(-4,"SpinBR"); A_Overlay(-6,"SpinBL"); A_Overlay(-9,"SpinSR"); A_Overlay(-10,"SpinSL");}
+		XACG A 1 A_WeaponOffset(Random(-1,1),Random(43,47),WOF_INTERPOLATE);
+		XACG B 1 A_WeaponOffset(Random(-1,1),Random(38,45),WOF_INTERPOLATE);
+		XACG C 1 A_WeaponOffset(Random(-1,1),Random(36,40),WOF_INTERPOLATE);
+		XACG D 1 A_WeaponOffset(Random(-1,1),Random(32,36),WOF_INTERPOLATE);
+		Goto TurretReady;
+		*/
+
+	TurretStop2:
+		TNT1 A 0 A_Stopsound(CHAN_7);
+		TNT1 A 0 A_Stopsound(CHAN_WEAPON);
+		TNT1 A 0 A_Stopsound(CHAN_BODY);
+		
+		TNT1 A 0 A_StartSound("ChaingunShoot",CHAN_5,0,.8);
+		TNT1 A 0 {A_Overlay(-3,"Handdownlooplong"); A_Overlay(-4,"SpinBR1"); A_Overlay(-6,"SpinBL1"); A_Overlay(-9,"SpinSR1"); A_Overlay(-10,"SpinSL1");}
+		XACG B 1 A_WeaponOffset(Random(-1,1),Random(47,50),WOF_INTERPOLATE);
+		XACG C 1 A_WeaponOffset(Random(-1,1),Random(47,50),WOF_INTERPOLATE);
+		XACG D 1 A_WeaponOffset(Random(-1,1),Random(47,50),WOF_INTERPOLATE);
+		TNT1 A 0 A_StartSound("ChaingunClunk",CHAN_7,0,.8);
+		Goto TurretReady;
+
+
+	TurretStop3:
+		TNT1 A 0 A_Stopsound(CHAN_7);
+		TNT1 A 0 A_Stopsound(CHAN_WEAPON);
+		TNT1 A 0 A_Stopsound(CHAN_BODY);
+		
+		TNT1 A 0 A_StartSound("ChaingunShoot",CHAN_5,0,.8);
+		TNT1 A 0 {A_Overlay(-3,"Handdownlooplong"); A_Overlay(-4,"SpinBR2"); A_Overlay(-6,"SpinBL2"); A_Overlay(-9,"SpinSR2"); A_Overlay(-10,"SpinSL2");}
+		XACG C 1 A_WeaponOffset(Random(-1,1),Random(47,50),WOF_INTERPOLATE);
+		XACG D 1 A_WeaponOffset(Random(-1,1),Random(47,50),WOF_INTERPOLATE);
+		TNT1 A 0 A_StartSound("ChaingunClunk",CHAN_7,0,.8);
+		Goto TurretReady;
+
+
+	TurretStop4:
+		TNT1 A 0 A_Stopsound(CHAN_7);
+		TNT1 A 0 A_Stopsound(CHAN_WEAPON);
+		TNT1 A 0 A_Stopsound(CHAN_BODY);
+		
+		TNT1 A 0 A_StartSound("ChaingunShoot",CHAN_5,0,.8);
+		TNT1 A 0 {A_Overlay(-3,"Handdownlooplong"); A_Overlay(-4,"SpinBR3"); A_Overlay(-6,"SpinBL3"); A_Overlay(-9,"SpinSR3"); A_Overlay(-10,"SpinSL3");}
+		XACG D 1 A_WeaponOffset(Random(-1,1),Random(47,50),WOF_INTERPOLATE);
+		TNT1 A 0 A_StartSound("ChaingunClunk",CHAN_7,0,.8);
+		
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		
+		
+		Goto TurretReady;
+
+
+
+
+
+	TurretRecoil:
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		//TNT1 A 0 {invoker.TurretMode = True;}
+		//TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1 A_WeaponOffset(0,Random(46,49),WOF_INTERPOLATE);
+	
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		//TNT1 A 0 {invoker.TurretMode = True;}
+		//TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1 A_WeaponOffset(0,Random(46,49),WOF_INTERPOLATE);
+	
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		//TNT1 A 0 {invoker.TurretMode = True;}
+		//TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1 A_WeaponOffset(0,Random(45,48),WOF_INTERPOLATE);
+	
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		//TNT1 A 0 {invoker.TurretMode = True;}
+		//TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1 A_WeaponOffset(0,Random(43,47),WOF_INTERPOLATE);
+	
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		//TNT1 A 0 {invoker.TurretMode = True;}
+		//TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1 A_WeaponOffset(0,Random(40,46),WOF_INTERPOLATE);
+	
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		//TNT1 A 0 {invoker.TurretMode = True;}
+		//TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1 A_WeaponOffset(0,Random(38,44),WOF_INTERPOLATE);//
+	
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		//TNT1 A 0 {invoker.TurretMode = True;}
+		//TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1 A_WeaponOffset(0,Random(34,40),WOF_INTERPOLATE);//
+		
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		//TNT1 A 0 {invoker.TurretMode = True;}
+		//TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1 A_WeaponOffset(0,Random(32,37),WOF_INTERPOLATE);//
+		Goto TurretReady;
+
+
+	
+
+	TurretFeel:
+		TNT1 A 0 A_QuakeEx(2,2,2,15,0,100,"*");
+		TNT1 A 1 A_ZoomFactor(frandom(0.91,0.92));
+		TNT1 A 1 A_ZoomFactor(0.92);
+		TNT1 A 1 A_ZoomFactor(0.95);
+		TNT1 A 1 A_ZoomFactor(0.97);
+		TNT1 A 1 A_ZoomFactor(0.99);
+		TNT1 A 1 A_ZoomFactor(1);
+		Stop;
+
+
+
+	TurretShoot:
+		TNT1 A 0 A_AlertMonsters;
+		
+		//TNT1 A 0 A_Overlay(-15,"Recoil");
+		
+		TNT1 A 0 A_JumpIf(CountInv("HC_PowerQuadDamage") == 0, 2);
+		TNT1 A 0 A_StartSound("QuadDamageShot",CHAN_ITEM,0,.7);
+		
+		TNT1 A 0 A_Overlay(5,"TurretFeel");
+	
+		TNT1 AAAAA 0 A_FireProjectile("HC_SmallTracer", frandom(-6,6), false, 0, 0, FPF_NOAUTOAIM, frandom(-5,5));
+	
+		TNT1 A 0 A_FireBullets (6, 5, -1, 30, "TurretMinigunPuff",FBF_NORANDOM|FBF_USEAMMO);
+		TNT1 A 0 A_FireBullets (6, 5, -1, 30, "TurretMinigunPuff",FBF_NORANDOM|FBF_USEAMMO);
+		TNT1 A 0 A_FireBullets (6, 5, -1, 30, "TurretMinigunPuff",FBF_NORANDOM|FBF_USEAMMO);
+		TNT1 A 0 A_FireBullets (6, 5, -1, 30, "TurretMinigunPuff",FBF_NORANDOM|FBF_USEAMMO);
+		TNT1 A 0 A_FireBullets (6, 5, -1, 30, "TurretMinigunPuff",FBF_NORANDOM|FBF_USEAMMO);
+										//15
+		
+		TNT1 A 0 A_FireProjectile("CGTcasingspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+		TNT1 A 0 A_FireProjectile("CGTcasingspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+		TNT1 A 0 A_FireProjectile("CGTcasingspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+		TNT1 A 0 A_FireProjectile("CGTcasingspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+		TNT1 A 0 A_FireProjectile("CGTcasingspawner", 0,0,frandom(0.5,0.6),-1, FPF_NOAUTOAIM);
+		
+		TNT1 A 1 A_WeaponOffset(Random(-1,1),Random(47,50),WOF_INTERPOLATE);
+		TNT1 A 2 A_WeaponOffset(0,Random(46,49),WOF_INTERPOLATE);
+		TNT1 A 1 A_WeaponOffset(0,Random(45,48),WOF_INTERPOLATE);
+		TNT1 A 1 A_WeaponOffset(0,Random(44,47),WOF_INTERPOLATE);
+		TNT1 A 1 A_WeaponOffset(0,Random(43,47),WOF_INTERPOLATE);
+		TNT1 A 1 A_WeaponOffset(0,Random(42,47),WOF_INTERPOLATE);
+		TNT1 A 1 A_WeaponOffset(0,Random(41,46),WOF_INTERPOLATE);
+		TNT1 A 1 A_WeaponOffset(0,Random(40,46),WOF_INTERPOLATE);
+		TNT1 A 1 A_WeaponOffset(0,Random(38,44),WOF_INTERPOLATE);
+		TNT1 A 1 A_WeaponOffset(0,Random(34,40),WOF_INTERPOLATE);
+		TNT1 A 1 A_WeaponOffset(0,Random(32,37),WOF_INTERPOLATE);
+		
+		
+		Stop;
+
+
+
+///////////////////////////////Turret Spin
+
+	SpinSR:
+		XCSR C 1;
+
+	SpinSR1:
+		XCSR D 1;
+
+	SpinSR2:
+		XCSR E 1;
+
+	SpinSR3:
+		XCSR F 1;
+		Stop;
+
+
+
+	SpinSL:
+		XCSL C 1;
+
+	SpinSL1:
+		XCSL D 1;
+
+	SpinSL2:
+		XCSL E 1;
+
+	SpinSL3:
+		XCSL F 1;
+		Stop;
+
+
+
+	SpinBR:
+		XCBR A 1;
+
+	SpinBR1:
+		XCBR B 1;
+
+	SpinBR2:
+		XCBR C 1;
+
+	SpinBR3:
+		XCBR D 1;
+		Stop;
+
+
+
+	SpinBL:
+		XCBL A 1;
+
+	SpinBL1:
+		XCBL B 1;
+
+	SpinBL2:
+		XCBL C 1;
+
+	SpinBL3:
+		XCBL D 1;
+		Stop;
+
+
+///////////////////////////////Turret Fire Overlays
+
+
+	RightSBS:
+		TNT1 A 0 A_Overlay(-19,"RightSBSFlash");
+		XCSR G 1;
+		TNT1 A 0 A_Overlay(-19,"RightSBSFlash");
+		XCSR H 1;
+		TNT1 A 0 A_Overlay(-19,"RightSBSFlash");
+		XCSR I 1;
+		TNT1 A 0 A_Overlay(-19,"RightSBSFlash");
+		XCSR J 1;
+		Stop;
+
+	RightSBSFlash:
+		XSFR A 1 BRIGHT {A_OverlayPivotAlign(-19,PSPA_CENTER,PSPA_CENTER); A_OverlayScale(-19,frandom(0.8,1.1)); A_OverlayRotate(-19,random(0,360));}
+		Stop;
+
+	LeftSBS:
+		TNT1 A 0 A_Overlay(-18,"LeftSBSFlash");
+		XCSL G 1;
+		TNT1 A 0 A_Overlay(-18,"LeftSBSFlash");
+		XCSL H 1;
+		TNT1 A 0 A_Overlay(-18,"LeftSBSFlash");
+		XCSL I 1;
+		TNT1 A 0 A_Overlay(-18,"LeftSBSFlash");
+		XCSL J 1;
+		Stop;
+
+	LeftSBSFlash:
+		XSFL A 1 BRIGHT {A_OverlayPivotAlign(-18,PSPA_CENTER,PSPA_CENTER); A_OverlayScale(-18,frandom(0.8,1.1)); A_OverlayRotate(-18,random(0,360));}
+		Stop;
+
+	RightBBS:
+		TNT1 A 0 A_Overlay(-20,"RightBBSFlash");
+		XCBR E 1;
+		TNT1 A 0 A_Overlay(-20,"RightBBSFlash");
+		XCBR F 1;
+		TNT1 A 0 A_Overlay(-20,"RightBBSFlash");
+		XCBR G 1;
+		TNT1 A 0 A_Overlay(-20,"RightBBSFlash");
+		XCBR H 1;
+		Stop;
+
+	RightBBSFlash:
+		XBFR B 1 BRIGHT {A_OverlayPivotAlign(-20,PSPA_CENTER,PSPA_CENTER); A_OverlayScale(-20,frandom(0.8,1.1)); A_OverlayRotate(-20,random(0,360));}
+		Stop;
+
+
+	LeftBBS:
+		TNT1 A 0 A_Overlay(-21,"LeftBBSFlash");
+		XCBL E 1;
+		TNT1 A 0 A_Overlay(-21,"LeftBBSFlash");
+		XCBL F 1;
+		TNT1 A 0 A_Overlay(-21,"LeftBBSFlash");
+		XCBL G 1;
+		TNT1 A 0 A_Overlay(-21,"LeftBBSFlash");
+		XCBL H 1;
+		Stop;
+	
+	LeftBBSFlash:
+		XBFL B 1 BRIGHT {A_OverlayPivotAlign(-21,PSPA_CENTER,PSPA_CENTER); A_OverlayScale(-21,frandom(0.8,1.1)); A_OverlayRotate(-21,random(0,360));}
+		Stop;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	Altfire:				//GOD MULCHER
+		TNT1 A 0 A_Jumpif((invoker.TurretMode == true),"TurretReady");
+
+		TNT1 A 0 A_Overlay(-3,"Pull");
+		XACG A 1 A_WeaponOffset(0,Random(32,33),WOF_INTERPOLATE);
+		XACG A 1 A_WeaponOffset(0,Random(35,37),WOF_INTERPOLATE);
+		XACG A 1 A_WeaponOffset(0,Random(37,39),WOF_INTERPOLATE);
+		XACG A 1 A_WeaponOffset(0,Random(40,44),WOF_INTERPOLATE);
+		XACG A 1 A_WeaponOffset(0,Random(41,44),WOF_INTERPOLATE);
+
+		XACG A 1 A_WeaponOffset(0,Random(41,44),WOF_INTERPOLATE);
+		XACG A 1 A_WeaponOffset(0,Random(40,42),WOF_INTERPOLATE);
+		XACG A 1 A_WeaponOffset(0,Random(37,38),WOF_INTERPOLATE);
+		XACG A 1 A_WeaponOffset(0,Random(35,37),WOF_INTERPOLATE);
+		XACG A 1 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+
+		TNT1 A 0 {A_Overlay(-4,"RightBBUp"); 					A_Overlay(-6,"LeftBBUp");}
+		XACG A 1 {A_OverlayOffset(-4,30,60); 					A_OverlayOffset(-6,-30,60);}
+		XACG A 1 {A_OverlayOffset(-4,-4,-12,WOF_ADD);			A_OverlayOffset(-6,4,-12,WOF_ADD);}
+		XACG A 1 {A_OverlayOffset(-4,-4,-8,WOF_ADD);			A_OverlayOffset(-6,4,-8,WOF_ADD);}
+		XACG A 1 {A_OverlayOffset(-4,-4,-6,WOF_ADD); 			A_OverlayOffset(-6,4,-6,WOF_ADD);}
+		XACG A 1 {A_OverlayOffset(-4,-3,-6,WOF_ADD); 			A_OverlayOffset(-6,3,-6,WOF_ADD);}
+
+		TNT1 A 0 A_StartSound("ChaingunTurretOpen",CHAN_WEAPON,0,1);
+
+		XACG A 1 {A_OverlayOffset(-4,-3,-6,WOF_ADD); 			A_OverlayOffset(-6,3,-6,WOF_ADD);}
+		XACG A 1 {A_OverlayOffset(-4,-3,-6,WOF_ADD); 			A_OverlayOffset(-6,3,-6,WOF_ADD);}
+		XACG A 1 {A_OverlayOffset(-4,-2,-6,WOF_ADD); 			A_OverlayOffset(-6,2,-6,WOF_ADD);			A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+		XACG A 1 {A_OverlayOffset(-4,-2,-6,WOF_ADD);			A_OverlayOffset(-6,2,-6,WOF_ADD);			A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+		XACG A 1 {A_OverlayOffset(-4,0,0,WOF_INTERPOLATE);		A_OverlayOffset(-6,0,0,WOF_INTERPOLATE);	A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+
+		TNT1 A 0 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+
+
+		TNT1 A 0 {A_Overlay(-4,"RightBBUp"); 					A_Overlay(-6,"LeftBBUp");}
+		TNT1 A 0 A_Overlay(-3,"Handdownlooplong");
+		TNT1 A 0 {A_Overlay(-7,"RightNUp"); 					A_Overlay(-8,"LeftNUp");}
+
+		XACG A 1 {A_OverlayOffset(-7,-40,40);					A_OverlayOffset(-8,40,40);}
+		XACG A 1 {A_OverlayOffset(-7,5,-4,WOF_ADD);			A_OverlayOffset(-8,-5,-4,WOF_ADD);}
+		XACG A 1 {A_OverlayOffset(-7,5,-4,WOF_ADD);			A_OverlayOffset(-8,-5,-4,WOF_ADD);}
+		XACG A 1 {A_OverlayOffset(-7,5,-4,WOF_ADD);			A_OverlayOffset(-8,-5,-4,WOF_ADD);}
+		XACG A 1 {A_OverlayOffset(-7,5,-4,WOF_ADD);			A_OverlayOffset(-8,-5,-4,WOF_ADD);}
+		XACG A 1 {A_OverlayOffset(-7,5,-4,WOF_ADD);			A_OverlayOffset(-8,-5,-4,WOF_ADD);}
+		XACG A 1 {A_OverlayOffset(-7,5,-4,WOF_ADD);			A_OverlayOffset(-8,-5,-4,WOF_ADD);}
+		XACG A 1 {A_OverlayOffset(-7,5,-4,WOF_ADD);			A_OverlayOffset(-8,-5,-4,WOF_ADD);			A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+		XACG A 1 {A_OverlayOffset(-7,5,-4,WOF_ADD);			A_OverlayOffset(-8,-5,-4,WOF_ADD);			A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+		XACG A 1 {A_OverlayOffset(-7,0,0,WOF_INTERPOLATE);		A_OverlayOffset(-8,0,0,WOF_INTERPOLATE);	A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+
+		TNT1 A 0 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+
+		TNT1 A 0 {A_Overlay(-4,"RightBBUp"); 					A_Overlay(-6,"LeftBBUp");}
+		TNT1 A 0 {A_Overlay(-7,"RightNUp"); 					A_Overlay(-8,"LeftNUp");}
+		TNT1 A 0 A_Overlay(-3,"Handdownlooplong");
+		TNT1 A 0 {A_Overlay(-9,"RightSB"); 					A_Overlay(-10,"LeftSB");}
+
+		XACG A 1 {A_OverlayOffset(-9,20,30);					A_OverlayOffset(-10,-20,30);}
+		XACG A 1 {A_OverlayOffset(-9,-5,-7,WOF_ADD);			A_OverlayOffset(-10,5,-7,WOF_ADD);}
+		XACG A 1 {A_OverlayOffset(-9,-5,-7,WOF_ADD);			A_OverlayOffset(-10,5,-7,WOF_ADD);			A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+		XACG A 1 {A_OverlayOffset(-9,-5,-7,WOF_ADD);			A_OverlayOffset(-10,5,-7,WOF_ADD);			A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+
+		TNT1 A 0 A_StartSound("ChaingunTurretBarrelsOut",CHAN_5,0,1);
+
+		XACG A 1 {A_OverlayOffset(-9,0,0,WOF_INTERPOLATE);		A_OverlayOffset(-10,0,0,WOF_INTERPOLATE);	A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+
+
+
+	TurretReady:
+		TNT1 A 0 A_SetCrosshair(52);
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		TNT1 A 0 {invoker.TurretMode = True;}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1; //A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		TNT1 A 0 {invoker.TurretMode = True;}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1; //A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		TNT1 A 0 {invoker.TurretMode = True;}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1; //A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		TNT1 A 0 {invoker.TurretMode = True;}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1; //A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		TNT1 A 0 {invoker.TurretMode = True;}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1; //A_WeaponOffset(0,32,WOF_INTERPOLATE);
+
+		TNT1 A 0 {A_Overlay(-3,"Handdownloop"); A_Overlay(-4,"RightBBI"); A_Overlay(-6,"LeftBBI"); A_Overlay(-7,"RightSBI"); A_Overlay(-8,"LeftSBI");}
+		TNT1 A 0 {invoker.TurretMode = True;}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB);
+		XACG A 1; //A_WeaponOffset(0,32,WOF_INTERPOLATE);
+
+		TNT1 A 0 A_Refire("TurretReady");
+
+
+
+
+
+		TNT1 A 0 {A_Overlay(-4,"RightBBUp"); 					A_Overlay(-6,"LeftBBUp");}
+		TNT1 A 0 {A_Overlay(-7,"RightNUp"); 					A_Overlay(-8,"LeftNUp");}
+		TNT1 A 0 {A_Overlay(-9,"RightSB"); 					A_Overlay(-10,"LeftSB");}
+
+		TNT1 A 0 A_Overlay(-3,"Push");
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_Overlay(-4,"RightBBUp"); 					A_Overlay(-6,"LeftBBUp");}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_Overlay(-4,"RightBBUp"); 					A_Overlay(-6,"LeftBBUp");}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_Overlay(-4,"RightBBUp"); 					A_Overlay(-6,"LeftBBUp");}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_Overlay(-4,"RightBBUp"); 					A_Overlay(-6,"LeftBBUp");}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_Overlay(-4,"RightBBUp"); 					A_Overlay(-6,"LeftBBUp");}
+		TNT1 A 0 A_Overlay(-3,"PushWait");
+
+		TNT1 A 0 A_StartSound("ChaingunTurretClose",CHAN_WEAPON,0,1);
+
+		TNT1 A 0 {A_Overlay(-4,"RightBBUp"); 					A_Overlay(-6,"LeftBBUp");}
+		TNT1 A 0 {A_Overlay(-7,"RightNUp"); 					A_Overlay(-8,"LeftNUp");}
+		TNT1 A 0 {A_Overlay(-9,"RightSB"); 					A_Overlay(-10,"LeftSB");}
+
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-9,0,0);						A_OverlayOffset(-10,0,0);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-9,5,7,WOF_ADD);				A_OverlayOffset(-10,-5,7,WOF_ADD);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-9,5,7,WOF_ADD);				A_OverlayOffset(-10,-5,7,WOF_ADD);				A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-9,5,7,WOF_ADD);				A_OverlayOffset(-10,-5,7,WOF_ADD); 				A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+		
+		TNT1 A 0 A_StartSound("ChaingunTurretBarrelsOut",CHAN_5,0,1);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-9,20,30,WOF_INTERPOLATE);	A_OverlayOffset(-10,-20,30,WOF_INTERPOLATE); 	A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+
+		TNT1 A 0 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		TNT1 A 0 {A_Overlay(-4,"RightBBUp"); 					A_Overlay(-6,"LeftBBUp");}
+
+		TNT1 A 0 {A_Overlay(-7,"RightNUp"); 					A_Overlay(-8,"LeftNUp");}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-7,0,0);						A_OverlayOffset(-8,0,0);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-7,-5,4,WOF_ADD);			A_OverlayOffset(-8,5,4,WOF_ADD);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-7,-5,4,WOF_ADD);			A_OverlayOffset(-8,5,4,WOF_ADD);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-7,-5,4,WOF_ADD);			A_OverlayOffset(-8,5,4,WOF_ADD);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-7,-5,4,WOF_ADD);			A_OverlayOffset(-8,5,4,WOF_ADD);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-7,-5,4,WOF_ADD);			A_OverlayOffset(-8,5,4,WOF_ADD);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-7,-5,4,WOF_ADD);			A_OverlayOffset(-8,5,4,WOF_ADD);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-7,-5,4,WOF_ADD);			A_OverlayOffset(-8,5,4,WOF_ADD);				A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-7,-5,4,WOF_ADD);			A_OverlayOffset(-8,5,4,WOF_ADD);				A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-7,-40,40,WOF_INTERPOLATE);	A_OverlayOffset(-8,40,40,WOF_INTERPOLATE); 		A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+		TNT1 A 0 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		TNT1 A 0 A_Overlay(-3,"PushWait");
+		
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		TNT1 A 0 {A_Overlay(-4,"RightBBUp"); 						A_Overlay(-6,"LeftBBUp");}
+		XACG A 1 {A_OverlayOffset(-4,0,0); 						A_OverlayOffset(-6,0,0);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-4,4,12,WOF_ADD);				A_OverlayOffset(-6,-4,12,WOF_ADD);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-4,4,8,WOF_ADD);					A_OverlayOffset(-6,-4,8,WOF_ADD);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-4,4,6,WOF_ADD); 				A_OverlayOffset(-6,-4,6,WOF_ADD);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-4,3,6,WOF_ADD); 				A_OverlayOffset(-6,-3,6,WOF_ADD);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-4,3,6,WOF_ADD); 				A_OverlayOffset(-6,-3,6,WOF_ADD);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-4,3,6,WOF_ADD); 				A_OverlayOffset(-6,-3,6,WOF_ADD);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-4,2,6,WOF_ADD); 				A_OverlayOffset(-6,-2,6,WOF_ADD);			A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-4,2,6,WOF_ADD);					A_OverlayOffset(-6,-2,6,WOF_ADD);			A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		XACG A 1 {A_OverlayOffset(-4,30,60,WOF_INTERPOLATE);		A_OverlayOffset(-6,-30,60,WOF_INTERPOLATE);	A_WeaponOffset(Random(-1,1),Random(32,33),WOF_INTERPOLATE);}
+
+		TNT1 A 0 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		//TNT1 A 0 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XACG A 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XACG A 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XACG A 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XACG A 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		TNT1 A 0 A_JumpIfInventory("Quick_Melee_Token",1,"DeselectQuickMelee");
+		XACG A 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+		Goto Ready;
+
+	////////////////////////TRANSFORM
+
+	Pull:
+		XACG I 1 Offset(0,2);
+		XACG I 1 Offset(-2,6);
+		XACG I 1 Offset(-6,14);
+		XACG I 1 Offset(-8,18);
+		XACG I 1 Offset(-9,20);
+		XACG I 14 Offset(-10,22);
+	Handdownloop:
+		XACG I 1 Offset(-10,22); //15
+		Stop;
+	Handdownlooplong:
+		XACG I 10 Offset(-10,22); //15
+		Stop;
+
+
+
+
+	RightNUp:
+		XCSR A 10;
+		Stop;
+
+	RightSB:
+		XCSR B 5;
+		Stop;
+
+	LeftNUp:
+		XCSL A 10;
+		Stop;
+
+	LeftSB:
+		XCSL B 5;
+		Stop;
+
+
+	RightBBUp:
+		XCBR A 10;
+		Stop;
+
+	LeftBBUp:
+		XCBL A 10;
+		Stop;
+	////////////////////////IDLE
+
+	RightBBI:
+		XCBR A 1;
+		Stop;
+
+	LeftBBI:
+		XCBL A 1;
+		Stop;
+
+	RightSBI:
+		XCSR C 1;
+		Stop;
+
+	LeftSBI:
+		XCSL C 1;
+		Stop;
+
+	////////////////////////UNTRANSFORM
+
+	Push:
+		XACG I 1 Offset(-9,20);
+		XACG I 1 Offset(-8,18);
+		XACG I 1 Offset(-6,14);
+		XACG I 1 Offset(-2,6);
+		XACG I 1 Offset(0,2);
+		Stop;
+
+	PushWait:
+		XACG I 15;
+		Stop;
+
+	////////////////////////
+	}
+}
+
+Class MinigunPuff : HC_BulletPuff
+{	
+	Default
+	{
+	Decal "BulletChip";
+	}
+}
+
+Class TurretMinigunPuff : HC_BulletPuff
+{	
+	Default
+	{
+	//ProjectileKickback 200;
+	+EXTREMEDEATH
+	-NOEXTREMEDEATH
+	}
+}

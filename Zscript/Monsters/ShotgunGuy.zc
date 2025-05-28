@@ -1,0 +1,218 @@
+class HC_ShotgunGuy : Actor Replaces ShotgunGuy
+{
+	Default
+	{
+		Health 30;
+		Radius 20;
+		Height 56;
+		Mass 100;
+		Speed 8;
+		PainChance 170;
+		Monster;
+		+FLOORCLIP
+		SeeSound "shotguy/sight";
+		AttackSound "shotguy/attack";
+		PainSound "shotguy/pain";
+		DeathSound "shotguy/death";
+		ActiveSound "shotguy/active";
+		Obituary "$OB_SHOTGUY";
+		Tag "$FN_SHOTGUN";
+		DropItem "Shotgun";
+	}
+	States
+	{
+	Spawn:
+		SPOS AB 10 A_Look;
+		Loop;
+	See:
+		SPOS AABBCCDD 3 A_Chase;
+		Loop;
+	Missile:
+		SPOS E 10 A_FaceTarget;
+		SPOS F 10 BRIGHT A_SposAttackUseAtkSound;
+		SPOS E 10;
+		Goto See;
+	Pain:
+		SPOS G 3;
+		SPOS G 3 A_Pain;
+		Goto See;
+	Death:
+		SPOS H 5;
+		SPOS I 5 A_Scream;
+		SPOS J 5 A_NoBlocking;
+		SPOS K 5;
+		SPOS L -1;
+		Stop;
+		
+	Death.EnergyBlade:
+		TNT1 A 0 A_Jump (100, "BloodSpray");
+		TNT1 A 0 {A_NoBlocking();	A_Scream();	A_StartSound("BloodSpray",CHAN_6,0,.4);}
+		CRSP A 2;
+		CRSP B 3;
+		TNT1 A 0	{	
+				A_SpawnItemEx("HC_ShotgunGuyTorso",0,0,30,random(-1,1),random(-1,1),1);
+				A_StartSound("BigBloodSplash",CHAN_VOICE,0,.5);
+					}
+		CRSP C 5;
+		TNT1 A 0 A_SpawnItemEx("HC_ShotgunGuyArm",0,13,32,random(-1,1),random(-1,1),0);
+		CRSP D 5;
+		CRSP E 5;
+		CRSP F 5;
+		CRSP G 5;
+		CRSP H -1;
+		Stop;
+		
+	BloodSpray:
+		TNT1 A 0 {A_NoBlocking();	A_Scream();	A_StartSound("BloodSpray",CHAN_6,0,.4);}
+		CRSP A 2;
+		CRSP B 3;
+		TNT1 A 0	{	
+				A_SpawnItemEx("HC_ShotgunGuyTorso",0,0,30,random(-1,1),random(-1,1),1);
+				A_StartSound("BigBloodSplash",CHAN_VOICE,0,.5);
+					}
+		CRSP C 5;
+		TNT1 A 0 A_SpawnItemEx("HC_ShotgunGuyArm",0,13,32,random(-1,1),random(-1,1),0);
+		
+		TNT1 A 0 A_StartSound("BloodSpray",CHAN_VOICE,0,.7);
+		
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		CRSP D 1 A_SpawnItemEx("Blood", random(-10,10), random(-10,10), 32, random(-2,2), random(-2,2), random(2,7));
+		
+		CRSP E 5;
+		CRSP F 5;
+		CRSP G 5;
+		CRSP H -1;
+		Stop;
+		
+	XDeath:
+		SPOS M 5;
+		SPOS N 5 A_XScream;
+		SPOS O 5 A_NoBlocking;
+		SPOS PQRST 5;
+		SPOS U -1;
+		Stop;
+	Raise:
+		SPOS L 5;
+		SPOS KJIH 5;
+		Goto See;
+	}
+}
+
+Class HC_ShotgunGuyTorso : Actor
+{
+	Default {
+	Height 20;
+	radius 20;
+	
+	projectile;
+	-NOGRAVITY
+	-NOBLOCKMAP
+	+NOTELEPORT
+	+THRUACTORS
+	+DROPOFF
+	+FLOORCLIP
+	-BOUNCEONACTORS
+	+FORCEXYBILLBOARD
+	+ROLLSPRITE
+	}
+states
+	{
+	Spawn:
+		CRSP IJKLM 5;
+	Death:
+		CRSP N -1;
+		Stop;
+	}
+}
+
+Class HC_ShotgunGuyArm : Actor
+{
+
+	int roll;
+
+	Default {
+	Height 5;
+	radius 5;
+	
+	projectile;
+	-NOGRAVITY
+	-NOBLOCKMAP
+	+NOTELEPORT
+	+THRUACTORS
+	+DROPOFF
+	+FLOORCLIP
+	-BOUNCEONACTORS
+	+FORCEXYBILLBOARD
+	+ROLLSPRITE
+	}
+states
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 {invoker.roll = invoker.roll + random(0,359);}
+	Speen:
+		TNT1 A 0 {invoker.roll = invoker.roll + 10;}
+		CRSP O 1 A_SetRoll(invoker.roll,SPF_INTERPOLATE);
+		loop;
+		
+	Death:
+		TNT1 A 0 A_Jump(128,"Death2");
+		
+	Death1:
+		TNT1 A 0 A_SetRoll(0,SPF_INTERPOLATE);
+		CRSP P 1;
+		CRSP P -1;
+		stop;
+		
+	Death2:
+		TNT1 A 0 A_SetRoll(0,SPF_INTERPOLATE);
+		CRSP P 1 {bXFLIP = true;}
+		CRSP P -1;
+		stop;
+	}
+}

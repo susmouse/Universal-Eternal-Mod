@@ -1,0 +1,41 @@
+Class PlasmaRifleSpawner : RandomSpawner Replaces PlasmaRifle
+{
+	Default {
+    DropItem "PlasmaticLance", 255, 10;
+    DropItem "HeliosCannon", 255, 8;
+	}
+}
+
+Class ChaingunSpawner : RandomSpawner Replaces Chaingun
+{
+	Default {
+	DropItem "ApocalypseKiller", 255, 10;
+    DropItem "FearsEnd", 255, 8;
+	}
+}
+
+//Class PistolSpawner : Randomspawner
+/*
+//Thanks Jekyll Grim Payne for helping me with this class code nugget
+
+Class PistolSpawner : EventHandler {
+    override void CheckReplacement (replaceEvent e) {
+        if (e.Replacee.GetClassName() == "Pistol") {
+            let playerCls = players[consoleplayer].cls;
+            if (playerCls == "HellCrusher")
+                e.Replacement = "Executioner";
+				
+            else if (playerCls == "HellCrusherIP")
+                e.Replacement = "InfinityMagnum";
+				
+			else if (playerCls == "HellCrusherSSG")
+                e.Replacement = "BoomStick";
+				
+			else if (playerCls == "HellCrusherDL")
+                e.Replacement = "BlackTalons";
+				
+			else if (playerCls == "HellCrusherRV")
+                e.Replacement = "MammothTusk";
+        }
+    }
+}

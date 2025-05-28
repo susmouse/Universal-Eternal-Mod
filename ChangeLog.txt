@@ -1,0 +1,210 @@
+HELL CRUSHER, 0.1 update AWOKEN
+
+Changed starter ssg, so now it has a faster reload.
+Changed hexassg, so now it gibs monstors.
+Changed melee, now it has better idle select and deselect sprites.
+Changed Gauss Cannon, so now it has a beam, and siege mode has thiccer beam.
+Changed max and pickup ammo amounts for shell and bullet types.
+Changed some pickup descritions, of thangs.
+
+
+Fixed BFG hum.
+Fixed BFG Ball hum.
+Fixed ledge grab sound and overlay issue, problem was that certain guns keep playing sound(s) during animation.
+And that overlays would persist during animation.
+
+
+Added Revolver, the mammoth tusk.
+Added Chaingun altfire, GOD MULCHER.
+Added new pickup sprites for some guns.
+Added new pickup sprites for the bullet ammo.
+Added new pickup sprites health supplies.
+Added new pickup sounds for health supplies.
+
+I may have missed a few changes but should be all of them.
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+HELL CRUSHER, 0.2 update DIE HELL CRUSHER DIE
+
+Changed chaingun altfire hand so now it looks closer to the normal chaingun fire.
+Chaingun is now easier to switch out of altfire.
+Changed weapon switching so now it is faster.
+Changed starter ssg, so now it has a faster reload. again...
+Changed gauss cannon damage so now it is more "blanced."
+Changed fire / pump speed of shotgun so now it is more faster and "blanced."
+Changed BFG sprites and maybe function to support TSF's new doom eternal bfg sprites.
+
+
+Added a new weapon the Apocalypse Killer rifle.
+Added plasma rifle alt fire, heat blast, yea nothing crazy...
+Added / replaced chainsaw with a BFH, the HELL CRUSHER.
+Added new pickup sprites for the shell ammo.
+Added new pickup sprites for the rocket ammo.
+Added new sprites for the rocket in mid flight.
+Added toggleable "harder bosses."
+	Added new opotional cyberdemon replacer.
+	Added new opotional spidermastermind replacer.
+
+Updated credits.
+
+I may have missed a few changes but should be all of them.
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+HELL CRUSHER, 0.3 update BEG FOR MERCY
+
+Added new pickup sprites for cell / energy ammo type.
+Added ammo pickup sounds.
+Added Brightmaps for all ammo types.
+Added Brightmaps for a few weapons.
+Added gun pickup sounds.
+Added weapon selection sounds.
+Added Supershotgun Altfire, THE BEAST'S ROAR, A charging up super blast that deals double damage.
+Added Bindable kick.
+Added Bindable Daul shoulder cannons.
+Added custom cross hairs for guns.
+Added the Infinity Magnums altfire, charged shot that deals more damage.
+
+Fixed plasma rifle infinite ammo glitch.
+Fixed Ledge grab annoyance.
+
+Buffed gauss cannon.
+Buffed plasma rifle by removing it's cool down.
+
+Changed gauss cannon appearance.
+Changed chaingun appearance, has red highlights now, Literally.
+Changed Apocalypse Killer appearance, also gave it brightmaps.
+Changed / overhauled melee.
+
+Removed bunch of junk Internal files.
+Changed some code to be less dumb.
+
+Updated credits.
+
+I may have missed a few changes but should be all of them.
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+HELL CRUSHER, 0.4 update DEALING WITH THE DEVIL
+
+the took-way-to-long update
+
+Changed The shotgun pump and pickup sounds.
+Changed plasma alt fire to a full auto muilti shot with a long cool down.
+Changed rocket launcher altfire to have seek missiles.
+Changed grenade to hold two charges.
+Changed Mammoth Tusk to have a new appearance, model by H3LLW4LK3R.
+Changed Black Talons to have a new appearance, also a model by H3LLW4LK3R.
+Changed Executioner Hand Cannon to have a new appearance, also model and sprites by H3LLW4LK3R.
+Changed viewbob on weapons, so they each have there own custom view bob.
+Changed BFG FXs to be less crap / more big and ebic.
+Changed some code to be less dumb.
+Changed dash to use a binable custom button.
+Increased the amount of "Quick Switching" time.
+
+Added Flame belch, works a bit like in doom eternal.
+Added Ice bomb, also works a bit like in doom eternal.
+Added Alt-fire to hammer.
+Added Alt-fire to fists.
+Added Inspect anim to Executioner Hand Cannon.
+Added Inspect anim to Black Talons.
+Added a Alt-fire to Black Talons, Shoot even faster now.
+Added Inspect anim to Boom Stick.
+Added Inspect anim to Mammoth Tusk.
+Added a Alt-fire to Mammoth Tusk, charge up mega shoot.
+Added Inspect anim to Infinity Magnum.
+Added BFG tracers / tendrils, Thanks doomkrakken for letting me use stuff from EOA.
+Added constant viewbob to all guns.
+Added A bunch more crosshairs for guns.
+Added more casing ejections to guns, like switching after firing the super shotgun with eject shells.
+Added brightmaps for all weapon pickups.
+Added gauss cannon alt fire FXs.
+Added bright maps for rocket launcher.
+Added more punch animations, and smoother to.
+Added class icons.
+Added Hud.
+Added a option for casing management / deleting, for less beefy computers.
+Added more lag.
+Added main menu and ebic snog I wrotted.
+
+Fixed plasma alt fire to "beep" if no "heat".
+Fixed melee sounds to be less butt.
+
+Removed bunch of junk Internal files.
+
+Updated credits.
+
+Yell at me if I missed anything big or something, I don't know.
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+HELL CRUSHER 0.5 CARVE THROUGH THE HORDE
+
+the take-too-long-again update
+
+Changed Main menu aesthetic from vapor wave to doom 2016 / gritty theme.
+Changed the shotgun so it "spins up" it gets faster as you hold main fire.
+Changed the mammoth tusk anim to not be garbage.
+Changed the Deimos Harbinger to fire nukes for the altfire
+	instead of a barrage of 3 missiles that target a random demon, usually resulting in death.
+Changed the Devils cry altfire to double fire, shoot the shells then launch out the casing.
+Changed the plasma rifle bolts to move faster and the red overcharge to green.
+Changed the BFG to fire faster via a spin up, sorta.
+	Once it goes through the first charge animation you can hold fire to fire a bunch of BFG BALLZ.
+Changed the hammer so it works differently.
+Changed the firing animation of the rifle.
+
+Added Zmove to make movement more smoother and less slidely.
+Added Quad damage power up replaces the Partial invisibility.
+Added Night vision power up replaces the infrared goggles.
+Added hyper charge power up replaces the berserk pack.
+Added New sprites and sounds for the Computer Area Map.
+Added New sprites and sounds for the invulnerability sphere.
+Added New sprites and sounds for the Mega sphere.
+Added New sprites and sounds for the Soul sphere.
+Added New sprites and sounds for the rad suit.
+Added more lag back into it (it wasn't laggy enough.)
+Added a backpack replacer that allows for infinite backpack scaling
+	and it spawns in with the mammoth tusk as a pistol upgrade.
+Added bullet tracers so now bullet based weapons feel better.
+Added a energy sword altfire to the Hammer chainsaw replacer.
+Added a chainsaw to get ammo, bindable in the controls.
+Added a chainsaw intro animation.
+Added a altfire to the BFG. A huge giga laser.
+Added a third fire mode to the guass cannon, charge it up by firing the main and altfire.
+Added a scope overlay for the rifle.
+Added the blood kick (finally) and blood punch.
+Added a debris limiter
+Added a FX limiter
+Added a option to turn off the intro animation.
+Added a arm blade. and a intro animation for it.
+Added a altfire to the starting pistol.
+Added FX's to some weapons.
+Added a few destructible props.
+Added some visual recoil to most of the weapons.
+Added a bunch of decals for guns and such.
+Added a few death anims to monsters.
+
+Fixed the loudness of the hammer so now it doesn't destroy your ears as much maybe...
+
+Removed The fist melee weapon. It is now a quick bind.
+Removed all alternate starting classes.
+Removed Black Talons.
+Removed Infinity.
+Removed BoomStick.
+Removed all the fun stuff.
+
+Updated credits.
+
+Yell at me if I missed anything big or something, I don't know.

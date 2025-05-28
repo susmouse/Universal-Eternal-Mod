@@ -1,0 +1,10 @@
+server bool HC_ReplaceMons = true;
+server int CasingCVAR = 500;
+server int FXCVAR = 100;
+server int IntroAnim = 1;
+
+//D4D damage indicator
+
+user bool D4D_DamageIndicators = true;
+user float D4D_DIScale = 0.5;
+user float D4D_DIAlpha = 1.0;

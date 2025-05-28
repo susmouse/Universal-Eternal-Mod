@@ -1,0 +1,165 @@
+/////////////////////////////////////////////////////////////DASH
+
+Class DEDashBar : Ammo {
+
+	Default{
+  Inventory.Amount 0;
+  Inventory.MaxAmount 2;
+  Ammo.BackpackAmount 0;
+  Ammo.BackpackMaxAmount 2;
+  }
+}
+
+Class DEDashJump : Inventory 						///Dash and double jump code by TheCamaleonMaligno ( https://www.youtube.com/watch?v=mTfGxY_Afhs )
+{
+	Double DashDir, DashSpeed;
+	Int DashTics, DashCharge, AirTics;
+	Bool DJump, Waiting, DEDash;
+	
+	Default{
+	+INVENTORY.UNDROPPABLE
+	}
+	
+	States {
+	Spawn:
+		EQMT D -1;
+		Stop;
+	}
+	
+	Override Void Tick()
+	{
+		Super.Tick();
+		If(!Owner || Owner && (!Owner.Player || Owner.Health<1)) Return;
+		PlayerInfo P=Owner.Player;
+		Int BT=P.cmd.buttons;
+		Int DashMaxCharge=35;
+		DEDash=False;
+		
+		
+		If(!Waiting && (BT & BT_USER3) && DashCharge>=DashMaxCharge/2 && !DashTics)
+		{
+			DEDash=False;
+			DashDir=0;
+			If(BT & BT_FORWARD) DashDir=0;
+			If(BT & BT_BACK) DashDir=180;
+			If(BT & BT_MOVELEFT) DashDir=90;
+			If(BT & BT_MOVERIGHT) DashDir=-90;
+			If((BT & BT_FORWARD) && (BT & BT_MOVELEFT)) DashDir=45;
+			If((BT & BT_FORWARD) && (BT & BT_MOVERIGHT)) DashDir=-45;
+			If((BT & BT_BACK) && (BT & BT_MOVELEFT)) DashDir=180-45;
+			If((BT & BT_BACK) && (BT & BT_MOVERIGHT)) DashDir=180+45;
+			DashDir+=Owner.Angle;
+			If(DashCharge<DashMaxCharge) { Waiting=True; DashCharge=0;}
+			DashCharge=Max(0,DashCharge-DashMaxCharge/2);
+			DashSpeed=35;//35;
+			DashTics=10;//10;
+			
+			Owner.TakeInventory("DEDashBar",1,AAPTR_DEFAULT);
+			
+			Owner.A_SetBlend("White",0.1,20);
+			Owner.A_StartSound("Player/Dash",50,CHANF_OVERLAP);
+			Owner.A_QuakeEx(2,2,2,15,0,1,"",QF_SCALEDOWN);
+			Actor C=Spawn("DashCollisionChecker",Owner.Pos);
+			C.bSolid=True;
+			C.Master=Self;
+			C.Target=Owner;
+			C.A_SetSize(Owner.Radius,Owner.Height);
+			C.bNoTImeFreeze=True;
+			
+		}
+		If(DashTics)
+		{
+			//If(P.OnGround) {P.OnGround=False; Owner.AddZ(1); }
+			DashTics--;
+			//A_Explode(64,128);
+			Owner.VelFromAngle(DashSpeed,DashDir);
+			If(DashTics<=5) DashSpeed*=0.8;
+			Owner.Vel.Z=0;
+			DEDash=True;
+			If(DashTics==0) DEDash=False;
+		}
+		
+		If(P.onGround)
+		{
+			DJump=True;
+			
+			//AirTics=0;
+		}
+		Else If(!(Owner.GetPlayerInput(MODINPUT_OLDBUTTONS) & BT_JUMP) && (Owner.GetPlayerInput(MODINPUT_BUTTONS) & BT_JUMP) && DJump && AirTics>=5)
+		{
+		
+			//Owner.Vel.Z=Max(Owner.Vel.Z+8,8);
+			//Owner.A_StartSound("DoubleJump",69,CHANF_OVERLAP);
+			
+			DJump=False;
+			
+		}
+		
+		Else AirTics++;
+		
+		If(DashCharge<DashMaxCharge)
+		{
+			DashCharge++;
+			If(DashCharge==DashMaxCharge && !P.OnGround){DashCharge=DashMaxCharge-1; GiveInventory("DEDashBar",2,AAPTR_DEFAULT);}
+
+			If(DashCharge==DashMaxCharge)
+			{
+				Waiting=False;
+				DEDash=False;
+				GiveInventory("DEDashBar",70,AAPTR_DEFAULT);
+				Owner.A_StartSound("Player/DashReady",69,CHANF_OVERLAP);
+			}
+		}
+	}
+}
+
+
+
+Class DashCollisionChecker : Actor
+{
+	DEDashJump je;
+	Override Void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		let sas=DEDashJump(Master);
+		je=sas;
+	}
+	Override bool CanCollideWith(Actor other, bool passive)
+	{
+		If(Other==target || Other.bMissile)
+		Return False;
+		If(Pos.Z>Other.Pos.Z+Other.Height || Other.Pos.Z>Pos.Z+Height) Return False;
+		If(Other.bSolid && Other.bShootable && Other.CanCollideWith(Self,0))
+		Tracer=Other;
+		Return False;
+	}
+	Override VOid Tick()
+	{
+		Super.TIck();
+		If(!target || !je || je && !je.dashtics) { Destroy(); Return; }
+		SetOrigin(Target.Pos+Target.Vel*0.1,0);
+		Vel=Target.Vel;
+		If(Tracer)
+		{
+			bThruActors=True;
+			/*
+			Let Cg=Weapon_Chaingun(Target.player.ReadyWeapon);
+			If(Cg && Cg.Tracer)
+			{
+				bForcePain=True;
+				Target.Vel*=0;
+				Tracer.DamageMobj(Self,Target,75,'Normal',0,Target.Angle);
+				Tracer.ApplyKickback(Target,Target,300,Target.Angle,'Normal',0);
+				Tracer.A_TakeInventory("DashStun");
+				Tracer.A_GiveInventory("DashStun");
+				Target.A_StartSound("Weapons/DE/ChaingunShieldDash",9,CHANF_OVERLAP,0.5);
+				Target.A_QuakeEx(1,1,1,8,0,1,"",QF_SCALEDOWN);
+				Cg.DashImpact();
+				Cg.DashImpact();
+			}
+			*/
+			je.DashSpeed=0;
+			Destroy();
+		}
+	}
+}

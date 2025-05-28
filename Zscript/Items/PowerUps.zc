@@ -1,0 +1,446 @@
+Class HC_NVG : PowerupGiver replaces Infrared
+{
+	Default
+	{
+		+COUNTITEM
+		+INVENTORY.AUTOACTIVATE
+		+INVENTORY.ALWAYSPICKUP
+		
+		Inventory.MaxAmount 0;
+		
+		Powerup.Type "PowerLightAmp";
+		Inventory.PickupMessage "Nightvision helmet modification";
+		Inventory.PickupSound "nightvision/get";
+	}
+	States
+	{
+		Spawn:
+			PVIS A 60;
+			PVIS BCDCB 2;
+			Loop;
+	}
+}
+
+///////////////////Allmap/automap
+
+class HC_Allmap : MapRevealer replaces Allmap
+{
+	Default
+	{
+		+COUNTITEM
+		+INVENTORY.FANCYPICKUPSOUND
+		+INVENTORY.ALWAYSPICKUP
+		
+		Inventory.MaxAmount 0;
+		
+		Inventory.PickupSound "AllMap/get";
+		Inventory.PickupMessage "Computer Area Map";
+	}
+	States
+	{
+	Spawn:
+		PMAP ABCDCB 6;
+		Loop;
+	}
+}
+
+///////////////////Berserk
+
+Class HC_Bladepower : CustomInventory replaces Berserk
+{
+	Default
+	{
+		+COUNTITEM;
+		+INVENTORY.ALWAYSPICKUP;
+		Inventory.PickupMessage "Short term armor hyper charge used.";
+		Inventory.PickupSound "Crucible/Pickup";
+	}
+	States
+	{
+		Spawn:
+			BLAD A random(10,100);
+			TNT1 A 0 A_Jump(256,"zap1","zap2","zap3","zap4","zap5","zap6");
+			Loop;
+			
+		zap1:
+			BLAD BD 1;
+			Goto Spawn;
+		
+		zap2:
+			BLAD CE 1;
+			Goto Spawn;
+		
+		zap3:
+			BLAD DB 1;
+			Goto Spawn;
+		
+		zap4:
+			BLAD EB 1;
+			Goto Spawn;
+			
+		zap5:
+			BLAD DC 1;
+			Goto Spawn;
+		
+		zap6:
+			BLAD EC 1;
+			Goto Spawn;
+			
+		Pickup:
+			TNT1 A 0 A_GiveInventory("PowerStrength");
+			TNT1 A 0 HealThing(100, 0);
+			Stop;
+	}
+}
+
+///////////////////Radsuit
+
+Class HC_RadSuit : PowerupGiver replaces RadSuit
+{
+	Default
+	{
+		Height 46;
+		+INVENTORY.AUTOACTIVATE;
+		+INVENTORY.ALWAYSPICKUP;
+		Inventory.MaxAmount 0;
+		Inventory.PickupMessage "Radiation Shielding Suit";
+		Powerup.Type "PowerIronFeet";
+		Inventory.PickupSound "RadSuit/Get";
+		Scale 1.1;
+	}
+	States
+	{
+		Spawn:
+			SUIT B -1 Bright;
+			Stop;
+	}
+}
+
+///////////////////InvulnerabilitySphere
+
+Class HC_InvulnerabilitySphere : PowerupGiver Replaces InvulnerabilitySphere
+{
+	Default{
+	+COUNTITEM;
+	+INVENTORY.AUTOACTIVATE;
+	+FORCEXYBILLBOARD;
+	+INVENTORY.ALWAYSPICKUP;
+	+INVENTORY.BIGPOWERUP;
+	+FLOATBOB;
+	Inventory.MaxAmount 0;
+	Powerup.Type "PowerInvulnerable";
+	Powerup.Color "ffffff", 0.2;
+	Inventory.PickupMessage "$GOTINVUL"; // "Invulnerability!"
+	Inventory.PickupSound "InvulnerabilityGet";
+	}
+	
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		TNT1 A 0 A_StartSound("InvulnerabilityHum",CHAN_5,CHANF_LOOP,.25);
+	Loopy:
+		INVB AAAAA 2 Bright A_SpawnItemEx("HC_InvulnerabilitySphereAfterImage",0,0,28);
+		INVB BCDEF 2 Bright A_SpawnItemEx("HC_InvulnerabilitySphereAfterImage",0,0,28);
+		INVB GGGGG 2 Bright A_SpawnItemEx("HC_InvulnerabilitySphereAfterImage",0,0,28);
+		INVB FEDCB 2 Bright A_SpawnItemEx("HC_InvulnerabilitySphereAfterImage",0,0,28);
+		Loop;
+	}
+}
+
+Class HC_InvulnerabilitySphereAfterImage : Actor
+{
+	Default{
+  RenderStyle "Add";
+  Alpha 0.5;
+  VSpeed 1;
+  +NOBLOCKMAP;
+  +NOCLIP;
+  +NOGRAVITY;
+  +FORCEXYBILLBOARD;
+  +DONTSPLASH;
+  +NOTELEPORT;
+  }
+  States
+  {
+  Spawn:
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.0);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.0);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.1);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.1);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.2);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.2);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.3);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.3);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.4);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.4);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.5);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.5);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.6);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.6);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.7);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.7);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.8);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.8);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.9);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(1.9);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(2.0);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(2.0);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(2.1);}
+	INVB H 1 Bright {A_FadeOut(0.05); A_SetScale(2.1);}
+    Stop;
+  }
+}
+
+///////////////////Soulsphere
+
+Class HC_Soulsphere : Health Replaces Soulsphere
+{
+	Default{
+  +COUNTITEM;
+  +INVENTORY.AUTOACTIVATE;
+  +INVENTORY.ALWAYSPICKUP;
+  +FORCEXYBILLBOARD;
+  +INVENTORY.FANCYPICKUPSOUND;
+  Inventory.Amount 100;
+  Inventory.MaxAmount 200;
+  Inventory.PickupMessage "$GOTSUPER"; // "Supercharge!"
+  Inventory.PickupSound "MegaHealthGet";
+  +FLOATBOB;
+  }
+  States
+  {
+  Spawn:
+    //SOUL ABCDCB 6 Bright A_SpawnItemEx("HC_SoulsphereAfterImage",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+	
+	PSOU AAAAA 2 Bright A_SpawnItemEx("HC_SoulsphereAfterImage",0,0,28);
+	PSOU BCDEF 2 Bright A_SpawnItemEx("HC_SoulsphereAfterImage",0,0,28);
+	PSOU GGGGG 2 Bright A_SpawnItemEx("HC_SoulsphereAfterImage",0,0,28);
+	PSOU FEDCB 2 Bright A_SpawnItemEx("HC_SoulsphereAfterImage",0,0,28);
+    Loop;
+  }
+}
+
+Class HC_SoulsphereAfterImage : Actor
+{
+	Default{
+  RenderStyle "Add";
+  Alpha 0.5;
+  VSpeed 1;
+  +NOBLOCKMAP;
+  +NOCLIP;
+  +NOGRAVITY;
+  +DONTSPLASH;
+  +FORCEXYBILLBOARD;
+  +NOTELEPORT;
+  }
+  States
+  {
+  Spawn:
+    //SOUL ABCDCB 3 Bright A_FadeOut(0.1);
+	
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.0);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.0);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.1);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.1);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.2);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.2);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.3);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.3);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.4);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.4);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.5);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.5);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.6);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.6);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.7);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.7);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.8);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.8);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.9);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(1.9);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(2.0);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(2.0);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(2.1);}
+	PSOU H 1 Bright {A_FadeOut(0.05); A_SetScale(2.1);}
+    Stop;
+  }
+}
+
+///////////////////Megasphere
+
+Class HC_Megasphere : CustomInventory Replaces Megasphere
+{
+	Default{
+  +COUNTITEM;
+  +INVENTORY.ALWAYSPICKUP;
+  +FORCEXYBILLBOARD;
+  Inventory.PickupMessage "$GOTMSPHERE"; // "MegaSphere!"
+  Inventory.PickupSound "MegaHealthGet";
+  +FLOATBOB;
+  }
+  States
+  {
+  Spawn:
+    MEGA AABBCCDD 2 Bright A_SpawnItemEx("HC_MegaSphereAfterImage",0,0,28);
+    Loop;
+  Pickup:
+    TNT1 A 0 A_GiveInventory("HC_BlueArmorForMegasphere", 1);
+    TNT1 A 0 A_GiveInventory("HC_MegasphereHealth", 1);
+    Stop;
+  }
+}
+
+Class HC_BlueArmorForMegasphere : HC_BlueArmor
+{
+Default{
+  Armor.SavePercent 50;
+  Armor.SaveAmount 200;
+}
+}
+
+Class HC_MegasphereHealth : Health
+{
+Default{
+  Inventory.Amount 200;
+  Inventory.MaxAmount 200;
+  +INVENTORY.ALWAYSPICKUP;
+}
+}
+
+Class HC_MegaSphereAfterImage : Actor
+{
+	Default{
+  RenderStyle "Add";
+  Alpha 0.5;
+  VSpeed 1;
+  +NOBLOCKMAP;
+  +NOCLIP;
+  +FORCEXYBILLBOARD;
+  +NOGRAVITY;
+  +DONTSPLASH;
+  +NOTELEPORT;
+  }
+  States
+  {
+  Spawn:
+    //MEGA ABCD 3 Bright A_FadeOut(0.1);
+	
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.0);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.0);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.1);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.1);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.2);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.2);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.3);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.3);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.4);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.4);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.5);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.5);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.6);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.6);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.7);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.7);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.8);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.8);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.9);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(1.9);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(2.0);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(2.0);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(2.1);}
+	MEGA E 1 Bright {A_FadeOut(0.05); A_SetScale(2.1);}
+    Stop;
+  }
+}
+
+///////////////////Invis sphere
+
+Class HC_PowerQuadDamage : PowerDamage
+{
+	Default {
+	Damagefactor "normal", 4;
+	}
+	Override Void MarkPrecacheSounds()
+	{
+		Super.MarkPrecacheSounds();
+		MarkSound("QuadDamageVoice");
+	}
+}
+
+Class HC_QuadDamageSphere : PowerupGiver Replaces BlurSphere
+{
+	Default{
+  +COUNTITEM;
+  +INVENTORY.AUTOACTIVATE;
+  +FORCEXYBILLBOARD;
+  +INVENTORY.ALWAYSPICKUP;
+  +INVENTORY.BIGPOWERUP;
+  Inventory.MaxAmount 0;
+  Powerup.Type "HC_PowerQuadDamage";
+  RenderStyle "Translucent";
+  Inventory.PickupMessage "Quad damage!";
+  Inventory.PickupSound "QuadDamagePickup";
+  Powerup.Color "dd00c5", 0.2;
+  +FLOATBOB;
+  }
+  States
+  {
+  Spawn:
+	TNT1 A 0;
+	TNT1 A 0 A_StartSound("QuadDamageLoop",CHAN_5,CHANF_LOOP,1);
+  Loopy:
+	PQUD AAAAA 2 Bright A_SpawnItemEx("HC_QuadDamageSphereAfterImage",0,0,28,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+	PQUD BCDEF 2 Bright A_SpawnItemEx("HC_QuadDamageSphereAfterImage",0,0,28,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+	PQUD GGGGG 2 Bright A_SpawnItemEx("HC_QuadDamageSphereAfterImage",0,0,28,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+	PQUD FEDCB 2 Bright A_SpawnItemEx("HC_QuadDamageSphereAfterImage",0,0,28,frandom(-1,1),frandom(-1,1),frandom(-1,1));
+    Loop;
+  }
+}
+
+Class HC_QuadDamageSphereAfterImage : Actor
+{
+	Default{
+  RenderStyle "Add";
+  Alpha 0.75;
+  +FORCEXYBILLBOARD;
+  VSpeed 1;
+  +VISIBILITYPULSE;
+  +NOBLOCKMAP;
+  +NOCLIP;
+  +NOGRAVITY;
+  +DONTSPLASH;
+  +NOTELEPORT;
+  }
+  States
+  {
+  Spawn:
+    //PINS ABCD 3 Bright A_FadeOut(0.1);
+	
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.0);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.0);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.1);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.1);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.2);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.2);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.3);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.3);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.4);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.4);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.5);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.5);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.6);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.6);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.7);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.7);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.8);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.8);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.9);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(1.9);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(2.0);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(2.0);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(2.1);}
+	PQUD H 1 Bright {A_FadeOut(0.05); A_SetScale(2.1);}
+    Stop;
+  }
+}

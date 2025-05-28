@@ -1,0 +1,341 @@
+
+//[H3LLW4LK3R]: Thank GOD for popguy12 for writing me this hud code, or there wouldn't have been a hud this early on...
+
+Class HellCrusherHUD : BaseStatusBar
+{
+
+// INITIALIZE SOME THINGS //
+
+	DynamicValueInterpolator mHealthBar;
+	DynamicValueInterpolator mArmorBar;
+	DynamicValueInterpolator mAmmo1Bar;
+	DynamicValueInterpolator mAmmo2Bar;
+	
+	HUDFont mHUDFont;
+	
+	//void DrawInventoryIcon(item, pos, flags, alpha, boxsize, scale);
+	
+	Override void Init()
+    {
+        Super.Init();
+        SetSize(0, 320, 200);
+		mHealthBar = DynamicValueInterpolator.Create(0,1,0,1000); //DynamicValueInterpolator.Create(0, 0.25, 1, 10);
+		mArmorBar = DynamicValueInterpolator.Create(0,1,0,1000);
+		mAmmo1Bar = DynamicValueInterpolator.Create(0,1,0,1000);
+		mAmmo2Bar = DynamicValueInterpolator.Create(0,1,0,1000);
+		
+		mHudFont = HUDFont.Create("HUDFONTBIG.lmp");
+    }
+	
+	override void NewGame ()
+	{
+		Super.NewGame();
+		mHealthBar.Reset (0);
+		mArmorBar.Reset (0);
+		mAmmo1Bar.Reset (0);
+	}
+	
+	override void Tick()
+    {
+        Super.Tick();
+		
+		Ammo ammo1, ammo2;
+		[ammo1, ammo2] = GetCurrentAmmo();
+		
+		
+		if (ammo1 && ammo2)
+		{
+			mAmmo1Bar.Update(ammo1.amount);
+			mAmmo2Bar.Update(ammo2.amount);
+		}
+		else if (ammo1 && !ammo2)
+		{
+			mAmmo1Bar.Update(ammo1.amount);
+		}
+		
+        mHealthBar.Update(CPlayer.health);
+        mArmorBar.Update(GetArmorAmount());
+    }
+	
+	override void Draw (int state, double TicFrac)
+    {
+        Super.Draw (state, TicFrac);
+
+		// [AA] You also need this block, otherwise your HUD will be drawn
+		// always, even if the player removed it, or when the player has
+		// automap open.
+		
+		If ((GetAmountOnly("DeathToken"))>=1)
+		{
+			return;
+		}
+		
+		if (state == HUD_none || automapactive)
+		{
+			return;
+		}
+			
+        if (state == HUD_StatusBar || HUD_FullScreen)
+        {
+            BeginStatusBar(true);
+            DrawMainBar();
+        }
+    }
+	
+// CUSTOM FUNCTIONS //
+	
+	int GetAmountOnly(class<Inventory> item)
+	{
+		let it = CPlayer.mo.FindInventory(item);
+		return (it ? it.Amount : 0);
+	}
+	
+	virtual void DrawKeys (string tag, vector2 pos, int keycount = 10, int space = 23)
+    {
+        //from NC HUD
+        textureid icon, iconskull, iconcard;
+        vector2 size;
+        bool scaleup;
+        int count = 0;
+        
+        for(let i = CPlayer.mo.Inv; i != null; i = i.Inv)
+        {
+            if(i is "Key")
+            {
+                // Draw up to defined keycount.
+                if(count == keycount)
+                {
+                    break;
+                }
+                
+                icon = i.AltHUDIcon;
+
+                if (!icon.IsValid())
+                {
+                    if(i.SpawnState && i.SpawnState.sprite != 0)
+                    {
+                        icon = i.SpawnState.GetSpriteTexture(0);
+                    }
+                    else
+                    {
+                        icon = i.Icon;
+                    }
+                    
+                    if(!icon.IsValid())
+                    {
+                        continue;
+                    }
+                }
+                
+                // Exclude keys which use 'TNT1A0' as their icon.
+                if (TexMan.GetName(icon) ~== "TNT1A0")
+                {
+                    continue;
+                }
+                
+                // Scale the icon up if needed.
+                size = TexMan.GetScaledSize(icon);
+                scaleup = (size.x <= 11 && size.y <= 11);
+                
+                string icontag = i.GetTag();
+                
+                if (icontag.RightIndexOf(tag) != -1)
+                {
+                    DrawTexture(icon, (pos.x, pos.y), DI_ITEM_OFFSETS, box : (22, 22), scaleup ? (2, 2) : (1, 1));
+                    pos.x += space;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+    }	
+	
+	// [AA] Instead of reestablishing this pointer every time DrawMainBar
+	// is run, we make it a class-scope pointer.
+	Daul_Grenade		DG_control;
+	Ice_Bomb			IB_control;
+	Flame_Belch			FB_control;
+	
+	DEDashJump			DED_control, DJ_control;
+	
+	HC_Backpack			HUDBackpackGets;
+	
+// DRAWING THE BAR //	
+	Void DrawMainBar()
+	{
+		int health = mHealthBar.GetValue();
+        int maxhealth = CPlayer.mo.GetMaxHealth();
+        int armor = mArmorBar.GetValue();
+        int maxarmor = 200;
+		
+		// [AA] Since SC_control is now a class-scope pointer, make sure we cast it
+		// only if it's null, otherwise don't recast it. This is cheaper.
+		// See ShoulderCannons.zc for the rest of the fixes.
+		
+		//if (!SC_control)
+			//SC_control = ShoulderCannonController(CPlayer.mo.FindInventory("ShoulderCannonController"));
+	
+		if (!DG_control)
+			DG_control = Daul_Grenade(CPlayer.mo.FindInventory("Daul_Grenade"));
+			
+		if (!IB_control)
+			IB_control = Ice_Bomb(CPlayer.mo.FindInventory("Ice_Bomb"));
+			
+		if (!FB_control)
+			FB_control = Flame_Belch(CPlayer.mo.FindInventory("Flame_Belch"));
+			
+		if (!DED_control)
+			DED_control = DEDashJump(CPlayer.mo.FindInventory("DEDashJump"));
+			
+		if (!DJ_control)
+			DJ_control = DEDashJump(CPlayer.mo.FindInventory("DEDashJump"));
+		
+		//[H3LLW4LK3R]: there is probably a way to make this one big chunk.
+		
+		//ARMOR AND HEALTH
+		
+		If (health <= 35)
+		{
+			DrawImage("HELPLT1R", (5,195));
+			DrawImage("AMOPLT1R", (310,195));
+			DrawString(mHUDFont, FormatNumber(health, 3, 3), (-43, 182), DI_TEXT_ALIGN_LEFT,Font.CR_RED);
+		}
+			Else
+			{
+				DrawImage("HELPLT1", (5,195));
+				DrawImage("AMOPLT1", (310,195));
+				DrawString(mHUDFont, FormatNumber(health, 3, 3), (-43, 182), DI_TEXT_ALIGN_LEFT,Font.CR_WHITE);
+			}
+		
+		If ((GetAmountOnly("PowerStrength"))>=1)
+		{
+			DrawImage("HELICO2", (-13,192));
+		}
+			Else
+			{
+				DrawImage("HELICO1", (-13,192));
+			}
+		
+		int overhealth = (health - 100 > 100) ? 100 : health - 100;
+		
+		//DrawImage("BARHELB", (23,191));
+		DrawBar("BARHEL", "BARHELB", health, maxhealth, (22.5, 191), 0, 0);
+		if (overhealth) DrawBar("BARHELC", "BARHELCB", overhealth, maxhealth, (22.5, 191), 0, 0);
+		
+		
+		//draw armor icon:
+		let armorico = BasicArmor(CPlayer.mo.FindInventory("BasicArmor"));
+		
+		if (armorico && armorico.amount > 0) {
+			//this is for cheaters: if "give all" was used, forcefully display gold armor icon, otherwise gzdoom will display BlueArmor icon		[H3LLW4LK3R]: yoinked this from painslayer... sorry Agent_Ash.
+			if (armorico.amount >= 200 && armorico.ArmorType != "NewArmorBonus" && armorico.ArmorType != "NewGreenArmor" && armorico.ArmorType != "NewBlueArmor")
+				DrawImage("ARMICO3",(-13,181));
+			else
+				DrawInventoryIcon(armorico, (-13, 181));
+		}
+		
+		
+		
+		
+		if(armor>= 101)
+		{
+			DrawString(mHUDFont, FormatNumber(armor, 2, 3), (-43, 172), DI_TEXT_ALIGN_LEFT,Font.CR_BLUE);
+		}
+			else if (armor >= 51 && armor <= 100)
+			{
+				DrawString(mHUDFont, FormatNumber(armor, 2, 3), (-43, 172), DI_TEXT_ALIGN_LEFT,Font.CR_GREEN);
+			}
+			else if (armor >= 1 && armor <= 50)
+			{
+				DrawString(mHUDFont, FormatNumber(armor, 2, 3), (-43, 172), DI_TEXT_ALIGN_LEFT,Font.CR_RED);
+			}
+		
+		if (armor >= 1)
+		{
+			DrawBar("BARARM", "BARARMB", armor, 100, (22.5, 180), 0, 0);
+		}
+		
+		if (armor >= 101)
+		{
+			DrawBar("BARARMC", "BARARMCB", (armor - 100), 100, (22.5, 180), 0, 0);
+		}
+		
+		//AMMO AND GUNS
+		
+		let weap = CPlayer.ReadyWeapon;
+		if (weap && weap.GetClassName() == "Melee") {
+			DrawImage("INFWEP1",(290,170),DI_ITEM_OFFSETS); //(-80,-27));
+		}
+		if (weap && weap.GetClassName() == "ThermalDecimator") {
+			DrawImage("INFWEP2",(290,170),DI_ITEM_OFFSETS); //(-80,-27));
+		}
+		if (weap && weap.GetClassName() == "EnergyPistol") {
+			DrawImage("INFWEP3",(290,170),DI_ITEM_OFFSETS); //(-80,-27));
+		}
+		
+		//DrawString(mHUDFont, FormatNumber(KillCounterToken_BP.killCounter, 3, 4), (200, 183), DI_TEXT_ALIGN_RIGHT,FONT.CR_RED); // Blood Punche kills
+	
+		DrawString(mHUDFont, FormatNumber(GetAmountOnly("BloodPunchCharges"), 3, 4), (280, 183), DI_TEXT_ALIGN_RIGHT,FONT.CR_RED); // Blood Punches
+		DrawString(mHUDFont, FormatNumber(GetAmountOnly("ChainsawFuel"), 3, 4), (280, 173), DI_TEXT_ALIGN_RIGHT,FONT.CR_ORANGE); // Chainsaw Fuel
+		
+		
+		
+		Ammo am1, am2;
+		[am1, am2] = GetCurrentAmmo();
+		if (am2) {
+			DrawInventoryIcon(am2, (345, 173),DI_SCREEN_RIGHT_BOTTOM|DI_ITEM_CENTER);
+		}
+		if (am1) {
+			DrawBar("BARAMO", "BARAMOB", am1.amount, am1.maxamount, (270.5, 162), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+			DrawString(mHUDFont, FormatNumber(am1.amount, 3, 4), (327, 170), DI_TEXT_ALIGN_RIGHT,FONT.CR_WHITE);
+			DrawInventoryIcon(am1, (345, 169),DI_SCREEN_RIGHT_BOTTOM|DI_ITEM_CENTER);
+		}
+		if (am2) {
+			DrawBar("BARAMO2", "BARAMO2B", am2.amount, am2.maxamount, (270.5, 162), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+			DrawString(mHUDFont, FormatNumber(am2.amount, 3, 4), (297, 170), DI_TEXT_ALIGN_RIGHT,FONT.CR_WHITE);
+		}
+
+		// Double Jump indicator
+		if (DJ_control)
+		{
+			if (DJ_control.DJump == false)
+			{
+				DrawImage("DOBJMP1", (266,191));
+			}
+			if (DJ_control.DJump == true)
+			{
+				DrawImage("DOBJMP2", (266,191));
+			}
+		}
+		
+		// Dash bar
+		if (DED_control)
+		{
+			DrawBar("BARDAS", "BARDASB", DED_control.DashCharge, 35, (262,191), 0, 3, SHADER_REVERSE, DI_ITEM_OFFSETS);
+		}
+		
+		// Daul grenade bar
+		if (DG_control)
+		{
+			DrawBar("BARGRE", "BARNADB", DG_control.CooldownTimerGrenade, 150, (283.5,188), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+		}
+		
+		// Flame Belch bar
+		if (FB_control)
+		{
+			DrawBar("BARFIR", "BARNADB", FB_control.CooldownTimerFlameBelch, 200, (309.5,188), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+		}
+		
+		// Ice Bomb bar
+		if (IB_control)
+		{
+			DrawBar("BARICE", "BARNADB", IB_control.CooldownTimerIce, 200, (335.5,188), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+		}
+		
+		// Keys
+		DrawKeys("Card", (-35, 160));
+		DrawKeys("Skull", (-35, 170));
+	}
+}

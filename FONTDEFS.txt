@@ -1,0 +1,4 @@
+ZDoomFont
+{
+  Template ZDMFN%03d
+}

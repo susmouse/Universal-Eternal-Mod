@@ -1,0 +1,280 @@
+Class HC_DebrisNumberControl : EventHandler {
+    Array <Actor> debris;
+        
+    //add a thing into the array when it gets spawned
+    override void WorldThingSpawned(WorldEvent e) {
+        if (e.thing && e.thing is "HC_DebrisClass") {
+            debris.Push(e.thing);
+        }
+    }
+
+    //remove the thing from the array when it's removed from the map
+    override void WorldThingDestroyed(WorldEvent e) {
+        if (e.Thing is "HC_DebrisClass") {
+				let a = HC_DebrisClass(e.thing);
+                debris.delete	(debris.Find(a));
+         }
+    }   
+	
+    //continuously check if the number of FX actors is bigger than the array.     
+    //if true, delete the oldest actor until the array size matches the
+    //custom CVAR
+    override void WorldTick() {
+		if (CasingCVAR == -1 )
+			Return;		
+        while (debris.Size() > CasingCVAR)
+            debris[0].destroy();
+    }
+}
+Class HC_DebrisClass : actor
+{
+}
+
+Class HC_FXControl : EventHandler {
+    Array <Actor> debris;
+        
+    //add a thing into the array when it gets spawned
+    override void WorldThingSpawned(WorldEvent e) {
+        if (e.thing && e.thing is "HC_FXClass") {
+            debris.Push(e.thing);
+        }
+    }
+
+    //remove the thing from the array when it's removed from the map
+    override void WorldThingDestroyed(WorldEvent e) {
+        if (e.Thing is "HC_FXClass") {
+				let a = HC_FXClass(e.thing);
+                debris.delete	(debris.Find(a));
+         }
+    }   
+	
+    //continuously check if the number of FX actors is bigger than the array.     
+    //if true, delete the oldest actor until the array size matches the
+    //custom CVAR
+    override void WorldTick() {
+		if (FXCVAR == -1 )
+			Return;		
+        while (debris.Size() > FXCVAR)
+            debris[0].destroy();
+    }
+}
+Class HC_FXClass : actor
+{
+}
+
+Class ChainsawFuel : Ammo {
+	Default{
+  Inventory.Amount 1;
+  Inventory.MaxAmount 25;//3;
+  Ammo.BackpackAmount 0;
+  Ammo.BackpackMaxAmount 50;//6;
+  }
+}
+
+class KillCounterToken_CF : Inventory
+{
+    int killCounter;
+	Default{+INVENTORY.UNDROPPABLE;}
+}
+
+class HC_MonsterKills_CF : EventHandler
+{
+    override void WorldThingDied(worldEvent e)
+    {
+        let victim = e.thing;
+        if (!victim || !victim.bISMONSTER)
+            return;
+		if (victim.damagetype == "Chainsaw")
+			return;
+        
+        if (victim.target && victim.target.player)
+        {
+            let kct = KillCounterToken_CF(victim.target.FindInventory("KillCounterToken_CF"));
+            if (kct)
+                kct.killCounter++;
+				//console.printf("Monsters murdered: %d", kct.killCounter);
+				if (kct.KillCounter >= 10)
+				  {
+					victim.target.GiveInventory("ChainsawFuel", 1);
+					victim.target.A_StartSound("Chainsaw/AmmoGet1",CHAN_VOICE,0,.8);
+					victim.target.A_StartSound("Chainsaw/AmmoGet2",CHAN_BODY,0,.8);
+					kct.KillCounter = 0;
+				}
+        }
+		
+    }
+
+    override void PlayerSpawned(PlayerEvent e) 
+    {
+        if (level.Mapname == "TITLEMAP")
+            return;
+        if (!PlayerInGame[e.PlayerNumber])
+            return;
+        let plr = players[e.PlayerNumber].mo;
+        if (!plr)
+            return;
+        
+        plr.GiveInventory("KillCounterToken_CF", 1);
+    }
+}
+
+Class BloodPunchCharges : Ammo {
+	Default{
+  Inventory.Amount 1;
+  Inventory.MaxAmount 25;
+  Ammo.BackpackAmount 0;
+  Ammo.BackpackMaxAmount 50;
+  }
+}
+
+class KillCounterToken_BP : Inventory
+{
+    int killCounter;
+	Default{+INVENTORY.UNDROPPABLE;}
+}
+
+class HC_MonsterKills_BP : EventHandler
+{
+    override void WorldThingDied(worldEvent e)
+    {
+        let victim = e.thing;
+        if (!victim || !victim.bISMONSTER)
+            return;
+        if (victim.damagetype == "BloodPunch")
+			return;
+		
+        if (victim.target && victim.target.player)
+        {
+            let kct = KillCounterToken_BP(victim.target.FindInventory("KillCounterToken_BP"));
+            if (kct)
+                kct.killCounter++;
+				//console.printf("Monsters murdered: %d", kct.killCounter);
+				if (kct.KillCounter >= 5)
+				  {
+					victim.target.GiveInventory("BloodPunchCharges", 1);
+					victim.target.A_StartSound("BloodPunch/ChargeGet",CHAN_BODY,0,.6);
+					kct.KillCounter = 0;
+				}
+        }
+		
+    }
+
+    override void PlayerSpawned(PlayerEvent e) 
+    {
+        if (level.Mapname == "TITLEMAP")
+            return;
+        if (!PlayerInGame[e.PlayerNumber])
+            return;
+        let plr = players[e.PlayerNumber].mo;
+        if (!plr)
+            return;
+        
+        plr.GiveInventory("KillCounterToken_BP", 1);
+    }
+}
+
+/*
+	NOTES:
+	
+	the pythagoras'd player speed value (called "speed" in the code below) caps
+	at 16.666667 or 21 when doing SR50 no matter the Player.ForwardMove or
+	Player.SideMove value.
+*/
+
+class StepEventHandler : EventHandler
+{
+	// can probably be done without a magic number but it works for now
+	const MAX_SPEED = 16.666667;
+	
+	// a wait timer for each player. when wait[i] hits 0 it plays a footstep
+	private Array<double> wait;
+	
+	/*
+	*	functions
+	*/
+	
+	private String getStepSound(PlayerPawn pl)
+	{
+		String flat = TexMan.getName(pl.floorPic);
+		Sound test = StringTable.localize("$_STEP_" .. flat).indexOf("_STEP_");
+		
+		if (test == "{ no sound }") {
+			return "Kane/Step";
+		}
+		
+		return StringTable.localize("$_STEP_" .. flat);
+	}
+	
+	/*
+	*	overrides
+	
+	
+	override void worldLoaded(WorldEvent e)
+	{
+		for (int i = 0; i < players.size(); ++i) {			
+			wait.insert(i, 1.0);
+			Console.printf("%d", consolePlayer);
+		}
+		
+		super.worldLoaded(e);
+	}
+	*/
+	
+	override void worldTick()
+	{
+		double speed;
+		PlayerPawn pl;
+		
+		for (int i = 0; i < players.size(); ++i)
+		{
+			if (players[i].mo)
+			{
+				pl = players[i].mo;
+				
+				if (players[i].onground)
+				{
+					speed = clamp(sqrt(pl.vel.x * pl.vel.x + pl.vel.y * pl.vel.y),
+								0.0, MAX_SPEED);
+					
+					// you can probably find out that this means that a sound is
+					// only played when the player is moving > 2.0 speed
+					if (speed > 2.0)
+					{
+						if (wait[i] <= 0.0)
+						{
+							pl.A_StartSound(getStepSound(pl), CHAN_BODY,
+									clamp(speed / MAX_SPEED, 0.4, 1.0));
+							wait[i] = 9.0 * clamp(MAX_SPEED / speed, 1.0, 1.5);
+						}			//7
+						
+						--wait[i];
+					}
+					else
+					{
+						wait[i] = 1.0;
+					}
+				}
+				else // to create the "shuffling down stairs" effect
+				{
+					wait[i] = 0.0;
+				}
+			}
+		}
+		super.worldTick();
+	}
+	
+	override void playerEntered(PlayerEvent e)
+	{
+		wait.insert(e.playerNumber, 1.0);
+	}
+	
+	override void playerRespawned(PlayerEvent e)
+	{
+		wait[e.playerNumber] = 1.0;
+	}
+	
+	override void playerDisconnected(PlayerEvent e)
+	{
+	}
+	
+}
