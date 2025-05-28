@@ -62,7 +62,8 @@ Class HC_kick : CustomInventory
 		Goto FireEnd;
 		
 	Berserked:
-		TNT1 A 0 A_FireProjectile("BerserkKickProjectile",0,false);
+		// TNT1 A 0 A_FireProjectile("BerserkKickProjectile",0,false);
+		TNT1 A 0 A_FireProjectile("KickProjectile",0,false);
 		
 	FireEnd:
 		
@@ -100,7 +101,7 @@ Class HC_kick : CustomInventory
 		TNT1 A 0 A_SetPitch(pitch-0.1,SPF_INTERPOLATE);
 		KICK F 1 A_OverlayOffset(-202,-5,20,WOF_INTERPOLATE);
 		
-		TNT1 A 0 A_FireProjectile("KickBoom",0,false);
+		// TNT1 A 0 A_FireProjectile("KickBoom",0,false);
 	
 		TNT1 A 0 A_SetPitch(pitch+0.8,SPF_INTERPOLATE);
 		KICK B 1 A_OverlayOffset(-202,-7,25,WOF_INTERPOLATE);
@@ -310,13 +311,13 @@ Class KickBoom: FastProjectile
 	Bounce.Wall:
 	Death:
 		
-		TNT1 A 0
-			{
-				for (int i = random(1,4); i > 0; i--)
-				{
-					A_SpawnItemEx("BFGMiniSparkleRed",0,0,0,frandom(-20,20),frandom(-20,20),frandom(-20,20));
-				}
-			}
+		// TNT1 A 0
+		// 	{
+		// 		for (int i = random(1,4); i > 0; i--)
+		// 		{
+		// 			A_SpawnItemEx("BFGMiniSparkleRed",0,0,0,frandom(-20,20),frandom(-20,20),frandom(-20,20));
+		// 		}
+		// 	}
 		
 		TNT1 A 0;
 		TNT1 A 0 A_StartSound("Crucible/PuffHit",0,CHANF_OVERLAP,.6);
@@ -338,9 +339,9 @@ Class KickBoom: FastProjectile
 			TNT1 A 0 Radius_Quake (2, 6, 0, 5, 0);//(intensity, duration, damrad, tremrad, tid)
 			TNT1 A 0 A_Explode(170,0,0);
 			
-			TNT1 A 0 A_SpawnItemEx("BFGBigSparkleRed",random(-100,100),random(-100,100),random(-100,100));
-			TNT1 AA 0 A_SpawnItemEx("BFGSmallSparkleRed",random(-125,125),random(-125,125),random(-125,125));
-			TNT1 AAA 0 A_SpawnItemEx("BFGMiniSparkleRed",random(-150,150),random(-150,150),random(-150,150),random(-15,15),random(-15,15),random(-15,15));
+			// TNT1 A 0 A_SpawnItemEx("BFGBigSparkleRed",random(-100,100),random(-100,100),random(-100,100));
+			// TNT1 AA 0 A_SpawnItemEx("BFGSmallSparkleRed",random(-125,125),random(-125,125),random(-125,125));
+			// TNT1 AAA 0 A_SpawnItemEx("BFGMiniSparkleRed",random(-150,150),random(-150,150),random(-150,150),random(-15,15),random(-15,15),random(-15,15));
 			
 			TNT1 A 0
 			{

@@ -2,86 +2,86 @@ Version "4.5"
 
 #include "Zscript/ZMovePlayer.zc"
 #include "Zscript/HellCrusher.zc"
-#include "Zscript/HCHUD.zc"
+// #include "Zscript/HCHUD.zc"
 #include "Zscript/OwwIndicator.zc"
 #include "Zscript/Events.zc"
-//#include "zscript/StepEventHandler.zc"
+// #include "zscript/StepEventHandler.zc"
 
 //Player Abilities
-#include "Zscript/Kick.zc"
+// #include "Zscript/Kick.zc"
 #include "Zscript/ShoulderCannons.zc"
 #include "Zscript/Dash.zc"
 
 //Props
-#include "Zscript/Props/Props.zc"
+// #include "Zscript/Props/Props.zc"
 
 //Items
-#include "Zscript/Items/Ammo.zc"
+// #include "Zscript/Items/Ammo.zc"
 #include "Zscript/Items/ArmorHealth.zc"
-#include "Zscript/Items/PowerUps.zc"
-#include "Zscript/Items/Key.zc"
+// #include "Zscript/Items/PowerUps.zc"
+// #include "Zscript/Items/Key.zc"
 
 //Weapons
 
-#include "Zscript/Weapons/HC_WeaponBase.zc"
+// #include "Zscript/Weapons/HC_WeaponBase.zc"
 
-#include "Zscript/Weapons/WeaponSpawners.txt"
+// #include "Zscript/Weapons/WeaponSpawners.txt"
 
 //#include "Zscript/Weapons/Melee.zc"
 //#include "Zscript/Weapons/Chainsaw.zc"
-#include "Zscript/Weapons/Hammer.zc"
+// #include "Zscript/Weapons/Hammer.zc"
 
-#include "Zscript/Weapons/Pistol.zc"
+// #include "Zscript/Weapons/Pistol.zc"
 //#include "Zscript/Weapons/EnergyPistol.zc"
 //#include "Zscript/Weapons/StartSuperShotgun.zc"
 //#include "Zscript/Weapons/Daul.zc"
-#include "Zscript/Weapons/Revolver.zc"
+// #include "Zscript/Weapons/Revolver.zc"
 
-#include "Zscript/Weapons/Shotgun.zc"
+// #include "Zscript/Weapons/Shotgun.zc"
 
-#include "Zscript/Weapons/SuperShotgun.zc"
+// #include "Zscript/Weapons/SuperShotgun.zc"
 
-#include "Zscript/Weapons/Chaingun.zc"
-#include "Zscript/Weapons/Rifle.zc"
+// #include "Zscript/Weapons/Chaingun.zc"
+// #include "Zscript/Weapons/Rifle.zc"
 
-#include "Zscript/Weapons/RocketLauncher.zc"
+// #include "Zscript/Weapons/RocketLauncher.zc"
 
 #include "Zscript/Weapons/PlasmaRifle.zc"
-#include "Zscript/Weapons/GaussCannon.zc"
+// #include "Zscript/Weapons/GaussCannon.zc"
 
-#include "Zscript/Weapons/BFG.zc"
+// #include "Zscript/Weapons/BFG.zc"
 
-#include "Zscript/Weapons/VoidSplicer.zc"
+// #include "Zscript/Weapons/VoidSplicer.zc"
 
 //Monsters
 
 //#include "Zscript/Monsters/MonsterSpawners.zc"
 
-#include "Zscript/Monsters/Zombieman.zc"
-#include "Zscript/Monsters/DoomImp.zc"
-#include "Zscript/Monsters/ShotgunGuy.zc"
-#include "Zscript/Monsters/ChaingunGuy.zc"
-#include "Zscript/Monsters/WolfensteinSS.zc"
+// #include "Zscript/Monsters/Zombieman.zc"
+// #include "Zscript/Monsters/DoomImp.zc"
+// #include "Zscript/Monsters/ShotgunGuy.zc"
+// #include "Zscript/Monsters/ChaingunGuy.zc"
+// #include "Zscript/Monsters/WolfensteinSS.zc"
 
-#include "Zscript/Monsters/Demon.zc"
-#include "Zscript/Monsters/Spectre.zc"
+// #include "Zscript/Monsters/Demon.zc"
+// #include "Zscript/Monsters/Spectre.zc"
 
-#include "Zscript/Monsters/Cacodemon.zc"
-#include "Zscript/Monsters/PainElemental.zc"
+// #include "Zscript/Monsters/Cacodemon.zc"
+// #include "Zscript/Monsters/PainElemental.zc"
 
-#include "Zscript/Monsters/LostSoul.zc"
+// #include "Zscript/Monsters/LostSoul.zc"
 
-#include "Zscript/Monsters/HellKnight.zc"
-#include "Zscript/Monsters/BaronOfHell.zc"
+// #include "Zscript/Monsters/HellKnight.zc"
+// #include "Zscript/Monsters/BaronOfHell.zc"
 
-#include "Zscript/Monsters/Archvile.zc"
+// #include "Zscript/Monsters/Archvile.zc"
 
-#include "Zscript/Monsters/Mancubus.zc"
+// #include "Zscript/Monsters/Mancubus.zc"
 
-#include "Zscript/Monsters/Revenant.zc"
+// #include "Zscript/Monsters/Revenant.zc"
 
-#include "Zscript/Monsters/Cyberdemon.zc"
-#include "Zscript/Monsters/SpiderMastermind.zc"
+// #include "Zscript/Monsters/Cyberdemon.zc"
+// #include "Zscript/Monsters/SpiderMastermind.zc"
 
 //FX
 #include "Zscript/FX/ExplosionFX.zc"

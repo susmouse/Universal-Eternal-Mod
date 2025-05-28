@@ -74,26 +74,15 @@ Class HellCrusher : BuildPlayer
 	Player.Portrait "PCICA0";
 	Player.DisplayName "Executioner";
   
-	Player.StartItem "Quick_Chainsaw_Thinker";
-	Player.StartItem "Quick_Melee_Thinker";
-	Player.StartItem "HC_kick";
+	// Player.StartItem "HC_kick";
 	Player.StartItem "Ice_Bomb";
 	Player.StartItem "Daul_Grenade";
 	Player.StartItem "Flame_Belch";
 	Player.StartItem "DEDashJump";
 	
-	Player.StartItem "Executioner";
-	//Player.StartItem "Melee";
-	Player.StartItem "HC_Magazine", 50;
-	Player.StartItem "ChainsawFuel", 1;
+	Player.StartItem "Melee";
 	
-	Player.WeaponSlot 1, "ThermalDecimator"; //"Melee", 
-	Player.WeaponSlot 2, "Executioner","MammothTusk";
-	Player.WeaponSlot 3, "IronbarkBlunderbuss", "DevilsCry";
-	Player.WeaponSlot 4, "FearsEnd", "ApocalypseKiller";
-	Player.WeaponSlot 5, "DeimosHarbinger";
-	Player.WeaponSlot 6, "PlasmaticLance","HeliosCannon";
-	Player.WeaponSlot 7, "HideousAnnihilator";
+	Player.WeaponSlot 1, "Melee";
 	}
   
   	//////////////////////////////////////

@@ -19,7 +19,6 @@ flickerlight FlameBelchFireAdds
 object Flame_Belch_Fire		{	frame FRFX { light FlameBelchFireMain }	}
 object Flame_Belch_Fire_Add	{	frame FRFX { light FlameBelchFireMain }	}
 object Flame_Belch_Fire_FX	{	frame FLMF { light FlameBelchFireAdds }	}
-object HC_Rocket_Fly_FX		{	frame FLMF { light FlameBelchFireAdds }	}
 
 //EXPLOSION
 
@@ -101,12 +100,12 @@ pointlight BarrelEX3
 }
 
 
-object HC_ExplosiveBarrel
-{
-	frame BEXPC0 { light BarrelEX1 }
-	frame BEXPD0 { light BarrelEX2 }
-	frame BEXPE0 { light BarrelEX3 }
-}
+// object HC_ExplosiveBarrel
+// {
+// 	frame BEXPC0 { light BarrelEX1 }
+// 	frame BEXPD0 { light BarrelEX2 }
+// 	frame BEXPE0 { light BarrelEX3 }
+// }
 
 flickerlight ARCHFIRE1
 {
@@ -293,6 +292,6 @@ flickerlight BigBPUFF
     chance 0.8
 }
 
-object RevolverPuff	{	frame PUFB { LIGHT BigBPUFF }}
-object RiflePuff	{	frame PUFB { LIGHT BigBPUFF }}
-object RiflePuffBIG	{	frame PUFB { LIGHT BigBPUFF }}
+// object RevolverPuff	{	frame PUFB { LIGHT BigBPUFF }}
+// object RiflePuff	{	frame PUFB { LIGHT BigBPUFF }}
+// object RiflePuffBIG	{	frame PUFB { LIGHT BigBPUFF }}

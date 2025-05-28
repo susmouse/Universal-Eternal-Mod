@@ -18,11 +18,11 @@ gameinfo {
 
 DoomEdNums
 {
-	30001 = FearsEnd
+	/* 30001 = FearsEnd
 	30002 = ApocalypseKiller
 	30003 = PlasmaticLance
 	30004 = HeliosCannon
-	30100 = bulletcasingMenuSpiller
+	30100 = bulletcasingMenuSpiller */
 }
 
 clearskills

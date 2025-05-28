@@ -477,7 +477,7 @@ Class DeShellLoot : LootItemBase
 		//StencilColor "FFFF30";
 		Inventory.Amount 16;
 		Inventory.PickupSound "ShellUp";
-		MissileType "HC_Shell";
+		MissileType "Shell";
 		ReactionTime 3;
 	}
 	States
@@ -754,7 +754,7 @@ Class PoisonDamageThing : Inventory
 				Owner.DamageMobj(Self,Src,Damage,DamageType);
 			}
 			*/
-			If(Amount<1 || Owner && Owner.Health<1 || Owner Is "HC_Shell")
+			If(Amount<1 || Owner && Owner.Health<1 || Owner Is "Shell")
 			Destroy();
 		}
 	}
@@ -1319,7 +1319,7 @@ Class DEOnFire : PoisonDamageThing
 			}
 			If(Owner && Special1%3==0)
 			Owner.A_SpawnItemEx("Flame_Belch_Fire_FX",Owner.Radius,0,FRandom(0,Owner.Height),zvel:FRandom(0.5,1),FRandom(1,360),0,96);
-			If(Amount<1 || Owner && Owner.Health<1 || Owner Is "HC_Shell" || special2>=10) //Spore_Ammo			?
+			If(Amount<1 || Owner && Owner.Health<1 || Owner Is "Shell" || special2>=10) //Spore_Ammo			?
 			Destroy();
 		}
 	}
