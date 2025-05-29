@@ -960,7 +960,7 @@ class Shoulder_Grenade : Actor
 		TNT1 A 0 A_SpawnItemEx("RocketSFX");
 		TNT1 A 0 A_SpawnItemEx("Shoulder_Grenade_FX");
 		
-		TNT1 A 0 A_Explode(256);
+		TNT1 A 0 A_Explode(256, -1, XF_NOALLIES);
 		TNT1 A 1;
 		Stop;
 	}
