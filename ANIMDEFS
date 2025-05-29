@@ -1,9 +1,0 @@
-texture optional M_SKULL1
-	pic N_SKULLoff 	rand 2 5
-	pic N_SKULLmid1 tics 2
-	pic N_SKULLmid2 tics 2
-	pic N_SKULLmid3 tics 2
-	pic N_SKULLon 	rand 25 500
-	pic N_SKULLmid3 tics 2
-	pic N_SKULLmid2 tics 2
-	pic N_SKULLmid1 tics 2
