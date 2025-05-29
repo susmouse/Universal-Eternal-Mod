@@ -280,7 +280,6 @@ class StepEventHandler : EventHandler
 }
 
 /*
-  replace doomplayer
   give power when level starts
 */
 class LevelStartHandler : EventHandler
