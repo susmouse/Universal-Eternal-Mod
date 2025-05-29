@@ -1,8 +1,4 @@
-map TITLEMAP "Titlemap"
-{
-	Music = "HC_Theme.ogg"
-	sky1 = DestSky
-}
+
 
 gameinfo {
 	playerclasses = "HellCrusher"
