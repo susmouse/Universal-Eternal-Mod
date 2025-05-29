@@ -278,3 +278,34 @@ class StepEventHandler : EventHandler
 	}
 	
 }
+
+/*
+  replace doomplayer
+  give power when level starts
+*/
+class LevelStartHandler : EventHandler
+{
+    // 监听地图加载事件
+    override void WorldLoaded (WorldEvent e)
+    {
+        super.WorldLoaded(e);
+        
+        // 给所有玩家发放物品
+        for (int i = 0; i < MAXPLAYERS; i++)
+        {
+            if (!playeringame[i]) continue;  // 跳过不存在的玩家
+            
+            PlayerPawn player = PlayerPawn(players[i].mo);
+            if (!player || player.health <= 0) continue;  // 跳过死亡玩家
+            
+            // 发放物品
+            player.GiveInventory("DEDashJump", 1);
+            player.GiveInventory("Ice_Bomb", 1);
+            player.GiveInventory("Daul_Grenade", 1);
+			player.GiveInventory("Flame_Belch", 1);
+            
+            // 可选：在控制台显示消息
+            Console.Printf(String.Format("Player %d received ShoulderCannons!", i + 1));
+        }
+    }
+}
