@@ -1,22 +1,3 @@
-
-
 gameinfo {
-	playerclasses = "HellCrusher"
-	
-	StatusbarClass = "HellCrusherHUD"
-	
 	AddEventHandlers = "HC_DebrisNumberControl","HC_FXControl","StepEventHandler","HC_MonsterKills_BP","HC_MonsterKills_CF","HC_OwwIndicator","LevelStartHandler"
-
-	quitmessages =	"Cancel contract? Termination will follow...",
-					"Exit helmet cam?",
-					"Devil's Cry will miss you if you leave :("
-}
-
-DoomEdNums
-{
-	/* 30001 = FearsEnd
-	30002 = ApocalypseKiller
-	30003 = PlasmaticLance
-	30004 = HeliosCannon
-	30100 = bulletcasingMenuSpiller */
 }
