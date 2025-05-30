@@ -311,6 +311,7 @@ Class DEArmorLoot : LootItemBase
 
 	Default
 	{
+		Scale 0.5;
 		//Translation "0:255=%[0.00,0.00,0.00]:[1.14,2.00,1.14]";
 		//StencilColor "10FF10";
 		Inventory.PickupSound "ArmorBonus";
@@ -380,6 +381,7 @@ Class DEHealthLoot : LootItemBase
 	{
 		//Translation "0:255=%[0.00,0.00,0.00]:[0.79,1.01,2.00]";
 		//StencilColor "0080FF";
+		Scale 0.5;
 		Inventory.PickupSound "HealthBonus";
 		Inventory.Amount 2;
 		ReactionTime 1;
@@ -604,7 +606,7 @@ Class LootItemBase : CustomInventory
 		Radius 5;
 		Height 10;
 		MeleeRange 512;
-		Gravity 0.5;
+		Gravity 0.35;
 		StencilColor "White";
 		Inventory.PickupMessage "";
 		
