@@ -794,21 +794,21 @@ Class Daul_Grenade : CustomInventory
 	
 	
 	super.DoEffect();
-		if (CooldownTimerGrenade < 149)
+		if (CooldownTimerGrenade < 224)
 		{
 		CooldownTimerGrenade++;
 		}
 		
-		if (CooldownTimerGrenade == 75)
+		if (CooldownTimerGrenade == 112)
 		{
 		Owner.A_StartSound("EquipmentGrenadeLauncherDoneCharging",0,0,1);
 		}
 		
-		if (CooldownTimerGrenade == 149)
+		if (CooldownTimerGrenade == 224)
 		{
 		Owner.A_StartSound("EquipmentGrenadeLauncherDoneCharging",0,0,1);
 			
-			CooldownTimerGrenade = 150;
+			CooldownTimerGrenade = 225;
 		}
 	}
 	
@@ -823,13 +823,13 @@ Class Daul_Grenade : CustomInventory
 	Use:
 		TNT1 A 0 
 		{
-		if (invoker.CooldownTimerGrenade < 75)
+		if (invoker.CooldownTimerGrenade < 112)
 		{
 			A_StartSound("EquipmentGrenadeLauncherCantUse",0,0,1);
 		}
-		if (invoker.CooldownTimerGrenade >= 75)
+		if (invoker.CooldownTimerGrenade >= 112)
 		{
-				invoker.CooldownTimerGrenade = invoker.CooldownTimerGrenade - 75; //75
+				invoker.CooldownTimerGrenade = invoker.CooldownTimerGrenade - 112; //75
 				A_Overlay(-200,"LeftCannon");
 				A_Overlay(-201,"RightCannon");
 		}
@@ -962,7 +962,7 @@ class Shoulder_Grenade : Actor
 		TNT1 A 0 A_SpawnItemEx("RocketSFX");
 		TNT1 A 0 A_SpawnItemEx("Shoulder_Grenade_FX");
 		
-		TNT1 A 0 A_Explode(256, -1, XF_NOALLIES);
+		TNT1 A 0 A_Explode(128, -1, XF_NOALLIES);
 		TNT1 A 1;
 		Stop;
 	}
