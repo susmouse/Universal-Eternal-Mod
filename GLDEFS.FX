@@ -295,3 +295,16 @@ flickerlight BigBPUFF
 // object RevolverPuff	{	frame PUFB { LIGHT BigBPUFF }}
 // object RiflePuff	{	frame PUFB { LIGHT BigBPUFF }}
 // object RiflePuffBIG	{	frame PUFB { LIGHT BigBPUFF }}
+
+// GloryKill
+pointlight GloryLight
+{
+    color 2.0 0.4 0.2
+    size 16
+	offset 0 16 0
+}
+
+object ShadedActor_Light
+{	
+	frame TNT1 { light GloryLight }
+}
