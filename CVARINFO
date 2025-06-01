@@ -1,0 +1,4 @@
+server bool get_dEDashJump=true;
+server bool get_iceBomb=true;
+server bool get_dualGrenade=true;
+server bool get_flameBelch=true;
