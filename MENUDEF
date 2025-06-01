@@ -1,0 +1,34 @@
+AddOptionMenu "OptionsMenu"
+{
+	Submenu "Eternal Power Mod","EternalPowerMenu"
+}
+
+OptionMenu "EternalPowerMenu"
+{
+	Title "Eternal Power Menu"
+	ScrollTop 2
+	StaticText "---"
+	StaticText "DEDashJump"
+	SafeCommand "Enable DEDashJump", "give DEDashJump 1"
+	SafeCommand "Disable DEDashJump", "take DEDashJump 1"
+	StaticText "---"
+	StaticText "IceBomb"
+	SafeCommand "Enable IceBomb", "give Ice_Bomb 1"
+	SafeCommand "Disable IceBomb", "take Ice_Bomb 1"
+	StaticText "---"
+	StaticText "FlameBelch"
+	SafeCommand "Enable FlameBelch", "give Flame_Belch 1"
+	SafeCommand "Disable FlameBelch", "take Flame_Belch 1"
+	StaticText "---"
+	StaticText "DaulGrenade"
+	SafeCommand "Enable DaulGrenade", "give Daul_Grenade 1"
+	SafeCommand "Disable DaulGrenade", "take Daul_Grenade 1"
+}
+
+
+OptionValue "YesNo"
+{
+	0,"No"
+	1,"Yes"
+}
+
