@@ -419,7 +419,7 @@ Class DEHealthLoot : LootItemBase
 	Stop;
 	
 	Gibe:
-		TNT1 A 0 { GiveBody(10,GetMaxHealth(true)); }
+		TNT1 A 0 { GiveBody(1,GetMaxHealth(true)); }
 		Stop;
 	}
 }
