@@ -603,7 +603,7 @@ Class LootItemBase : CustomInventory
 	Default
 	{
 		Friction 0.8;
-		Radius 5;
+		Radius 50;
 		Height 10;
 		MeleeRange 512;
 		Gravity 0.35;
