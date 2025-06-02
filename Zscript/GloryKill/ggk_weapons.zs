@@ -26,13 +26,14 @@ class GloryFist : Weapon
 					float xoffs = cos(invoker.ptarget.angle)*frandom(-10,10);
 					float yoffs = sin(invoker.ptarget.angle)*frandom(-10,10);
 					float zoffs = frandom(5,invoker.ptarget.height);
-					let hpup = SuperHealthBonus(Spawn("SuperHealthBonus",(invoker.ptarget.pos.x,invoker.ptarget.pos.y,invoker.ptarget.pos.z-zoffs)));
-					if(hpup)
-					{
-						hpup.plr = plr.mo;
-						hpup.vel.x = xoffs;
-						hpup.vel.y = yoffs;
-					}
+					A_SpawnItemEx("DEHealthLoot",0,0,invoker.ptarget.pos.z-zoffs,FRandom(1,3),0,FRandom(4,6),FRandom(1,360),SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS);
+					// let hpup = SuperHealthBonus(Spawn("DEHealthLoot",(invoker.ptarget.pos.x,invoker.ptarget.pos.y,invoker.ptarget.pos.z-zoffs)));
+					// if(hpup)
+					// {
+					// 	hpup.plr = plr.mo;
+					// 	hpup.vel.x = xoffs;
+					// 	hpup.vel.y = yoffs;
+					// }
 				}
 			}
 			invoker.ptarget.tics = invoker.ptics;
