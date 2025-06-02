@@ -1,5 +1,3 @@
-// ggk_weapons.zs - 定义了荣耀击杀专用的拳套武器。
-
 // GloryFist: 荣耀击杀专用拳套武器。
 class GloryFist : Weapon
 {	

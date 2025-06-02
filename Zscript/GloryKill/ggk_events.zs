@@ -1,14 +1,3 @@
-// GloryKill/
-// │   ├── ggk_events.zs
-// │   ├── ggk_items.zs
-// │   └── ggk_weapons.zs
-
-// ---
-
-// **ggk_events.zs**
-
-// ZScript头文件，通常包含事件处理器和伤害修改等逻辑
-
 class GGKDamageScaler : Inventory // 定义一个名为 GGKDamageScaler 的类，它继承自 Inventory 类。这类物品通常用于修改玩家或怪物的属性或行为。
 {
 	int prevtic; // 上一个游戏逻辑帧（tic）的编号，用于防止单次攻击（但可能在同一帧内多次调用ModifyDamage）多次触发硬直判定。
@@ -99,7 +88,7 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 	Actor chainsawkill; // Actor类型的变量，指向等待被电锯击杀的目标。
 	GloryFist pfist; // GloryFist类型的变量，指向玩家当前持有的荣耀击杀拳套武器。
 	GloryChainsaw pchainsaw; // GloryChainsaw类型的变量，指向玩家当前持有的荣耀击杀电锯武器。
-	
+
 	// IStagger estagger; // (原注释) estagger 在 WorldTick 中赋值但未被有效使用，可以考虑移除或明确其用途。
 
 	// 静态方法，判定是否触发随机硬直（例如，死亡豁免硬直）。

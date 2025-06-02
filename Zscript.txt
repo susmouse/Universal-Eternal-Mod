@@ -26,7 +26,7 @@ Version "4.5"
 // GloryKill
 #include "Zscript/GloryKill/ggk_events.zs"
 #include "Zscript/GloryKill/ggk_items.zs"
-#include "Zscript/GloryKill/ggk_weapons.zs"
+#include "Zscript/GloryKill/ggk_fist.zs"
 #include "Zscript/GloryKill/ggk_chainsaw.zs"
 
 //Weapons
