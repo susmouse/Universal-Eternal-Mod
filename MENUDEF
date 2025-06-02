@@ -1,15 +1,15 @@
 AddOptionMenu "OptionsMenu"
 {
-    Submenu "Eternal Power Mod","EternalPowerMenu"
+    Submenu "Universal Eternal Mod","UniversalEternalMenu"
 }
 
-OptionMenu "EternalPowerMenu"
+OptionMenu "UniversalEternalMenu"
 {
-    Title "Eternal Power Menu"
+    Title "Universal Eternal Menu"
     ScrollTop 2
     
-    // Eternal Power Mod 部分
-    StaticText "--- Eternal Power Mod ---", "Gold"
+    // Universal Eternal Mod 部分
+    StaticText "--- Universal Eternal Mod ---", "Gold"
     StaticText " "
     
     StaticText "--- DEDashJump ---"
