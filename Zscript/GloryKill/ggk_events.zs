@@ -262,10 +262,11 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 				Actor thinghit = lt_data.HitActor; // 获取被击中的 Actor。
 				if (!thinghit || !thinghit.bISMONSTER) return; // 确保击中的是有效 Actor 且是怪物类型。
 
-				pendingkill = thinghit; // 将被击中的硬直怪物设置为待荣耀击杀目标。
+				chainsawkill = thinghit; // 将被击中的硬直怪物设置为待荣耀击杀目标。
 				// 如果目标没有ObjectMover物品 (用于将怪物拉向玩家)，才给予它一个。
-				if (!pendingkill.FindInventory("ObjectMover")) pendingkill.GiveInventory("ObjectMover",1);
-				let omover = ObjectMover(pendingkill.FindInventory("ObjectMover")); // 获取目标身上的 ObjectMover 实例。
+				if (!chainsawkill.FindInventory("ObjectMover")) chainsawkill.GiveInventory("ObjectMover",1);
+				if (!chainsawkill.FindInventory("IStagger")) chainsawkill.GiveInventory("IStagger",1);
+				let omover = ObjectMover(chainsawkill.FindInventory("ObjectMover")); // 获取目标身上的 ObjectMover 实例。
 				if(omover) 
 				{
 					omover.to = plr; // 设置 ObjectMover 的目标为玩家。
