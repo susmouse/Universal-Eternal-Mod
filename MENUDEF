@@ -41,12 +41,16 @@ OptionMenu "UniversalEternalMenu"
     StaticText " "
     
     Option "Enable Glory Kill", "sv_ggk_enabled", "YesNo"
+    Option "Enable Quick Chainsaw", "sv_ggs_enabled", "YesNo"
     StaticText " "
     
     StaticText "Control(s)", "Yellow"
     Control "Glory Kill", "netevent glory_kill"
     StaticText "Press this button when an enemy is staggered", "Black"
     StaticText "to initiate Glory Kill.", "Black"
+    Control "Quick Chainsaw", "netevent quick_chainsaw"
+    StaticText "Press this button kiss an enemy", "Black"
+    StaticText "by chainsaw.", "Black"
     StaticText " "
     
     StaticText "Configure", "Yellow"

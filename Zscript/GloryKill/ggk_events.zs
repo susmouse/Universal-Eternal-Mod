@@ -96,8 +96,8 @@ class GGKDamageScaler : Inventory // 定义一个名为 GGKDamageScaler 的类�
 class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的类，继承自 StaticEventHandler。这类处理器用于响应全局游戏事件。
 {
 	Actor pendingkill; // Actor类型的变量，指向等待被荣耀击杀的目标。
+	Actor chainsawkill; // Actor类型的变量，指向等待被电锯击杀的目标。
 	GloryFist pfist; // GloryFist类型的变量，指向玩家当前持有的荣耀击杀拳套武器。
-	GloryChainsaw psaw;
 	// IStagger estagger; // (原注释) estagger 在 WorldTick 中赋值但未被有效使用，可以考虑移除或明确其用途。
 
 	// 静态方法，判定是否触发随机硬直（例如，死亡豁免硬直）。
@@ -197,6 +197,58 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 			}
 		}
 
+		// 电锯击杀部分
+		if (sv_ggs_enabled){
+			bool dokill = pendingkill && pendingkill.health >  0; // 标志：是否有存活的待荣耀击杀目标。
+			bool isdead = pendingkill && pendingkill.health <= 0; // 标志：待荣耀击杀目标是否已死亡。
+			
+			pfist = GloryFist(plr.FindInventory("GloryFist")); // 更新玩家持有的 GloryFist 引用。
+
+			// 如果玩家持有 GloryFist 且其 ptarget (拳套的目标) 未设置，则将其设置为当前的 pendingkill 目标。
+			if(pfist && !pfist.ptarget) pfist.ptarget = pendingkill;
+				
+			// 如果目标已死亡 (isdead)，且玩家持有 GloryFist (pfist)，并且 pendingkill 目标存在。
+			if(isdead && pfist && pendingkill) // 添加pendingkill检查
+			{
+				pendingkill = null; 
+			}
+			
+			// 如果有存活的待击杀目标 (dokill)，玩家与目标的距离小于等于64个单位，且玩家当前未持有 GloryFist。
+			if(dokill && plr.Distance3D(pendingkill) <= 128 && !pfist) 
+			{	
+				plr.A_GiveInventory("GloryFist",1); // 给予玩家 GloryFist 武器。
+				plr.A_SelectWeapon("GloryFist"); // 自动切换到 GloryFist 武器。
+			}
+			if (pendingkill && pendingkill.health > 0) // 如果存在存活的待击杀目标
+			{
+				if (plr.Distance3D(pendingkill) > sv_glorykillrange + 10) 
+				{
+					// 如果目标跑太远，清除它。
+					if (pendingkill.bInvulnerable) pendingkill.bInvulnerable = false; // 解除可能残留的无敌状态。
+					pendingkill = null; // 清除待击杀目标。
+					// 如果玩家正拿着GloryFist但没有目标了，可以考虑切换回之前的武器。
+					if (pfist && plr.player && plr.player.ReadyWeapon == pfist)
+					{
+						// (切换武器逻辑，类似上面MOD禁用时的处理)
+						Weapon prevWeapon = plr.player.PendingWeapon;
+						if (prevWeapon == pfist || prevWeapon == null || prevWeapon.GetClass() == Name("Fist"))
+						{
+							for (Inventory inv = plr.Inv; inv != null; inv = inv.Inv)
+							{
+								Weapon w = Weapon(inv);
+								if (w && w != pfist && w.GetClass() != Name("Fist") && w.GetClass() != Name("GloryFist"))
+								{
+									prevWeapon = w;
+									break;
+								}
+							}
+							if(prevWeapon == null || prevWeapon == pfist) prevWeapon = Weapon(plr.FindInventory("Fist"));
+						}
+						if (prevWeapon) plr.A_SelectWeapon(prevWeapon.GetClass()); // 切换武器。
+					}
+				}
+			}
+		}
 
 	}
 
@@ -204,19 +256,40 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 	// ev: ConsoleEvent 对象，包含事件信息 (如玩家编号、事件名)。
 	override void NetworkProcess(ConsoleEvent ev)
 	{
-		// 只有当 sv_ggk_enabled 为 true 时，才处理荣耀击杀按键事件。
-		if (!sv_ggk_enabled) return;
-
 		PlayerPawn plr = PlayerPawn(players[ev.Player].mo); // 获取触发事件的玩家。
 		if(!plr) return; // 如果玩家无效，则返回。
-		
+
+		// 电锯击杀部分
+		if(ev.Name == "quick_chainsaw"&&sv_ggs_enabled)
+		{
+			FLineTraceData lt_data;
+			// 从玩家视角进行射线检测，检测范围为 sv_glorykillrange
+			plr.LineTrace(plr.angle,sv_glorykillrange,plr.pitch,0,plr.viewheight,0,0,lt_data);
+			// 如果射线击中了 Actor (实体)。
+			if(lt_data.HitType == TRACE_HitActor)
+			{
+				Actor thinghit = lt_data.HitActor; // 获取被击中的 Actor。
+				if (!thinghit || !thinghit.bISMONSTER) return; // 确保击中的是有效 Actor 且是怪物类型。
+
+				pendingkill = thinghit; // 将被击中的硬直怪物设置为待荣耀击杀目标。
+				// 如果目标没有ObjectMover物品 (用于将怪物拉向玩家)，才给予它一个。
+				if (!pendingkill.FindInventory("ObjectMover")) pendingkill.GiveInventory("ObjectMover",1);
+				let omover = ObjectMover(pendingkill.FindInventory("ObjectMover")); // 获取目标身上的 ObjectMover 实例。
+				if(omover) 
+				{
+					omover.to = plr; // 设置 ObjectMover 的目标为玩家。
+					omover.dist = 64; // 设置怪物被拉到距离玩家多近时停止 
+				}
+			}
+		}
+
 		// 如果当前已经有一个存活的待处理荣耀击杀目标 (pendingkill)，则不寻找新的目标。
 		// 除非玩家再次按下 glory_kill 是为了取消当前目标或强制寻找（这需要更复杂的逻辑）。
 		// 当前逻辑是：如果已有pendingkill (且存活)，则不处理新的按键。
 		if(pendingkill && pendingkill.health > 0) return; 
 		
 		// 如果事件名为 "glory_kill" (通常是荣耀击杀的绑定按键)。
-		if(ev.Name == "glory_kill")
+		if(ev.Name == "glory_kill"&&sv_ggk_enabled)
 		{
 			FLineTraceData lt_data; // 用于存储 LineTrace (射线检测) 的结果。
 			// 从玩家视角进行射线检测，检测范围为 sv_glorykillrange。

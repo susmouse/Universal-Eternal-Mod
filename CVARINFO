@@ -18,7 +18,8 @@ server bool get_flameBelch=true;
 
 // GloryKillOptions
 // 定义一个CVAR来控制整个MOD的启用状态，默认为启用 (true)
-server bool sv_ggk_enabled = true; // 服务器端布尔型变量，默认开启光荣击杀系统
+server bool sv_ggk_enabled = true; // 控制开启荣耀击杀系统
+server bool sv_ggs_enabled = true; // 控制开启电锯击杀系统
 server float sv_staggerhealth   = 0.50;
 server float sv_glorykillrange  = 128;
 server int   sv_staggerlength   = 140;
