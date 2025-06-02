@@ -205,7 +205,7 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 			}
 			
 			// 如果有存活的待击杀目标 (dokill)，玩家与目标的距离小于等于64个单位，且玩家当前未持有 GloryChainsaw。
-			if(dokill && plr.Distance3D(chainsawkill) <= 128 && !pchainsaw) 
+			if(dokill && plr.Distance3D(chainsawkill) <= 64 && !pchainsaw) 
 			{	
 				plr.A_GiveInventory("GloryChainsaw",1); // 给予玩家 GloryChainsaw 武器。
 				plr.A_SelectWeapon("GloryChainsaw"); // 自动切换到 GloryChainsaw 武器。
