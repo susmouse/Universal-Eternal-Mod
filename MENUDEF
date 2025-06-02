@@ -55,7 +55,7 @@ OptionMenu "UniversalEternalMenu"
     
     StaticText "Configure", "Yellow"
     Option "Drop Health/Armor/Ammo bonuses", "sv_glorykilldrops", "YesNo"
-    Slider "Amount of Health/Armor/Ammo Bonus", "sv_glorykillhealth", 1, 25, 1, 0
+    Slider "Amount of Health From Glory Kill", "sv_glorykillhealth", 1, 100, 15, 0
     StaticText " "
     
     Slider "Stagger chance", "sv_glorystunchance", 0, 100, 1, 0

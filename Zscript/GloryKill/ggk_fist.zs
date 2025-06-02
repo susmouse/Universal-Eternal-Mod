@@ -16,43 +16,14 @@ class GloryFist : Weapon
 	action void A_ResetWeapon()
 	{
 		PlayerInfo plr = PlayerPawn(self).player; // 获取武器持有者 (玩家) 的PlayerInfo。 'self' 在这里指代武器Actor。
+		Actor player = PlayerPawn(self); // 获取玩家Actor。
 
 		if(invoker.ptarget) // 如果存在荣耀击杀目标。
 		{
 			if(sv_glorykilldrops) // 如果启用了荣耀击杀掉落 (CVAR)。
 			{
-				// 计算掉落的生命恢复物品数量。基于玩家已损失的生命值，最少掉落1-6个。
-				int drops = ceil((80-plr.health)/3)+1;
-				if(drops <= 0) drops = random(1,6);
-				for(int i = 0; i < drops; i++)
-				{	
-					// 这些 xoffs, yoffs 似乎是为掉落物设置初始速度或偏移量，但未在 A_SpawnItemEx 中直接用于位置偏移。
-					float xoffs = cos(invoker.ptarget.angle)*frandom(-10,10);
-					float yoffs = sin(invoker.ptarget.angle)*frandom(-10,10);
-					// zoffs 用于调整掉落物生成的垂直位置。
-					float zoffs = frandom(5,invoker.ptarget.height);
-					// A_SpawnItemEx: 生成物品。
-					// "DEHealthLoot": 要生成的物品类型名。 (注意：如果DEHealthLoot未定义，这里会出错。可能应为SuperHealthBonus或类似物品)
-					// 0,0: x,y偏移量 (相对于调用者，即玩家)。
-					// invoker.ptarget.pos.z-zoffs: z偏移量 (这个计算方式有些奇怪，它将目标z坐标减去一个随机值作为相对于玩家的z偏移，结果是 Player.Z + Target.Z - zoffs)。
-					// FRandom(1,3),0,FRandom(4,6): x,y,z速度。
-					// FRandom(1,360): 初始角度。
-					// SXF_NOCHECKPOSITION: 生成时不检查位置是否合法 (可能穿墙)。
-					// SXF_TRANSFERPOINTERS: 将生成物品的target和master指针设为调用者的target和master (在这里，调用者是武器，其target可能是ptarget)。
-					// **注意**: 此处 A_SpawnItemEx 的x,y偏移量为0,0，意味着物品会在玩家脚下生成，Z坐标则比较复杂。
-					//          更常见的做法是在 invoker.ptarget 的位置生成掉落物。
-					//          例如: Spawn("DEHealthLoot", (invoker.ptarget.pos.x + x_rand_offset, invoker.ptarget.pos.y + y_rand_offset, invoker.ptarget.pos.z + z_rand_offset))
-					A_SpawnItemEx("DEHealthLoot",0,0,invoker.ptarget.pos.z-zoffs,FRandom(1,3),0,FRandom(4,6),FRandom(1,360),SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS);
-					
-					// 下面是被注释掉的旧代码，它尝试生成 SuperHealthBonus 并设置其速度和追踪目标。
-					// let hpup = SuperHealthBonus(Spawn("DEHealthLoot",(invoker.ptarget.pos.x,invoker.ptarget.pos.y,invoker.ptarget.pos.z-zoffs)));
-					// if(hpup)
-					// {
-					// 	hpup.plr = plr.mo;
-					// 	hpup.vel.x = xoffs;
-					// 	hpup.vel.y = yoffs;
-					// }
-				}
+				int healthAmmount = (plr.health + sv_glorykillhealth) < 100 ? (plr.health + sv_glorykillhealth) : 100; // 计算掉落的生命值。
+				player.A_SetHealth(healthAmmount); // 恢复玩家的生命值。
 			}
 			invoker.ptarget.tics = invoker.ptics; // 恢复目标敌人的tics，使其行为解冻。
 		}
