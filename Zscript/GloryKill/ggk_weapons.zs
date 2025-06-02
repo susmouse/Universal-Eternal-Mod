@@ -1,6 +1,6 @@
-// ggk_weapons.zs - 定义了光荣击杀专用的拳套武器。
+// ggk_weapons.zs - 定义了荣耀击杀专用的拳套武器。
 
-// GloryFist: 光荣击杀专用拳套武器。
+// GloryFist: 荣耀击杀专用拳套武器。
 class GloryFist : Weapon
 {	
 	Default
@@ -9,19 +9,19 @@ class GloryFist : Weapon
 	}
 	
 	Weapon prevWeapon; // 存储切换到GloryFist之前的武器。
-	Actor ptarget; // 指向光荣击杀的目标敌人。
+	Actor ptarget; // 指向荣耀击杀的目标敌人。
 	int ptics; // 存储目标敌人被冻结前的原始tics值。
 	float vbob; // 存储玩家原始的视角晃动 (ViewBob) 设置。
 	
-	// action 函数 A_ResetWeapon: 用于在光荣击杀完成或武器被取消选择时，重置玩家和目标的状态。
+	// action 函数 A_ResetWeapon: 用于在荣耀击杀完成或武器被取消选择时，重置玩家和目标的状态。
 	// 'invoker' 在action函数中通常指代调用此action的武器自身 (即GloryFist实例)。
 	action void A_ResetWeapon()
 	{
 		PlayerInfo plr = PlayerPawn(self).player; // 获取武器持有者 (玩家) 的PlayerInfo。 'self' 在这里指代武器Actor。
 
-		if(invoker.ptarget) // 如果存在光荣击杀目标。
+		if(invoker.ptarget) // 如果存在荣耀击杀目标。
 		{
-			if(sv_glorykilldrops) // 如果启用了光荣击杀掉落 (CVAR)。
+			if(sv_glorykilldrops) // 如果启用了荣耀击杀掉落 (CVAR)。
 			{
 				// 计算掉落的生命恢复物品数量。基于玩家已损失的生命值，最少掉落1-6个。
 				int drops = ceil((80-plr.health)/3)+1;
@@ -58,13 +58,13 @@ class GloryFist : Weapon
 			}
 			invoker.ptarget.tics = invoker.ptics; // 恢复目标敌人的tics，使其行为解冻。
 		}
-		// 清除玩家在光荣击杀期间被设置的作弊状态。
+		// 清除玩家在荣耀击杀期间被设置的作弊状态。
 		plr.cheats &= ~(CF_TOTALLYFROZEN|CF_NOTARGET|CF_GODMODE|CF_GODMODE2|CF_INSTANTWEAPSWITCH|CF_DOUBLEFIRINGSPEED);
 		plr.mo.ViewBob = invoker.vbob; // 恢复玩家的视角晃动设置。
 		
 		if(plr) 
 		{
-			plr.PendingWeapon = invoker.prevWeapon; // 设置待切换的武器为光荣击杀前的武器。
+			plr.PendingWeapon = invoker.prevWeapon; // 设置待切换的武器为荣耀击杀前的武器。
 			PSprite pweapon = plr.GetPSprite(PSP_WEAPON); // 获取武器的屏幕精灵(ViewModel)。
 			pweapon.x -= 130; // 调整武器精灵的X坐标 (可能是为了配合动画或重置某种偏移)。
 			//pweapon.y = WEAPONTOP; // (注释掉) 设置武器精灵Y坐标。
@@ -99,7 +99,7 @@ class GloryFist : Weapon
 			super.DoEffect(); // 执行父类的DoEffect。
 			return;
 		}
-		if(ptarget && ptarget.health >= 0) // 如果存在光荣击杀目标且目标存活。
+		if(ptarget && ptarget.health >= 0) // 如果存在荣耀击杀目标且目标存活。
 		{
 			if(ptarget.tics != -1) // 如果目标尚未被此武器冻结。
 			{
@@ -113,7 +113,7 @@ class GloryFist : Weapon
 				vbob = plr.mo.ViewBob; // 存储当前视角晃动值。
 				plr.mo.ViewBob *= 0; // 禁用视角晃动。
 			}
-			// 给予玩家一系列作弊状态，使其在光荣击杀期间无敌、无法被瞄准、动作固定等。
+			// 给予玩家一系列作弊状态，使其在荣耀击杀期间无敌、无法被瞄准、动作固定等。
 			plr.cheats |= CF_TOTALLYFROZEN|CF_NOTARGET|CF_GODMODE2|CF_GODMODE|CF_DOUBLEFIRINGSPEED|CF_INSTANTWEAPSWITCH;
 			if(!prevWeapon) prevWeapon = plr.ReadyWeapon; // 如果尚未存储先前的武器，则存储当前手持武器。
 		}
@@ -133,7 +133,7 @@ class GloryFist : Weapon
 		return clamp(y*0.75,0.1,1.0); // 将计算出的权重限制在0.1到1.0之间，并乘以0.75。
 	}
 	
-	// action 函数 A_GloryPunch: 执行一次光荣击杀的拳击动作。
+	// action 函数 A_GloryPunch: 执行一次荣耀击杀的拳击动作。
 	// kill: bool, 如果为true，则此拳击会杀死目标。
 	action void A_GloryPunch(bool kill = false)
 	{	
@@ -150,7 +150,7 @@ class GloryFist : Weapon
 		}
 	}
 	
-	// action 函数 A_GloryKick: 执行一次光荣击杀的踢击动作。 (此函数目前在States中未被使用)
+	// action 函数 A_GloryKick: 执行一次荣耀击杀的踢击动作。 (此函数目前在States中未被使用)
 	// kill: bool, 如果为true，则此踢击会杀死目标。
 	action void A_GloryKick(bool kill = false)
 	{	
@@ -167,8 +167,8 @@ class GloryFist : Weapon
 	{
 		Ready: // 准备状态 (武器空闲时)
 			FSTE A 1 A_WeaponReady(); // 显示 FSTE 精灵的 A 帧，持续1帧，并调用 A_WeaponReady (允许玩家开火或切换武器)。
-		goto Fire; // 直接跳转到 Fire 状态开始光荣击杀动画 (这表明一旦选中此武器且有目标，就会自动开始攻击)。
-		Done: // 完成状态 (光荣击杀动画结束)
+		goto Fire; // 直接跳转到 Fire 状态开始荣耀击杀动画 (这表明一旦选中此武器且有目标，就会自动开始攻击)。
+		Done: // 完成状态 (荣耀击杀动画结束)
 			FSTE A 1 A_ResetWeapon(); // 显示 FSTE A 帧，持续1帧，并调用 A_ResetWeapon 清理并切换回原武器。
 		Deselect: // 取消选择状态 (玩家切换到其他武器时)
 			FSTE A 1 A_Lower(WEAPONBOTTOM); // 显示 FSTE A 帧，持续1帧，并开始降低武器的动画 (降至 WEAPONBOTTOM)。
@@ -176,7 +176,7 @@ class GloryFist : Weapon
 		Select: // 选择状态 (玩家切换到此武器时)
 			FSTE A 1 A_Raise(WEAPONTOP); // 显示 FSTE A 帧，持续1帧，并开始抬起武器的动画 (升至 WEAPONTOP)。
 		Loop; // 循环 Select 的最后一行，直到武器完全抬起，然后通常会进入 Ready 状态。
-		Fire: // 开火状态 (执行光荣击杀动画序列)
+		Fire: // 开火状态 (执行荣耀击杀动画序列)
 			// 随机跳转到备选击杀动画：
             TNT1 A 0 A_Jump(64,"AltKill"); // 64/256 (25%) 的概率跳转到 "AltKill" 状态标签。
 			TNT1 A 0 A_Jump(96,"AltKill2"); // 若未跳转到AltKill，则有 96/256 (37.5%) 的概率跳转到 "AltKill2" 状态标签。
@@ -212,6 +212,6 @@ class GloryFist : Weapon
 				A_SetRoll(roll+1.25,SPF_INTERPOLATE); // 屏幕旋转+1.25度。
 			}
 			FSTE DCBA 3; // 依次显示 FSTE 精灵的 D, C, B, A 帧，每帧持续3 ticks。
-		Goto Done; // 跳转到 Done 状态，结束光荣击杀。
+		Goto Done; // 跳转到 Done 状态，结束荣耀击杀。
 	}
 }

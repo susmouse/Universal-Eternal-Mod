@@ -1,4 +1,4 @@
-// ggk_items.zs - 定义了光荣击杀MOD相关的物品和效果。
+// ggk_items.zs - 定义了荣耀击杀MOD相关的物品和效果。
 
 // ObjectMover: 一个Inventory物品，用于将持有它的Actor (Owner) 移动到目标Actor (to) 的附近。
 class ObjectMover : Inventory
@@ -54,7 +54,7 @@ class ShadedActor : Inventory
 	override void BeginPlay()
 	{
 		A_SetRenderStyle(1.0,STYLE_Shaded); // 设置渲染风格为 STYLE_Shaded，这允许使用 SetShade 来改变颜色。
-		Color gloryshade = Color(242,60,14); // 定义光荣击杀的着色颜色 (橙红色)。
+		Color gloryshade = Color(242,60,14); // 定义荣耀击杀的着色颜色 (橙红色)。
 		SetShade(gloryshade); // 应用该颜色。
 		super.BeginPlay(); // 调用父类的BeginPlay。
 	}
@@ -169,7 +169,7 @@ class IStagger : Inventory
     }
 }
 
-// SuperHealthBonus: 继承自HealthBonus的医疗物品，作为光荣击杀的奖励掉落。
+// SuperHealthBonus: 继承自HealthBonus的医疗物品，作为荣耀击杀的奖励掉落。
 class SuperHealthBonus : HealthBonus
 {
 	int livetics; // 此医疗物品已存在的帧数。

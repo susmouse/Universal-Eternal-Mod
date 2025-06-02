@@ -32,7 +32,7 @@ class GGKDamageScaler : Inventory // 定义一个名为 GGKDamageScaler 的类�
 		// sv_outdamagemod: 服务器控制的造成伤害修正。
 		float dmg_mod = passive ? sv_indamagemod : sv_outdamagemod;
 		
-		// 只有当光荣击杀MOD启用 (sv_ggk_enabled 为 true) 时，才执行硬直相关逻辑。
+		// 只有当荣耀击杀MOD启用 (sv_ggk_enabled 为 true) 时，才执行硬直相关逻辑。
 		if (sv_ggk_enabled) 
 		{
 			/*
@@ -95,8 +95,9 @@ class GGKDamageScaler : Inventory // 定义一个名为 GGKDamageScaler 的类�
 
 class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的类，继承自 StaticEventHandler。这类处理器用于响应全局游戏事件。
 {
-	Actor pendingkill; // Actor类型的变量，指向等待被光荣击杀的目标。
-	GloryFist pfist; // GloryFist类型的变量，指向玩家当前持有的光荣击杀拳套武器。
+	Actor pendingkill; // Actor类型的变量，指向等待被荣耀击杀的目标。
+	GloryFist pfist; // GloryFist类型的变量，指向玩家当前持有的荣耀击杀拳套武器。
+	GloryChainsaw psaw;
 	// IStagger estagger; // (原注释) estagger 在 WorldTick 中赋值但未被有效使用，可以考虑移除或明确其用途。
 
 	// 静态方法，判定是否触发随机硬直（例如，死亡豁免硬直）。
@@ -137,130 +138,90 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 		// 即使MOD关闭，伤害调整器的其他效果（如dmg_mod，如果独立于sv_ggk_enabled）可能仍需保留。
 		if(!plr.FindInventory("GGKDamageScaler")) plr.GiveInventory("GGKDamageScaler", 1);
 
-		// 如果MOD被禁用 (sv_ggk_enabled 为 false)
-		if (!sv_ggk_enabled)
-		{
-			// 如果之前有待处理的击杀目标 (pendingkill)，清除它。
-			if (pendingkill)
-			{
-				// 尝试移除可能残留在 pendingkill 目标身上的 IStagger 物品和无敌状态。
-				if (pendingkill.FindInventory("IStagger")) pendingkill.TakeInventory("IStagger", 1);
-				if (pendingkill.bInvulnerable) pendingkill.bInvulnerable = false;
-				pendingkill = null; // 清除待处理目标。
-			}
-			// 如果玩家持有GloryFist武器，也移除它，并尝试切换回上一个武器。
-			GloryFist currentFist = GloryFist(plr.FindInventory("GloryFist")); // 查找玩家是否拥有 GloryFist。
-			if (currentFist)
-			{
-				// 如果 GloryFist 是当前装备的武器，尝试切换到上一个武器。
-				if (plr.player && plr.player.ReadyWeapon == currentFist)
-				{
-					Weapon prevWeapon = plr.player.PendingWeapon; // PendingWeapon 通常是切换前的武器。
-					// 如果 PendingWeapon 还是 GloryFist 或无效，或者为基础拳头，则尝试寻找一个更合适的武器。
-					if (prevWeapon == currentFist || prevWeapon == null || prevWeapon.GetClass() == Name("Fist")) 
-					{
-						// 尝试找到一个非Fist, 非GloryFist的武器。
-						for (Inventory inv = plr.Inv; inv != null; inv = inv.Inv)
-						{
-							Weapon w = Weapon(inv);
-							if (w && w != currentFist && w.GetClass() != Name("Fist") && w.GetClass() != Name("GloryFist"))
-							{
-								prevWeapon = w;
-								break;
-							}
-						}
-						// 如果找不到其他武器，或者找到的还是GloryFist (逻辑上不应发生)，则最后手段是切换到基础拳头 ("Fist")。
-						if(prevWeapon == null || prevWeapon == currentFist) prevWeapon = Weapon(plr.FindInventory("Fist")); 
-					}
-					if (prevWeapon) plr.A_SelectWeapon(prevWeapon.GetClass()); // 切换到找到的先前武器。
-				}
-				plr.TakeInventory("GloryFist", 1); // 从玩家物品栏中移除 GloryFist。
-			}
-			pfist = null; // 清除 GloryFist 实例的引用。
-			return; // MOD禁用，不执行后续的GGK逻辑。
-		}
-
-		// --- 以下是 MOD 启用时的逻辑 ---
-
-		bool dokill = pendingkill && pendingkill.health >  0; // 标志：是否有存活的待光荣击杀目标。
-		bool isdead = pendingkill && pendingkill.health <= 0; // 标志：待光荣击杀目标是否已死亡。
-		
-		pfist = GloryFist(plr.FindInventory("GloryFist")); // 更新玩家持有的 GloryFist 引用。
-		// if(dokill) estagger = IStagger(pendingkill.FindInventory("IStagger")); // (原注释) estagger 仍未被使用
-
-		// 如果玩家持有 GloryFist 且其 ptarget (拳套的目标) 未设置，则将其设置为当前的 pendingkill 目标。
-		if(pfist && !pfist.ptarget) pfist.ptarget = pendingkill;
+		// 荣耀击杀部分
+		if (sv_ggk_enabled){
+			bool dokill = pendingkill && pendingkill.health >  0; // 标志：是否有存活的待荣耀击杀目标。
+			bool isdead = pendingkill && pendingkill.health <= 0; // 标志：待荣耀击杀目标是否已死亡。
 			
-		// 如果目标已死亡 (isdead)，且玩家持有 GloryFist (pfist)，并且 pendingkill 目标存在。
-		if(isdead && pfist && pendingkill) // 添加pendingkill检查
-		{
-			pendingkill.TakeInventory("IStagger",1); // 移除死亡目标身上的 IStagger 物品。
-			// 当目标死亡时，重置 pendingkill，允许玩家寻找新目标。
-			pendingkill = null; 
-		}
-		
-		// 如果有存活的待击杀目标 (dokill)，玩家与目标的距离小于等于64个单位，且玩家当前未持有 GloryFist。
-		if(dokill && plr.Distance3D(pendingkill) <= 64 && !pfist) 
-		{	
-			plr.A_GiveInventory("GloryFist",1); // 给予玩家 GloryFist 武器。
-			plr.A_SelectWeapon("GloryFist"); // 自动切换到 GloryFist 武器。
-		}
-		// 如果 pendingkill 目标跑远了或者玩家取消了（比如切换武器），也应该重置 pendingkill。
-		// 或者如果 pendingkill 上的 IStagger 超时消失了。
-		if (pendingkill && pendingkill.health > 0) // 如果存在存活的待击杀目标
-		{
-			// 条件：目标不再拥有 IStagger (硬直状态结束)，或者玩家与目标的距离超过了光荣击杀范围 (sv_glorykillrange) 加一点缓冲。
-			if (!pendingkill.FindInventory("IStagger") || plr.Distance3D(pendingkill) > sv_glorykillrange + 10) 
+			pfist = GloryFist(plr.FindInventory("GloryFist")); // 更新玩家持有的 GloryFist 引用。
+			// if(dokill) estagger = IStagger(pendingkill.FindInventory("IStagger")); // (原注释) estagger 仍未被使用
+
+			// 如果玩家持有 GloryFist 且其 ptarget (拳套的目标) 未设置，则将其设置为当前的 pendingkill 目标。
+			if(pfist && !pfist.ptarget) pfist.ptarget = pendingkill;
+				
+			// 如果目标已死亡 (isdead)，且玩家持有 GloryFist (pfist)，并且 pendingkill 目标存在。
+			if(isdead && pfist && pendingkill) // 添加pendingkill检查
 			{
-				// 如果目标不再硬直，或者跑太远，清除它。
-				if (pendingkill.bInvulnerable) pendingkill.bInvulnerable = false; // 解除可能残留的无敌状态。
-				pendingkill = null; // 清除待击杀目标。
-				// 如果玩家正拿着GloryFist但没有目标了，可以考虑切换回之前的武器。
-				if (pfist && plr.player && plr.player.ReadyWeapon == pfist)
+				pendingkill.TakeInventory("IStagger",1); // 移除死亡目标身上的 IStagger 物品。
+				// 当目标死亡时，重置 pendingkill，允许玩家寻找新目标。
+				pendingkill = null; 
+			}
+			
+			// 如果有存活的待击杀目标 (dokill)，玩家与目标的距离小于等于64个单位，且玩家当前未持有 GloryFist。
+			if(dokill && plr.Distance3D(pendingkill) <= 64 && !pfist) 
+			{	
+				plr.A_GiveInventory("GloryFist",1); // 给予玩家 GloryFist 武器。
+				plr.A_SelectWeapon("GloryFist"); // 自动切换到 GloryFist 武器。
+			}
+			// 如果 pendingkill 目标跑远了或者玩家取消了（比如切换武器），也应该重置 pendingkill。
+			// 或者如果 pendingkill 上的 IStagger 超时消失了。
+			if (pendingkill && pendingkill.health > 0) // 如果存在存活的待击杀目标
+			{
+				// 条件：目标不再拥有 IStagger (硬直状态结束)，或者玩家与目标的距离超过了荣耀击杀范围 (sv_glorykillrange) 加一点缓冲。
+				if (!pendingkill.FindInventory("IStagger") || plr.Distance3D(pendingkill) > sv_glorykillrange + 10) 
 				{
-					// (切换武器逻辑，类似上面MOD禁用时的处理)
-					Weapon prevWeapon = plr.player.PendingWeapon;
-                    if (prevWeapon == pfist || prevWeapon == null || prevWeapon.GetClass() == Name("Fist"))
-                    {
-                        for (Inventory inv = plr.Inv; inv != null; inv = inv.Inv)
-                        {
-                            Weapon w = Weapon(inv);
-                            if (w && w != pfist && w.GetClass() != Name("Fist") && w.GetClass() != Name("GloryFist"))
-                            {
-                                prevWeapon = w;
-                                break;
-                            }
-                        }
-                        if(prevWeapon == null || prevWeapon == pfist) prevWeapon = Weapon(plr.FindInventory("Fist"));
-                    }
-                    if (prevWeapon) plr.A_SelectWeapon(prevWeapon.GetClass()); // 切换武器。
+					// 如果目标不再硬直，或者跑太远，清除它。
+					if (pendingkill.bInvulnerable) pendingkill.bInvulnerable = false; // 解除可能残留的无敌状态。
+					pendingkill = null; // 清除待击杀目标。
+					// 如果玩家正拿着GloryFist但没有目标了，可以考虑切换回之前的武器。
+					if (pfist && plr.player && plr.player.ReadyWeapon == pfist)
+					{
+						// (切换武器逻辑，类似上面MOD禁用时的处理)
+						Weapon prevWeapon = plr.player.PendingWeapon;
+						if (prevWeapon == pfist || prevWeapon == null || prevWeapon.GetClass() == Name("Fist"))
+						{
+							for (Inventory inv = plr.Inv; inv != null; inv = inv.Inv)
+							{
+								Weapon w = Weapon(inv);
+								if (w && w != pfist && w.GetClass() != Name("Fist") && w.GetClass() != Name("GloryFist"))
+								{
+									prevWeapon = w;
+									break;
+								}
+							}
+							if(prevWeapon == null || prevWeapon == pfist) prevWeapon = Weapon(plr.FindInventory("Fist"));
+						}
+						if (prevWeapon) plr.A_SelectWeapon(prevWeapon.GetClass()); // 切换武器。
+					}
 				}
 			}
 		}
+
+
 	}
 
 	// 覆写 NetworkProcess 方法，用于处理网络同步的控制台事件 (如按键)。
 	// ev: ConsoleEvent 对象，包含事件信息 (如玩家编号、事件名)。
 	override void NetworkProcess(ConsoleEvent ev)
 	{
-		// 只有当 sv_ggk_enabled 为 true 时，才处理光荣击杀按键事件。
+		// 只有当 sv_ggk_enabled 为 true 时，才处理荣耀击杀按键事件。
 		if (!sv_ggk_enabled) return;
 
 		PlayerPawn plr = PlayerPawn(players[ev.Player].mo); // 获取触发事件的玩家。
 		if(!plr) return; // 如果玩家无效，则返回。
 		
-		// 如果当前已经有一个存活的待处理光荣击杀目标 (pendingkill)，则不寻找新的目标。
+		// 如果当前已经有一个存活的待处理荣耀击杀目标 (pendingkill)，则不寻找新的目标。
 		// 除非玩家再次按下 glory_kill 是为了取消当前目标或强制寻找（这需要更复杂的逻辑）。
 		// 当前逻辑是：如果已有pendingkill (且存活)，则不处理新的按键。
 		if(pendingkill && pendingkill.health > 0) return; 
 		
-		// 如果事件名为 "glory_kill" (通常是光荣击杀的绑定按键)。
+		// 如果事件名为 "glory_kill" (通常是荣耀击杀的绑定按键)。
 		if(ev.Name == "glory_kill")
 		{
 			FLineTraceData lt_data; // 用于存储 LineTrace (射线检测) 的结果。
 			// 从玩家视角进行射线检测，检测范围为 sv_glorykillrange。
 			// plr.angle: 玩家水平朝向。
-			// sv_glorykillrange: 光荣击杀的最大有效距离 (CVAR)。
+			// sv_glorykillrange: 荣耀击杀的最大有效距离 (CVAR)。
 			// plr.pitch: 玩家垂直朝向。
 			// 0: Z偏移量。
 			// plr.viewheight: 射线起始高度 (玩家视线高度)。
@@ -277,7 +238,7 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 				let staggered = IStagger(thinghit.FindInventory("IStagger")); // 检查被击中的怪物是否拥有 "IStagger" 物品 (即是否处于硬直状态)。
 				if(!staggered) return; // 如果怪物未硬直，则不进行后续操作。			
 				
-				pendingkill = thinghit; // 将被击中的硬直怪物设置为待光荣击杀目标。
+				pendingkill = thinghit; // 将被击中的硬直怪物设置为待荣耀击杀目标。
 				// 如果目标没有ObjectMover物品 (用于将怪物拉向玩家)，才给予它一个。
 				if (!pendingkill.FindInventory("ObjectMover")) pendingkill.GiveInventory("ObjectMover",1);
 				
