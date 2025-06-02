@@ -127,48 +127,48 @@ class GloryFist : Weapon
 	States
 	{
 		Ready:
-			PONG A 1 A_WeaponReady();
+			FSTE A 1 A_WeaponReady();
 		goto Fire;
 		Done:
-			PONG A 1 A_ResetWeapon();
+			FSTE A 1 A_ResetWeapon();
 		Deselect:
-			PONG A 1 A_Lower(WEAPONBOTTOM);
+			FSTE A 1 A_Lower(WEAPONBOTTOM);
 		Loop;
 		Select:
-			PONG A 1 A_Raise(WEAPONTOP);
+			FSTE A 1 A_Raise(WEAPONTOP);
 		Loop;
 		Fire:
             TNT1 A 0 A_Jump(64,"AltKill");
 			TNT1 A 0 A_Jump(96,"AltKill2");
 			TNT1 A 0 A_WeaponOffset(-20,60);
-			PONG BCCD 1;
-			PONG D 2 A_GloryPunch();
-			PONG DD 1 
+			FSTE ABBCC 1;
+			FSTE D 1 A_GloryPunch();
+			FSTE D 2 
 			{	
 				A_WeaponOffset(30/2,-32/2,WOF_ADD | WOF_INTERPOLATE);
 				A_SetRoll(roll+1.25,SPF_INTERPOLATE);
 			}
-			PONG DDD 2 
+			FSTE D 3 
 			{
 				A_WeaponOffset(-30/5,32/5,WOF_ADD | WOF_INTERPOLATE);
 				A_SetRoll(roll-1.25,SPF_INTERPOLATE);
 			}
 			TNT1 A 0 A_WeaponOffset(-20,60);
-			PONG DCCB 2;
+			FSTE DCB 3;
 			TNT1 A 0 A_ToggleFlip();
-			PONG BCCD 1;
-			PONG D 1 A_GloryPunch(true);
-			PONG DD 1 
+			FSTE ABBCC 1;
+			FSTE D 1 A_GloryPunch(true);
+			FSTE D 2 
 			{	
 				A_WeaponOffset(-30/2,-32/2,WOF_ADD | WOF_INTERPOLATE);
 				A_SetRoll(roll-1.25,SPF_INTERPOLATE);
 			}
-			PONG DDD 2 
+			FSTE D 3 
 			{
 				A_WeaponOffset(30/5,32/5,WOF_ADD | WOF_INTERPOLATE);
 				A_SetRoll(roll+1.25,SPF_INTERPOLATE);
 			}
-			PONG DCCB 1;
+			FSTE DCBA 3;
 		Goto Done;
 	}
 }
