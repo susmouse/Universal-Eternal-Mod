@@ -34,6 +34,7 @@ OptionMenu "GloryKillMenu"
 {
 	Title "Glory Kill Options"
 	ScrollTop 2
+	Option "Enable GloryKill", "sv_ggk_enabled", "YesNo"
 	StaticText " "
 	StaticText "Control(s)", "Yellow"
 	Control	   "Glory Kill"					 , "netevent glory_kill"
