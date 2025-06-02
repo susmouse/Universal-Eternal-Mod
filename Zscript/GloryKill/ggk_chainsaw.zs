@@ -20,38 +20,15 @@ class GloryChainsaw : Weapon
 		{
 			if(sv_glorykilldrops) // 如果启用了荣耀击杀掉落 (CVAR)。
 			{
-				// 计算掉落的生命恢复物品数量。基于玩家已损失的生命值，最少掉落1-6个。
-				int drops = ceil((80-plr.health)/3)+1;
-				if(drops <= 0) drops = random(1,6);
-				for(int i = 0; i < drops; i++)
-				{	
-					// 这些 xoffs, yoffs 似乎是为掉落物设置初始速度或偏移量，但未在 A_SpawnItemEx 中直接用于位置偏移。
-					float xoffs = cos(invoker.ptarget.angle)*frandom(-10,10);
-					float yoffs = sin(invoker.ptarget.angle)*frandom(-10,10);
-					// zoffs 用于调整掉落物生成的垂直位置。
-					float zoffs = frandom(5,invoker.ptarget.height);
-					// A_SpawnItemEx: 生成物品。
-					// "DEHealthLoot": 要生成的物品类型名。 (注意：如果DEHealthLoot未定义，这里会出错。可能应为SuperHealthBonus或类似物品)
-					// 0,0: x,y偏移量 (相对于调用者，即玩家)。
-					// invoker.ptarget.pos.z-zoffs: z偏移量 (这个计算方式有些奇怪，它将目标z坐标减去一个随机值作为相对于玩家的z偏移，结果是 Player.Z + Target.Z - zoffs)。
-					// FRandom(1,3),0,FRandom(4,6): x,y,z速度。
-					// FRandom(1,360): 初始角度。
-					// SXF_NOCHECKPOSITION: 生成时不检查位置是否合法 (可能穿墙)。
-					// SXF_TRANSFERPOINTERS: 将生成物品的target和master指针设为调用者的target和master (在这里，调用者是武器，其target可能是ptarget)。
-					// **注意**: 此处 A_SpawnItemEx 的x,y偏移量为0,0，意味着物品会在玩家脚下生成，Z坐标则比较复杂。
-					//          更常见的做法是在 invoker.ptarget 的位置生成掉落物。
-					//          例如: Spawn("DEHealthLoot", (invoker.ptarget.pos.x + x_rand_offset, invoker.ptarget.pos.y + y_rand_offset, invoker.ptarget.pos.z + z_rand_offset))
-					A_SpawnItemEx("DEHealthLoot",0,0,invoker.ptarget.pos.z-zoffs,FRandom(1,3),0,FRandom(4,6),FRandom(1,360),SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS);
-					
-					// 下面是被注释掉的旧代码，它尝试生成 SuperHealthBonus 并设置其速度和追踪目标。
-					// let hpup = SuperHealthBonus(Spawn("DEHealthLoot",(invoker.ptarget.pos.x,invoker.ptarget.pos.y,invoker.ptarget.pos.z-zoffs)));
-					// if(hpup)
-					// {
-					// 	hpup.plr = plr.mo;
-					// 	hpup.vel.x = xoffs;
-					// 	hpup.vel.y = yoffs;
-					// }
-				}
+				// float xoffs = cos(invoker.ptarget.angle)*frandom(-10,10);
+				// float yoffs = sin(invoker.ptarget.angle)*frandom(-10,10);
+				// float zoffs = frandom(5,invoker.ptarget.height * 0.75);
+				// vector3 spawnPos = invoker.ptarget.pos + (xoffs, yoffs, zoffs);
+				Spawn("ClipBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-10,10), sin(invoker.ptarget.angle)*frandom(-10,10), frandom(5,invoker.ptarget.height * 0.75)));
+				Spawn("ShellBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-10,10), sin(invoker.ptarget.angle)*frandom(-10,10), frandom(5,invoker.ptarget.height * 0.75)));
+				Spawn("RocketBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-10,10), sin(invoker.ptarget.angle)*frandom(-10,10), frandom(5,invoker.ptarget.height * 0.75)));
+				Spawn("CellPack", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-10,10), sin(invoker.ptarget.angle)*frandom(-10,10), frandom(5,invoker.ptarget.height * 0.75)));
+				
 			}
 			invoker.ptarget.tics = invoker.ptics; // 恢复目标敌人的tics，使其行为解冻。
 		}
@@ -68,24 +45,6 @@ class GloryChainsaw : Weapon
 			pweapon.ResetInterpolation(); // 重置精灵的插值动画。
 		}
 		RemoveInventory(invoker); // 从玩家物品栏中移除GloryChainsaw武器。
-	}
-	
-	// action 函数 A_ToggleFlip: 切换武器屏幕精灵的水平翻转状态。
-	action void A_ToggleFlip()
-	{
-		PlayerInfo plr = PlayerPawn(self).player; // 获取玩家信息。
-		PSprite pweapon = plr.GetPSprite(PSP_WEAPON); // 获取武器屏幕精灵。
-		if(pweapon) 
-		{
-			pweapon.bFlip = !pweapon.bFlip;	// 切换翻转状态。
-			// 根据翻转状态调整X坐标，以保持精灵在屏幕上的相对位置或实现特定视觉效果。
-			// (pweapon.bFlip*-1) 可能是笔误，通常是 (pweapon.bFlip ? -1 : 1) 或类似逻辑。
-			// 如果 bFlip 是 true (已翻转)，则 pweapon.bFlip*-1 是 -1。如果 false, 则是 0。
-			// 这意味着如果翻转了，x -= 130 * -1 (即 x += 130)。如果未翻转，x -= 0。
-			// 这看起来像是：翻转时向右移，不翻转时不移。或者如果初始偏移是-130，翻转时变为0。
-			pweapon.x -= 130 * (pweapon.bFlip ? -1 : 0); // 修正: 假设是想在翻转时反向偏移
-			pweapon.ResetInterpolation(); // 重置插值。
-		}
 	}
 	
 	// 覆写 DoEffect 方法，在武器激活时每帧调用。
