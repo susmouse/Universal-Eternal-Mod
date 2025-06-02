@@ -98,6 +98,8 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 	Actor pendingkill; // Actor类型的变量，指向等待被荣耀击杀的目标。
 	Actor chainsawkill; // Actor类型的变量，指向等待被电锯击杀的目标。
 	GloryFist pfist; // GloryFist类型的变量，指向玩家当前持有的荣耀击杀拳套武器。
+	GloryChainsaw pchainsaw; // GloryChainsaw类型的变量，指向玩家当前持有的荣耀击杀电锯武器。
+	
 	// IStagger estagger; // (原注释) estagger 在 WorldTick 中赋值但未被有效使用，可以考虑移除或明确其用途。
 
 	// 静态方法，判定是否触发随机硬直（例如，死亡豁免硬直）。
@@ -199,50 +201,50 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 
 		// 电锯击杀部分
 		if (sv_ggs_enabled){
-			bool dokill = pendingkill && pendingkill.health >  0; // 标志：是否有存活的待荣耀击杀目标。
-			bool isdead = pendingkill && pendingkill.health <= 0; // 标志：待荣耀击杀目标是否已死亡。
+			bool dokill = chainsawkill && chainsawkill.health >  0; // 标志：是否有存活的待荣耀击杀目标。
+			bool isdead = chainsawkill && chainsawkill.health <= 0; // 标志：待荣耀击杀目标是否已死亡。
 			
-			pfist = GloryFist(plr.FindInventory("GloryFist")); // 更新玩家持有的 GloryFist 引用。
+			pchainsaw = GloryChainsaw(plr.FindInventory("GloryChainsaw")); // 更新玩家持有的 GloryChainsaw 引用。
 
-			// 如果玩家持有 GloryFist 且其 ptarget (拳套的目标) 未设置，则将其设置为当前的 pendingkill 目标。
-			if(pfist && !pfist.ptarget) pfist.ptarget = pendingkill;
+			// 如果玩家持有 GloryChainsaw 且其 ptarget (拳套的目标) 未设置，则将其设置为当前的 chainsawkill 目标。
+			if(pchainsaw && !pchainsaw.ptarget) pchainsaw.ptarget = chainsawkill;
 				
-			// 如果目标已死亡 (isdead)，且玩家持有 GloryFist (pfist)，并且 pendingkill 目标存在。
-			if(isdead && pfist && pendingkill) // 添加pendingkill检查
+			// 如果目标已死亡 (isdead)，且玩家持有 GloryChainsaw (pchainsaw)，并且 chainsawkill 目标存在。
+			if(isdead && pchainsaw && chainsawkill) // 添加chainsawkill检查
 			{
-				pendingkill = null; 
+				chainsawkill = null; 
 			}
 			
-			// 如果有存活的待击杀目标 (dokill)，玩家与目标的距离小于等于64个单位，且玩家当前未持有 GloryFist。
-			if(dokill && plr.Distance3D(pendingkill) <= 128 && !pfist) 
+			// 如果有存活的待击杀目标 (dokill)，玩家与目标的距离小于等于64个单位，且玩家当前未持有 GloryChainsaw。
+			if(dokill && plr.Distance3D(chainsawkill) <= 128 && !pchainsaw) 
 			{	
-				plr.A_GiveInventory("GloryFist",1); // 给予玩家 GloryFist 武器。
-				plr.A_SelectWeapon("GloryFist"); // 自动切换到 GloryFist 武器。
+				plr.A_GiveInventory("GloryChainsaw",1); // 给予玩家 GloryChainsaw 武器。
+				plr.A_SelectWeapon("GloryChainsaw"); // 自动切换到 GloryChainsaw 武器。
 			}
-			if (pendingkill && pendingkill.health > 0) // 如果存在存活的待击杀目标
+			if (chainsawkill && chainsawkill.health > 0) // 如果存在存活的待击杀目标
 			{
-				if (plr.Distance3D(pendingkill) > sv_glorykillrange + 10) 
+				if (plr.Distance3D(chainsawkill) > sv_glorykillrange + 10) 
 				{
 					// 如果目标跑太远，清除它。
-					if (pendingkill.bInvulnerable) pendingkill.bInvulnerable = false; // 解除可能残留的无敌状态。
-					pendingkill = null; // 清除待击杀目标。
-					// 如果玩家正拿着GloryFist但没有目标了，可以考虑切换回之前的武器。
-					if (pfist && plr.player && plr.player.ReadyWeapon == pfist)
+					if (chainsawkill.bInvulnerable) chainsawkill.bInvulnerable = false; // 解除可能残留的无敌状态。
+					chainsawkill = null; // 清除待击杀目标。
+					// 如果玩家正拿着GloryChainsaw但没有目标了，可以考虑切换回之前的武器。
+					if (pchainsaw && plr.player && plr.player.ReadyWeapon == pchainsaw)
 					{
 						// (切换武器逻辑，类似上面MOD禁用时的处理)
 						Weapon prevWeapon = plr.player.PendingWeapon;
-						if (prevWeapon == pfist || prevWeapon == null || prevWeapon.GetClass() == Name("Fist"))
+						if (prevWeapon == pchainsaw || prevWeapon == null || prevWeapon.GetClass() == Name("Chainsaw"))
 						{
 							for (Inventory inv = plr.Inv; inv != null; inv = inv.Inv)
 							{
 								Weapon w = Weapon(inv);
-								if (w && w != pfist && w.GetClass() != Name("Fist") && w.GetClass() != Name("GloryFist"))
+								if (w && w != pchainsaw && w.GetClass() != Name("Chainsaw") && w.GetClass() != Name("GloryChainsaw"))
 								{
 									prevWeapon = w;
 									break;
 								}
 							}
-							if(prevWeapon == null || prevWeapon == pfist) prevWeapon = Weapon(plr.FindInventory("Fist"));
+							if(prevWeapon == null || prevWeapon == pchainsaw) prevWeapon = Weapon(plr.FindInventory("Chainsaw"));
 						}
 						if (prevWeapon) plr.A_SelectWeapon(prevWeapon.GetClass()); // 切换武器。
 					}
