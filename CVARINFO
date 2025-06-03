@@ -1,0 +1,30 @@
+// deprecated
+server bool HC_ReplaceMons = true;
+server int CasingCVAR = 500;
+server int FXCVAR = 100;
+server int IntroAnim = 1;
+
+//D4D damage indicator
+user bool D4D_DamageIndicators = true;
+user float D4D_DIScale = 0.5;
+user float D4D_DIAlpha = 1.0;
+
+
+// OptionMenu
+server bool get_dEDashJump=true;
+server bool get_iceBomb=true;
+server bool get_dualGrenade=true;
+server bool get_flameBelch=true;
+
+// GloryKillOptions
+// 定义一个CVAR来控制整个MOD的启用状态，默认为启用 (true)
+server bool sv_ggk_enabled = true; // 控制开启荣耀击杀系统
+server bool sv_ggs_enabled = true; // 控制开启电锯击杀系统
+server float sv_staggerhealth   = 0.50;
+server float sv_glorykillrange  = 128;
+server int   sv_staggerlength   = 140;
+server int   sv_glorykillhealth = 15;
+server int   sv_glorystunchance = 80;
+server float sv_outdamagemod    = 0.50;
+server float sv_indamagemod     = 1.00;
+server bool  sv_glorykilldrops  = true;

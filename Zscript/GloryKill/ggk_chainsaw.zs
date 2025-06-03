@@ -1,0 +1,162 @@
+class GloryChainsaw : Weapon
+{	
+	Default
+	{
+		AttackSound "*chainsaw"; // 攻击音效使用默认的音效。
+	}
+	
+	Weapon prevWeapon; // 存储切换到GloryChainsaw之前的武器。
+	Actor ptarget; // 指向荣耀击杀的目标敌人。
+	int ptics; // 存储目标敌人被冻结前的原始tics值。
+	float vbob; // 存储玩家原始的视角晃动 (ViewBob) 设置。
+	
+	// action 函数 A_ResetWeapon: 用于在荣耀击杀完成或武器被取消选择时，重置玩家和目标的状态。
+	// 'invoker' 在action函数中通常指代调用此action的武器自身 (即GloryChainsaw实例)。
+	action void A_ResetWeapon()
+	{
+		PlayerInfo plr = PlayerPawn(self).player; // 获取武器持有者 (玩家) 的PlayerInfo。 'self' 在这里指代武器Actor。
+
+		if(invoker.ptarget) // 如果存在荣耀击杀目标。
+		{
+			if(sv_glorykilldrops) // 如果启用了荣耀击杀掉落 (CVAR)。
+			{
+				// float xoffs = cos(invoker.ptarget.angle)*frandom(-10,10);
+				// float yoffs = sin(invoker.ptarget.angle)*frandom(-10,10);
+				// float zoffs = frandom(5,invoker.ptarget.height * 0.75);
+				// vector3 spawnPos = invoker.ptarget.pos + (xoffs, yoffs, zoffs);
+				Spawn("ClipBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-10,10), sin(invoker.ptarget.angle)*frandom(-10,10), frandom(5,invoker.ptarget.height * 0.75)));
+				Spawn("ShellBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-10,10), sin(invoker.ptarget.angle)*frandom(-10,10), frandom(5,invoker.ptarget.height * 0.75)));
+				Spawn("RocketBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-10,10), sin(invoker.ptarget.angle)*frandom(-10,10), frandom(5,invoker.ptarget.height * 0.75)));
+				Spawn("CellPack", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-10,10), sin(invoker.ptarget.angle)*frandom(-10,10), frandom(5,invoker.ptarget.height * 0.75)));
+				
+			}
+			invoker.ptarget.tics = invoker.ptics; // 恢复目标敌人的tics，使其行为解冻。
+		}
+		// 清除玩家在荣耀击杀期间被设置的作弊状态。
+		plr.cheats &= ~(CF_TOTALLYFROZEN|CF_NOTARGET|CF_GODMODE|CF_GODMODE2|CF_INSTANTWEAPSWITCH|CF_DOUBLEFIRINGSPEED);
+		plr.mo.ViewBob = invoker.vbob; // 恢复玩家的视角晃动设置。
+		
+		if(plr) 
+		{
+			plr.PendingWeapon = invoker.prevWeapon; // 设置待切换的武器为荣耀击杀前的武器。
+			PSprite pweapon = plr.GetPSprite(PSP_WEAPON); // 获取武器的屏幕精灵(ViewModel)。
+			pweapon.ResetInterpolation(); // 重置精灵的插值动画。
+		}
+		RemoveInventory(invoker); // 从玩家物品栏中移除GloryChainsaw武器。
+	}
+	
+	// 覆写 DoEffect 方法，在武器激活时每帧调用。
+	override void DoEffect()
+	{		
+		if(!PlayerPawn(Owner)) // 如果武器的持有者不是玩家 (例如，怪物持有的武器，虽然不太可能用于此武器)。
+		{
+			super.DoEffect(); // 执行父类的DoEffect。
+			return;
+		}
+		if(ptarget && ptarget.health >= 0) // 如果存在荣耀击杀目标且目标存活。
+		{
+			if(ptarget.tics != -1) // 如果目标尚未被此武器冻结。
+			{
+				ptics = ptarget.tics; // 存储目标原始tics。
+				ptarget.tics = -1; // 冻结目标。
+			}
+			PlayerInfo plr = PlayerPawn(Owner).player; // 获取玩家信息。
+			plr.mo.vel *= 0; // 停止玩家的移动。
+			if(!vbob) // 如果尚未存储原始视角晃动值。
+			{	
+				vbob = plr.mo.ViewBob; // 存储当前视角晃动值。
+				plr.mo.ViewBob *= 0; // 禁用视角晃动。
+			}
+			// 给予玩家一系列作弊状态，使其在荣耀击杀期间无敌、无法被瞄准、动作固定等。
+			plr.cheats |= CF_TOTALLYFROZEN|CF_NOTARGET|CF_GODMODE2|CF_GODMODE|CF_DOUBLEFIRINGSPEED|CF_INSTANTWEAPSWITCH;
+			if(!prevWeapon) prevWeapon = plr.ReadyWeapon; // 如果尚未存储先前的武器，则存储当前手持武器。
+		}
+		super.DoEffect(); // 调用父类的DoEffect。
+	}
+	
+	// 静态方法 GetPushWeight: 根据敌人质量计算一个推力权重。
+	// emass: 敌人的质量 (mass)。
+	static double GetPushWeight(double emass)
+	{
+		// Deviation from small weight, 0 means no deviation.
+		// (原注释：与小重量的偏差，0表示无偏差。)
+		double m = 200; // 基准质量。
+		double d = 0.15; // 质量衰减系数。
+		double x = (1. - (emass/m)); // 质量与基准质量的比率差。
+		double y = -d*(x**2) + 1; // 一个二次函数，当emass=m时y=1，emass偏离m时y减小。
+		return clamp(y*0.75,0.1,1.0); // 将计算出的权重限制在0.1到1.0之间，并乘以0.75。
+	}
+	
+	// action 函数 A_GloryChainsaw: 执行一次荣耀击杀的拳击动作。
+	// kill: bool, 如果为true，则此拳击会杀死目标。
+	action void A_GloryChainsaw(bool kill = false)
+	{	
+		A_Quake(3,3,0,10,""); // 屏幕震动效果: 强度3, 持续3帧, 半径0 (全屏), 衰减10, 音效标签""。
+		// 自定义近战攻击: 伤害1, true表示强制命中, 0点护甲穿透, "BulletPuff"命中效果, 范围64, 无特殊标志, 无特殊伤害类型, 无忽略Actor。
+		A_CustomPunch(1,true,0,"BulletPuff",64,0,0,"","none"); 
+		if(invoker.ptarget && kill) // 如果存在目标且标记为杀死。
+		{
+			invoker.ptarget.A_Die("GloryKill"); // 使目标以 "GloryKill" 的方式死亡 (用于触发特殊死亡动画或逻辑)。
+			double pwmass = invoker.GetPushWeight(invoker.ptarget.mass); // 计算推力权重。
+			// 将目标沿玩家当前角度推开，力度为 20 * pwmass。
+			invoker.ptarget.Thrust(4. * pwmass, angle); 
+			invoker.ptarget.vel.z += (3. * pwmass); // 给予目标向上的垂直速度。
+		}
+	}
+	
+	// States: 定义武器的各种状态和动画序列。
+	States
+	{
+		Ready: 
+			TNT1 A 0 A_WeaponReady(); 
+			goto Fire; 
+		Done: 
+			TNT1 A 0 A_ResetWeapon(); 
+		Deselect: 
+			TNT1 A 0 A_Lower(WEAPONBOTTOM); 
+			Loop; 
+		Select: 
+			TNT1 A 0 A_Raise(WEAPONTOP); 
+			Loop; 
+		Fire: 
+			// TNT1 A 0 A_WeaponOffset(-20,60); 
+			// CHSQ ABCDEFGH 1;
+			// CHSQ IJKIJKIJKIJK 1;
+			// CHSQ IJK 1 A_GloryChainsaw(true); // 执行荣耀击杀动作并杀死目标。
+			TNT1 A 0 A_AlertMonsters;
+			ESAW A 1 offset(-25,105);
+			ESAW A 1 offset(-23,95);
+			ESAW A 1 offset(-20,85);
+			ESAW A 1 offset(-15,75);
+			ESAW A 1 offset(-10,65);
+			ESAW A 1 offset(-5,55);
+			ESAW A 1 offset(0,45);
+			TNT1 A 0 A_Playsound("SAWSWING",7);
+			TNT1 A 0 A_Setangle(angle+2);
+			ESAW D 1 offset(-150,30);  
+			ESAW D 1 offset(-100,35);
+			ESAW D 1 offset(-75,37);
+			ESAW D 1 offset(-50,40);
+			TNT1 A 0 A_Setangle(angle-2);
+			// TNT1 A 0 offset(25,32);
+			ESAW BC 1 offset(25,32) A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			ESAW BC 1 offset(25,40) A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			ESAW BC 1 offset(25,48) A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			ESAW BC 1 offset(25,56) A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			ESAW BC 1 offset(25,64) A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			ESAW BC 1 offset(25,72) A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			TNT1 A 0 A_GloryChainsaw(true);
+			ESAW D 1 offset(25,60);
+			ESAW D 1 offset(50,63);
+			ESAW D 1 offset(75,66);
+			ESAW D 1 offset(100,70);
+			ESAW D 1 offset(150,75);
+			ESAW D 1 offset(200,90);
+			ESAW D 1 offset(225,95);
+			ESAW D 1 offset(250,100);
+			TNT1 A 1 offset(0,32);
+			// TNT1 A 8;
+			// ESAW A 1 offset(1,50);
+			Goto Done; 
+	}
+}

@@ -12,15 +12,15 @@ addmenukey "Daul Grenade" Daul_Grenade
 alias Daul_Grenade   "use Daul_Grenade"
 defaultbind G +Daul_Grenade
 
-addmenukey "Quick Melee" Quick_Melee
-alias Quick_Melee "use Quick_Melee_Thinker"
-defaultbind Q Quick_Melee
+// addmenukey "Quick Melee" Quick_Melee
+// alias Quick_Melee "use Quick_Melee_Thinker"
+// defaultbind Q Quick_Melee
 
-addmenukey "Quick Chainsaw" Quick_Chainsaw
-alias Quick_Chainsaw "use Quick_Chainsaw_Thinker"
+// addmenukey "Quick Chainsaw" Quick_Chainsaw
+// alias Quick_Chainsaw "use Quick_Chainsaw_Thinker"
 
-addmenukey "Kick" HC_kick                  
-alias HC_kick   "use HC_kick"
+// addmenukey "Kick" HC_kick                  
+// alias HC_kick   "use HC_kick"
 
 addmenukey "Dash" +User3
 alias +User3

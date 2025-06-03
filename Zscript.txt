@@ -23,6 +23,12 @@ Version "4.5"
 // #include "Zscript/Items/PowerUps.zc"
 // #include "Zscript/Items/Key.zc"
 
+// GloryKill
+#include "Zscript/GloryKill/ggk_events.zs"
+#include "Zscript/GloryKill/ggk_items.zs"
+#include "Zscript/GloryKill/ggk_fist.zs"
+#include "Zscript/GloryKill/ggk_chainsaw.zs"
+
 //Weapons
 
 // #include "Zscript/Weapons/HC_WeaponBase.zc"
@@ -89,6 +95,6 @@ Version "4.5"
 #include "Zscript/FX/ExplosionFX.zc"
 #include "Zscript/FX/FX.zc"
 #include "Zscript/FX/BulletPuffs.zc"
-#include "Zscript/FX/BulletCasings.zc"
-#include "Zscript/FX/MenuFXs.zc"
+// #include "Zscript/FX/BulletCasings.zc"
+// #include "Zscript/FX/MenuFXs.zc"
 #include "Zscript/FX/ProjectileFX.zc"
