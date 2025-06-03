@@ -1,4 +1,4 @@
-![logo](https://s2.loli.net/2025/06/03/OTCGiMXKo1hv3j2.png)
+![logo](https://s2.loli.net/2025/06/03/EqmM3fFOC7IQNvG.png)
 
 This is my first MOD, which aims to recreate Doom Eternal's mechanics in ClassicDoom while maintaining compatibility with custom weapon packs and custom monster packs.
 
@@ -40,4 +40,5 @@ The sprites for Quick Chainsaw and Glory Kill come from seashores' Doomunbroken.
 
 ## Download
 
-- [Github](https://github.com/susmouse/Universal-Eternal-Mod/archive/refs/heads/main.zip)
+- [Github](https://github.com/susmouse/Universal-Eternal-Mod/archive/refs/heads/main.zip) ~~If you enjoy this mod, please give the repo a star!  ~~
+- [Moddb](https://www.moddb.com/mods/universal-eternal-mod)
