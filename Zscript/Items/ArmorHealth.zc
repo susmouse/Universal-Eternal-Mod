@@ -16,9 +16,9 @@ Class HC_ArmorBonus : BasicArmorBonus
   {
   Spawn:
     ARMB A 10;
-	ARMB BCD 1;
-	ARMB E 10;
-	ARMB DCB 1;
+    ARMB BCD 1;
+    ARMB E 10;
+    ARMB DCB 1;
     Loop;
   }
 }
