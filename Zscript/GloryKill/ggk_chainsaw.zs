@@ -40,8 +40,6 @@ class GloryChainsaw : Weapon
 		{
 			plr.PendingWeapon = invoker.prevWeapon; // 设置待切换的武器为荣耀击杀前的武器。
 			PSprite pweapon = plr.GetPSprite(PSP_WEAPON); // 获取武器的屏幕精灵(ViewModel)。
-			pweapon.x -= 130; // 调整武器精灵的X坐标 (可能是为了配合动画或重置某种偏移)。
-			//pweapon.y = WEAPONTOP; // (注释掉) 设置武器精灵Y坐标。
 			pweapon.ResetInterpolation(); // 重置精灵的插值动画。
 		}
 		RemoveInventory(invoker); // 从玩家物品栏中移除GloryChainsaw武器。
@@ -110,42 +108,55 @@ class GloryChainsaw : Weapon
 	States
 	{
 		Ready: 
-			ESAW A 1 A_WeaponReady(); 
+			TNT1 A 0 A_WeaponReady(); 
 			goto Fire; 
 		Done: 
-			ESAW A 1 A_ResetWeapon(); 
+			TNT1 A 0 A_ResetWeapon(); 
 		Deselect: 
-			ESAW A 1 A_Lower(WEAPONBOTTOM); 
+			TNT1 A 0 A_Lower(WEAPONBOTTOM); 
 			Loop; 
 		Select: 
-			ESAW A 1 A_Raise(WEAPONTOP); 
+			TNT1 A 0 A_Raise(WEAPONTOP); 
 			Loop; 
 		Fire: 
 			// TNT1 A 0 A_WeaponOffset(-20,60); 
 			// CHSQ ABCDEFGH 1;
 			// CHSQ IJKIJKIJKIJK 1;
 			// CHSQ IJK 1 A_GloryChainsaw(true); // 执行荣耀击杀动作并杀死目标。
-			ESAW A 5 offset(1,44);
+			TNT1 A 0 A_AlertMonsters;
+			ESAW A 1 offset(-25,105);
+			ESAW A 1 offset(-23,95);
+			ESAW A 1 offset(-20,85);
+			ESAW A 1 offset(-15,75);
+			ESAW A 1 offset(-10,65);
+			ESAW A 1 offset(-5,55);
+			ESAW A 1 offset(0,45);
 			TNT1 A 0 A_Playsound("SAWSWING",7);
 			TNT1 A 0 A_Setangle(angle+2);
-			TNT1 A 0 A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
-			ESAW D 1 offset(-150,30);
-			TNT1 A 0 A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			ESAW D 1 offset(-150,30);  
+			ESAW D 1 offset(-100,35);
+			ESAW D 1 offset(-75,37);
 			ESAW D 1 offset(-50,40);
 			TNT1 A 0 A_Setangle(angle-2);
-			TNT1 A 0 offset(25,32);
-			ESAW BCBCBCBCBC 1;
+			// TNT1 A 0 offset(25,32);
+			ESAW BC 1 offset(25,32) A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			ESAW BC 1 offset(25,40) A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			ESAW BC 1 offset(25,48) A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			ESAW BC 1 offset(25,56) A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			ESAW BC 1 offset(25,64) A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			ESAW BC 1 offset(25,72) A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
 			TNT1 A 0 A_GloryChainsaw(true);
-			TNT1 A 0 A_Custompunch(6,0,CPF_PULLIN,"bulletpuff");
 			ESAW D 1 offset(25,60);
-			TNT1 A 0 A_Custompunch(6,0,CPF_PULLIN,"bulletpuff");
+			ESAW D 1 offset(50,63);
+			ESAW D 1 offset(75,66);
 			ESAW D 1 offset(100,70);
-			TNT1 A 0 A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			ESAW D 1 offset(150,75);
 			ESAW D 1 offset(200,90);
-			TNT1 A 0 A_Custompunch(4,0,CPF_PULLIN,"bulletpuff");
+			ESAW D 1 offset(225,95);
 			ESAW D 1 offset(250,100);
-			TNT1 A 8;
-			ESAW A 1 offset(1,50);
+			TNT1 A 1 offset(0,32);
+			// TNT1 A 8;
+			// ESAW A 1 offset(1,50);
 			Goto Done; 
 	}
 }
