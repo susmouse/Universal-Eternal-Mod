@@ -7,55 +7,53 @@ OptionMenu "UniversalEternalMenu"
 {
     Title "Universal Eternal Menu"
     ScrollTop 2
-    
-    // Universal Eternal Mod 部分
-    StaticText "--- Universal Eternal Mod ---", "Gold"
+
     StaticText " "
     
-    StaticText "--- DEDashJump ---"
+    StaticText "--- DEDashJump ---","White"
     Option "Get DEDashJump when level starts", "get_dEDashJump", "YesNo"
-    SafeCommand "Enable DEDashJump", "give DEDashJump 1"
-    SafeCommand "Disable DEDashJump", "take DEDashJump 1"
+    SafeCommand "Get DEDashJump", "give DEDashJump 1"
+    SafeCommand "Clear DEDashJump", "take DEDashJump 1"
     StaticText " "
     
-    StaticText "--- IceBomb ---"
+    StaticText "--- IceBomb ---","Blue"
     Option "Get IceBomb when level starts", "get_iceBomb", "YesNo"
-    SafeCommand "Enable IceBomb", "give Ice_Bomb 1"
-    SafeCommand "Disable IceBomb", "take Ice_Bomb 1"
+    SafeCommand "Get IceBomb", "give Ice_Bomb 1"
+    SafeCommand "Clear IceBomb", "take Ice_Bomb 1"
     StaticText " "
     
-    StaticText "--- FlameBelch ---"
+    StaticText "--- FlameBelch ---","Red"
     Option "Get FlameBelch when level starts", "get_flameBelch", "YesNo"
-    SafeCommand "Enable FlameBelch", "give Flame_Belch 1"
-    SafeCommand "Disable FlameBelch", "take Flame_Belch 1"
+    SafeCommand "Get FlameBelch", "give Flame_Belch 1"
+    SafeCommand "Clear FlameBelch", "take Flame_Belch 1"
     StaticText " "
     
-    StaticText "--- DualGrenade ---"
+    StaticText "--- DualGrenade ---","Green"
     Option "Get DualGrenade when level starts", "get_dualGrenade", "YesNo"
-    SafeCommand "Enable DualGrenade", "give Daul_Grenade 1"
-    SafeCommand "Disable DualGrenade", "take Daul_Grenade 1"
+    SafeCommand "Get DualGrenade", "give Daul_Grenade 1"
+    SafeCommand "Clear DualGrenade", "take Daul_Grenade 1"
     StaticText " "
     
     // Glory Kill 部分
-    StaticText "--- Glory Kill Options ---", "Gold"
+    StaticText "--- Glory Kill---", "Gold"
     StaticText " "
     
     Option "Enable Glory Kill", "sv_ggk_enabled", "YesNo"
     Option "Enable Quick Chainsaw", "sv_ggs_enabled", "YesNo"
     StaticText " "
     
-    StaticText "Control(s)", "Yellow"
+    StaticText "-- Control --"
     Control "Glory Kill", "netevent glory_kill"
     StaticText "Press this button when an enemy is staggered", "Black"
     StaticText "to initiate Glory Kill.", "Black"
     Control "Quick Chainsaw", "netevent quick_chainsaw"
-    StaticText "Press this button kiss an enemy", "Black"
+    StaticText "Press this button kill an enemy", "Black"
     StaticText "by chainsaw.", "Black"
     StaticText " "
     
-    StaticText "Configure", "Yellow"
+    StaticText "-- Configure --"
     Option "Drop Health/Armor/Ammo bonuses", "sv_glorykilldrops", "YesNo"
-    Slider "Amount of Health From Glory Kill", "sv_glorykillhealth", 1, 100, 1, 0
+    Slider "Health restored from Glory Kill", "sv_glorykillhealth", 1, 100, 1, 0
     StaticText " "
     
     Slider "Stagger chance", "sv_glorystunchance", 0, 100, 1, 0
