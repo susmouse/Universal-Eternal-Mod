@@ -1,4 +1,4 @@
-![logo](Textures\logo.png)
+![logo](https://s2.loli.net/2025/06/03/OTCGiMXKo1hv3j2.png)
 
 This is my first MOD, which aims to recreate Doom Eternal's mechanics in ClassicDoom while maintaining compatibility with custom weapon packs and custom monster packs.
 
@@ -13,6 +13,14 @@ I'm not proficient in C++. This mod was created after just 10 minutes of reading
 - Configurable ability toggles  
 
 ## Screenshots
+
+![ShoulderCannons](https://s2.loli.net/2025/06/03/wmraHpXWMvRZsxT.png)
+
+![GloryKill](https://s2.loli.net/2025/06/03/ABufwY6WjP4g5dK.png)
+
+![QuickChainsaw](https://s2.loli.net/2025/06/03/HwevlpfKAo4ExJy.png)
+
+![Config](https://s2.loli.net/2025/06/03/zIoNpvjwe6QVGHx.jpg)
 
 ## Future Development Plans  
 
