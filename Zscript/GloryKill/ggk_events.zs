@@ -135,7 +135,6 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 			bool isdead = pendingkill && pendingkill.health <= 0; // 标志：待荣耀击杀目标是否已死亡。
 			
 			pfist = GloryFist(plr.FindInventory("GloryFist")); // 更新玩家持有的 GloryFist 引用。
-			// if(dokill) estagger = IStagger(pendingkill.FindInventory("IStagger")); // (原注释) estagger 仍未被使用
 
 			// 如果玩家持有 GloryFist 且其 ptarget (拳套的目标) 未设置，则将其设置为当前的 pendingkill 目标。
 			if(pfist && !pfist.ptarget) pfist.ptarget = pendingkill;
@@ -143,9 +142,7 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 			// 如果目标已死亡 (isdead)，且玩家持有 GloryFist (pfist)，并且 pendingkill 目标存在。
 			if(isdead && pfist && pendingkill) // 添加pendingkill检查
 			{
-				pendingkill.TakeInventory("IStagger",1); // 移除死亡目标身上的 IStagger 物品。
-				// 当目标死亡时，重置 pendingkill，允许玩家寻找新目标。
-				pendingkill = null; 
+				pendingkill.TakeInventory("IStagger",1);
 			}
 			
 			// 如果有存活的待击杀目标 (dokill)，玩家与目标的距离小于等于64个单位，且玩家当前未持有 GloryFist。
@@ -153,38 +150,6 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 			{	
 				plr.A_GiveInventory("GloryFist",1); // 给予玩家 GloryFist 武器。
 				plr.A_SelectWeapon("GloryFist"); // 自动切换到 GloryFist 武器。
-			}
-			// 如果 pendingkill 目标跑远了或者玩家取消了（比如切换武器），也应该重置 pendingkill。
-			// 或者如果 pendingkill 上的 IStagger 超时消失了。
-			if (pendingkill && pendingkill.health > 0) // 如果存在存活的待击杀目标
-			{
-				// 条件：目标不再拥有 IStagger (硬直状态结束)，或者玩家与目标的距离超过了荣耀击杀范围 (sv_glorykillrange) 加一点缓冲。
-				if (!pendingkill.FindInventory("IStagger") || plr.Distance3D(pendingkill) > sv_glorykillrange + 10) 
-				{
-					// 如果目标不再硬直，或者跑太远，清除它。
-					if (pendingkill.bInvulnerable) pendingkill.bInvulnerable = false; // 解除可能残留的无敌状态。
-					pendingkill = null; // 清除待击杀目标。
-					// 如果玩家正拿着GloryFist但没有目标了，可以考虑切换回之前的武器。
-					if (pfist && plr.player && plr.player.ReadyWeapon == pfist)
-					{
-						// (切换武器逻辑，类似上面MOD禁用时的处理)
-						Weapon prevWeapon = plr.player.PendingWeapon;
-						if (prevWeapon == pfist || prevWeapon == null || prevWeapon.GetClass() == Name("Fist"))
-						{
-							for (Inventory inv = plr.Inv; inv != null; inv = inv.Inv)
-							{
-								Weapon w = Weapon(inv);
-								if (w && w != pfist && w.GetClass() != Name("Fist") && w.GetClass() != Name("GloryFist"))
-								{
-									prevWeapon = w;
-									break;
-								}
-							}
-							if(prevWeapon == null || prevWeapon == pfist) prevWeapon = Weapon(plr.FindInventory("Fist"));
-						}
-						if (prevWeapon) plr.A_SelectWeapon(prevWeapon.GetClass()); // 切换武器。
-					}
-				}
 			}
 		}
 
@@ -209,35 +174,6 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 			{	
 				plr.A_GiveInventory("GloryChainsaw",1); // 给予玩家 GloryChainsaw 武器。
 				plr.A_SelectWeapon("GloryChainsaw"); // 自动切换到 GloryChainsaw 武器。
-			}
-			if (chainsawkill && chainsawkill.health > 0) // 如果存在存活的待击杀目标
-			{
-				if (plr.Distance3D(chainsawkill) > sv_glorykillrange + 10) 
-				{
-					// 如果目标跑太远，清除它。
-					if (chainsawkill.bInvulnerable) chainsawkill.bInvulnerable = false; // 解除可能残留的无敌状态。
-					chainsawkill = null; // 清除待击杀目标。
-					// 如果玩家正拿着GloryChainsaw但没有目标了，可以考虑切换回之前的武器。
-					if (pchainsaw && plr.player && plr.player.ReadyWeapon == pchainsaw)
-					{
-						// (切换武器逻辑，类似上面MOD禁用时的处理)
-						Weapon prevWeapon = plr.player.PendingWeapon;
-						if (prevWeapon == pchainsaw || prevWeapon == null || prevWeapon.GetClass() == Name("Chainsaw"))
-						{
-							for (Inventory inv = plr.Inv; inv != null; inv = inv.Inv)
-							{
-								Weapon w = Weapon(inv);
-								if (w && w != pchainsaw && w.GetClass() != Name("Chainsaw") && w.GetClass() != Name("GloryChainsaw"))
-								{
-									prevWeapon = w;
-									break;
-								}
-							}
-							if(prevWeapon == null || prevWeapon == pchainsaw) prevWeapon = Weapon(plr.FindInventory("Chainsaw"));
-						}
-						if (prevWeapon) plr.A_SelectWeapon(prevWeapon.GetClass()); // 切换武器。
-					}
-				}
 			}
 		}
 

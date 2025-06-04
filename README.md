@@ -4,6 +4,13 @@ This is my first MOD, which aims to recreate Doom Eternal's mechanics in Classic
 
 I'm not proficient in C++. This mod was created after just 10 minutes of reading the ZDoom wiki, based on [Hell Crusher](https://forum.zdoom.org/viewtopic.php?t=72084) and [Vanilla Glory Kill](https://github.com/OverDriver05/Vanilla-Glory-Kill), so please bear with any bugs you may encounter:
 
+## Update Log
+
+- v1.0: Initial release
+- v1.1: 加入更多荣耀击杀动画；
+- v1.2: 修复荣耀击杀有时无法正确杀死敌人的问题；
+- v1.3: 为电锯击杀添加冷却时间；
+
 ## Features
 
 - Compatible with custom weapon packs (Tested working with: Doom4Vanilla, Unbroken, SmoothDoom. Please report if compatibility issues occur)
