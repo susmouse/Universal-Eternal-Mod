@@ -310,9 +310,7 @@ class LevelStartHandler : EventHandler
             if(get_dualGrenade){
                 player.GiveInventory("Daul_Grenade", 1);
             }
-            
-            // 可选：在控制台显示消息
-            Console.Printf(String.Format("Player %d received ShoulderCannons!", i + 1));
+            player.GiveInventory("chainsawCooldownTimer", 1);
         }
     }
 }

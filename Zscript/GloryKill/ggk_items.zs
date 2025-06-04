@@ -1,5 +1,24 @@
 // ggk_items.zs - 定义了荣耀击杀MOD相关的物品和效果。
 
+class ChainsawCooldownTimer: Inventory
+{
+	int cooldown;
+
+	override void DoEffect()
+	{
+		if(cooldown>0){cooldown--; return;}	
+	}
+
+	bool isReady()
+	{
+		return cooldown <= 0;
+	}
+
+	void resetCooldown(){
+		cooldown = sv_ggs_cooldown*60; // 重置冷却时间
+	}
+}
+
 // ObjectMover: 一个Inventory物品，用于将持有它的Actor (Owner) 移动到目标Actor (to) 的附近。
 class ObjectMover : Inventory
 {

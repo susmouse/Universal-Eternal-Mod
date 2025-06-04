@@ -88,6 +88,7 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 	Actor chainsawkill; // Actor类型的变量，指向等待被电锯击杀的目标。
 	GloryFist pfist; // GloryFist类型的变量，指向玩家当前持有的荣耀击杀拳套武器。
 	GloryChainsaw pchainsaw; // GloryChainsaw类型的变量，指向玩家当前持有的荣耀击杀电锯武器。
+	ChainsawCooldownTimer cctimer;
 
 	// IStagger estagger; // (原注释) estagger 在 WorldTick 中赋值但未被有效使用，可以考虑移除或明确其用途。
 
@@ -173,6 +174,8 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 			if(dokill && plr.Distance3D(chainsawkill) <= 64 && !pchainsaw) 
 			{	
 				plr.A_GiveInventory("GloryChainsaw",1); // 给予玩家 GloryChainsaw 武器。
+				cctimer = ChainsawCooldownTimer(plr.FindInventory("chainsawCooldownTimer"));
+				cctimer.resetCooldown();
 				plr.A_SelectWeapon("GloryChainsaw"); // 自动切换到 GloryChainsaw 武器。
 			}
 		}
@@ -197,7 +200,15 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 			{
 				Actor thinghit = lt_data.HitActor; // 获取被击中的 Actor。
 				if (!thinghit || !thinghit.bISMONSTER) return; // 确保击中的是有效 Actor 且是怪物类型。
+				
+				// 判断电锯击杀是否冷却完成
+				cctimer = ChainsawCooldownTimer(plr.FindInventory("chainsawCooldownTimer"));
+				if (!(cctimer && cctimer.isReady())) {
+					Console.Printf("QuickChainsaw is not ready to use");
+					return;
+				}
 
+				// 判断敌人血量是否能够被电锯击杀
 				if (thinghit.health > sv_ggs_maxhealth){
 					Console.Printf(String.Format("Enemy health ( %d ) is too high for QuickChainsaw", thinghit.health));
 					return;
