@@ -41,7 +41,7 @@ OptionMenu "UniversalEternalMenu"
     StaticText "by chainsaw.", "Black"
     StaticText "-- Configure --"
     Slider "Quick Chainsaw cooldown", "sv_ggs_cooldown", 0, 16, 1
-    Slider "Minimum activation health", "sv_ggs_minhealth", 0, 1000, 100
+    Slider "Minimum activation health", "sv_ggs_maxhealth", 0, 5000, 100
     StaticText "Minimum health to trigger Chainsaw execution", "Black"
     StaticText " "
 

@@ -198,7 +198,7 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 				Actor thinghit = lt_data.HitActor; // 获取被击中的 Actor。
 				if (!thinghit || !thinghit.bISMONSTER) return; // 确保击中的是有效 Actor 且是怪物类型。
 
-				if (thinghit.health > sv_ggs_minhealth){
+				if (thinghit.health > sv_ggs_maxhealth){
 					Console.Printf(String.Format("Enemy health ( %d ) is too high for QuickChainsaw", thinghit.health));
 					return;
 				}
