@@ -122,7 +122,7 @@ class GloryFist : Weapon
 	// kill: bool, 如果为true，则此踢击会杀死目标。
 	action void A_GloryKick(bool kill = false)
 	{	
-		A_PlaySound("fht1",0); // 播放音效 "fht1"
+		A_PlaySound("KICK");
 		A_Quake(5,3,0,10,""); // 更强的屏幕震动。
 		A_CustomPunch(1,true,0,"BulletPuff",128,0,0,"","none");
 		{
