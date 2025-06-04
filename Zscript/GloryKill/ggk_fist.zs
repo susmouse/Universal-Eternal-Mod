@@ -107,7 +107,7 @@ class GloryFist : Weapon
 	action void A_GloryPunch(bool kill = false)
 	{	
 		A_Quake(3,3,0,10,"");
-		A_CustomPunch(1,true,0,"BulletPuff",64,0,0,"","none"); 
+		A_CustomPunch(1,true,0,"BulletPuff",128,0,0,"","none"); 
 		if(invoker.ptarget && kill) // 如果存在目标且标记为杀死。
 		{
 			invoker.ptarget.A_Die("GloryKill"); // 使目标以 "GloryKill" 的方式死亡 (用于触发特殊死亡动画或逻辑)。
@@ -124,7 +124,7 @@ class GloryFist : Weapon
 	{	
 		A_PlaySound("fht1",0); // 播放音效 "fht1"
 		A_Quake(5,3,0,10,""); // 更强的屏幕震动。
-		A_CustomPunch(1,true,0,"BulletPuff",64,0,0,"","none");
+		A_CustomPunch(1,true,0,"BulletPuff",128,0,0,"","none");
 		{
 			invoker.ptarget.A_Die("GloryKill");
 			double pwmass = invoker.GetPushWeight(invoker.ptarget.mass);
@@ -183,7 +183,7 @@ class GloryFist : Weapon
 		AltKill:
 			BLDE B 1 Offset(-100,70) A_Playsound("weapons/sshoto",7);
 			BLDE B 1 Offset(-50,50);
-			BLDE A 1 Offset(-5,32)A_Custompunch(17,0,CPF_PULLIN,"bulletpuff");
+			BLDE A 1 Offset(-5,32); 
 			BLDE A 4 Offset(1,33);
 			TNT1 A 0{
 				A_Weaponready(WRF_NOBOB);
