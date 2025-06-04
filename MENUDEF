@@ -7,7 +7,6 @@ OptionMenu "UniversalEternalMenu"
 {
     Title "Universal Eternal Menu"
     ScrollTop 2
-
     StaticText " "
     
     StaticText "--- DEDashJump ---","White"
@@ -33,24 +32,27 @@ OptionMenu "UniversalEternalMenu"
     SafeCommand "Get DualGrenade", "give Daul_Grenade 1"
     SafeCommand "Clear DualGrenade", "take Daul_Grenade 1"
     StaticText " "
-    
+
+    StaticText "--- Quick Chainsaw ---","orange"
+    Option "Enable Quick Chainsaw", "sv_ggs_enabled", "YesNo"
+    StaticText "-- Control --"
+    Control "Quick Chainsaw", "netevent quick_chainsaw"
+    StaticText "Press this button kill an enemy", "Black"
+    StaticText "by chainsaw.", "Black"
+    StaticText "-- Configure --"
+    Slider "Quick Chainsaw cooldown", "sv_ggs_cooldown", 0, 16, 1
+    Slider "Minimum activation health", "sv_ggs_minhealth", 0, 1000, 100
+    StaticText "Minimum health to trigger Chainsaw execution", "Black"
+    StaticText " "
+
     // Glory Kill 部分
     StaticText "--- Glory Kill---", "Gold"
-    StaticText " "
-    
     Option "Enable Glory Kill", "sv_ggk_enabled", "YesNo"
-    Option "Enable Quick Chainsaw", "sv_ggs_enabled", "YesNo"
-    StaticText " "
-    
     StaticText "-- Control --"
     Control "Glory Kill", "netevent glory_kill"
     StaticText "Press this button when an enemy is staggered", "Black"
     StaticText "to initiate Glory Kill.", "Black"
-    Control "Quick Chainsaw", "netevent quick_chainsaw"
-    StaticText "Press this button kill an enemy", "Black"
-    StaticText "by chainsaw.", "Black"
     StaticText " "
-    
     StaticText "-- Configure --"
     Option "Drop Health/Armor/Ammo bonuses", "sv_glorykilldrops", "YesNo"
     Slider "Health restored from Glory Kill", "sv_glorykillhealth", 1, 100, 1, 0
