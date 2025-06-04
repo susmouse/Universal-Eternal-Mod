@@ -15,7 +15,7 @@ class ChainsawCooldownTimer: Inventory
 	}
 
 	void resetCooldown(){
-		cooldown = sv_ggs_cooldown*60; // 重置冷却时间
+		cooldown = sv_ggs_cooldown*35; // 重置冷却时间
 	}
 }
 
