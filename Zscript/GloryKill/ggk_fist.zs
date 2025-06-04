@@ -106,29 +106,31 @@ class GloryFist : Weapon
 	// kill: bool, 如果为true，则此拳击会杀死目标。
 	action void A_GloryPunch(bool kill = false)
 	{	
-		A_Quake(3,3,0,10,""); // 屏幕震动效果: 强度3, 持续3帧, 半径0 (全屏), 衰减10, 音效标签""。
-		// 自定义近战攻击: 伤害1, true表示强制命中, 0点护甲穿透, "BulletPuff"命中效果, 范围64, 无特殊标志, 无特殊伤害类型, 无忽略Actor。
+		A_Quake(3,3,0,10,"");
 		A_CustomPunch(1,true,0,"BulletPuff",64,0,0,"","none"); 
 		if(invoker.ptarget && kill) // 如果存在目标且标记为杀死。
 		{
 			invoker.ptarget.A_Die("GloryKill"); // 使目标以 "GloryKill" 的方式死亡 (用于触发特殊死亡动画或逻辑)。
 			double pwmass = invoker.GetPushWeight(invoker.ptarget.mass); // 计算推力权重。
 			// 将目标沿玩家当前角度推开，力度为 20 * pwmass。
-			invoker.ptarget.Thrust(20. * pwmass, angle); 
-			invoker.ptarget.vel.z += (12. * pwmass); // 给予目标向上的垂直速度。
+			invoker.ptarget.Thrust(10. * pwmass, angle); 
+			invoker.ptarget.vel.z += (8. * pwmass); // 给予目标向上的垂直速度。
 		}
 	}
 	
-	// action 函数 A_GloryKick: 执行一次荣耀击杀的踢击动作。 (此函数目前在States中未被使用)
+	// action 函数 A_GloryKick: 执行一次荣耀击杀的踢击动作。
 	// kill: bool, 如果为true，则此踢击会杀死目标。
 	action void A_GloryKick(bool kill = false)
 	{	
-		PlayerInfo plr = PlayerPawn(self).player; // 获取玩家信息。
-		A_PlaySound("fht1",0); // 播放音效 "fht1" (通常是拳击或踢击声)。
+		A_PlaySound("fht1",0); // 播放音效 "fht1"
 		A_Quake(5,3,0,10,""); // 更强的屏幕震动。
-		A_CustomPunch(1,true,0,"BulletPuff",64,0,0,"","none"); // 近战攻击。
-		if(invoker.ptarget && kill) invoker.ptarget.A_Die("GloryKill"); // 杀死目标。
-		//plr.mo.ViewBob *= 1; // (注释掉) 恢复视角晃动，但值是1，可能不是预期效果。
+		A_CustomPunch(1,true,0,"BulletPuff",64,0,0,"","none");
+		{
+			invoker.ptarget.A_Die("GloryKill");
+			double pwmass = invoker.GetPushWeight(invoker.ptarget.mass);
+			invoker.ptarget.Thrust(20. * pwmass, angle); 
+			invoker.ptarget.vel.z += (12. * pwmass);
+		}
 	}	
 
 	States
@@ -213,8 +215,7 @@ class GloryFist : Weapon
             KICK D 5 // 踢中，持续时间稍长以感受冲击
             {
                 A_WeaponOffset(-5, 5, WOF_ADD | WOF_INTERPOLATE); // 命中时的微小额外前冲和震动
-                A_Custompunch(22, 0, CPF_PULLIN, "BulletPuff"); // 增强的屏幕震动
-                A_GloryPunch(true); // 保留原有的荣耀击杀效果
+                A_GloryKick(true); // 保留原有的荣耀击杀效果
                 A_PlaySound("melee/kickhit", CHAN_WEAPON); // 假设有一个踢中音效
             }
             KICK D 2 // 紧接着冲击，开始有收回的趋势
