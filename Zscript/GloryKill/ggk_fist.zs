@@ -145,8 +145,8 @@ class GloryFist : Weapon
 			FSTE A 1 A_Raise(WEAPONTOP); 
 			Loop; 
 		Fire: 
-            // TNT1 A 0 A_Jump(64,"AltKill"); // 64/256 (25%) 的概率跳转到 "AltKill" 状态标签。
-			TNT1 A 0 A_Jump(256,"AltKill2");
+            TNT1 A 0 A_Jump(64,"AltKill"); // 64/256 (25%) 的概率跳转到 "AltKill" 状态标签。
+			TNT1 A 0 A_Jump(96,"AltKill2");
 			TNT1 A 0 A_WeaponOffset(-20,60); // 瞬间调整武器屏幕精灵的偏移量 (x=-20, y=60)。
 			FSTE ABBCC 1; 
 			FSTE D 1 A_GloryPunch(); 
@@ -197,7 +197,7 @@ class GloryFist : Weapon
 			Goto Done;
 		AltKill2:
             // --- 踢击准备和踢出 ---
-            TNT1 A 0 A_WeaponOffset(10, -20); // 初始偏移: X向右(或向后), Y向上 (蓄力感)
+            TNT1 A 0 A_WeaponOffset(10, -20);
             KICK A 2;
             KICK B 2 
             {
