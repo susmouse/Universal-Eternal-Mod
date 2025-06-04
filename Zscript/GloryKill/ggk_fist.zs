@@ -131,45 +131,41 @@ class GloryFist : Weapon
 		//plr.mo.ViewBob *= 1; // (注释掉) 恢复视角晃动，但值是1，可能不是预期效果。
 	}	
 
-	// States: 定义武器的各种状态和动画序列。
 	States
 	{
-		Ready: // 准备状态 (武器空闲时)
-			FSTE A 1 A_WeaponReady(); // 显示 FSTE 精灵的 A 帧，持续1帧，并调用 A_WeaponReady (允许玩家开火或切换武器)。
-		goto Fire; // 直接跳转到 Fire 状态开始荣耀击杀动画 (这表明一旦选中此武器且有目标，就会自动开始攻击)。
-		Done: // 完成状态 (荣耀击杀动画结束)
+		Ready:
+			FSTE A 1 A_WeaponReady();
+			goto Fire; // 直接跳转到 Fire 状态开始荣耀击杀动画 (这表明一旦选中此武器且有目标，就会自动开始攻击)。
+		Done:
 			FSTE A 1 A_ResetWeapon(); // 显示 FSTE A 帧，持续1帧，并调用 A_ResetWeapon 清理并切换回原武器。
-		Deselect: // 取消选择状态 (玩家切换到其他武器时)
-			FSTE A 1 A_Lower(WEAPONBOTTOM); // 显示 FSTE A 帧，持续1帧，并开始降低武器的动画 (降至 WEAPONBOTTOM)。
-		Loop; // 循环 Deselect 的最后一行，直到武器完全放下。完成后会自动调用 A_ResetWeapon。
-		Select: // 选择状态 (玩家切换到此武器时)
-			FSTE A 1 A_Raise(WEAPONTOP); // 显示 FSTE A 帧，持续1帧，并开始抬起武器的动画 (升至 WEAPONTOP)。
-		Loop; // 循环 Select 的最后一行，直到武器完全抬起，然后通常会进入 Ready 状态。
-		Fire: // 开火状态 (执行荣耀击杀动画序列)
-			// 随机跳转到备选击杀动画：
-            TNT1 A 0 A_Jump(64,"AltKill"); // 64/256 (25%) 的概率跳转到 "AltKill" 状态标签。
-			TNT1 A 0 A_Jump(96,"AltKill2"); // 若未跳转到AltKill，则有 96/256 (37.5%) 的概率跳转到 "AltKill2" 状态标签。
-			                        // "AltKill" 和 "AltKill2" 状态未在此代码片段中定义。
-			// 默认击杀动画序列：
+		Deselect:
+			FSTE A 1 A_Lower(WEAPONBOTTOM);
+			Loop; // 循环 Deselect 的最后一行，直到武器完全放下。完成后会自动调用 A_ResetWeapon。
+		Select: 
+			FSTE A 1 A_Raise(WEAPONTOP); 
+			Loop; 
+		Fire: 
+            // TNT1 A 0 A_Jump(64,"AltKill"); // 64/256 (25%) 的概率跳转到 "AltKill" 状态标签。
+			TNT1 A 0 A_Jump(256,"AltKill2");
 			TNT1 A 0 A_WeaponOffset(-20,60); // 瞬间调整武器屏幕精灵的偏移量 (x=-20, y=60)。
-			FSTE ABBCC 1; // 依次显示 FSTE 精灵的 A, B, B, C, C 帧，每帧持续1 tick。
-			FSTE D 1 A_GloryPunch(); // 显示 D 帧，持续1 tick，并执行一次非致命的 A_GloryPunch。
-			FSTE D 2 // 显示 D 帧，持续2 ticks。
+			FSTE ABBCC 1; 
+			FSTE D 1 A_GloryPunch(); 
+			FSTE D 2 
 			{	
 				// WOF_ADD: 偏移量是加到当前值上。 WOF_INTERPOLATE: 平滑插值到目标偏移。
 				A_WeaponOffset(30/2,-32/2,WOF_ADD | WOF_INTERPOLATE); // 武器精灵向 (15, -16) 平滑偏移。
 				A_SetRoll(roll+1.25,SPF_INTERPOLATE); // 屏幕 (或武器模型) 旋转+1.25度，平滑插值。
 			}
-			FSTE D 3 // 显示 D 帧，持续3 ticks。
+			FSTE D 3 
 			{
 				A_WeaponOffset(-30/5,32/5,WOF_ADD | WOF_INTERPOLATE); // 武器精灵向 (-6, 6.4) 平滑偏移。
 				A_SetRoll(roll-1.25,SPF_INTERPOLATE); // 屏幕旋转-1.25度，平滑插值。
 			}
 			TNT1 A 0 A_WeaponOffset(-20,60); // 瞬间重置武器偏移到 (-20, 60)。
-			FSTE DCB 3; // 依次显示 FSTE 精灵的 D, C, B 帧，每帧持续3 ticks。
+			FSTE DCB 3;
 			TNT1 A 0 A_ToggleFlip(); // 切换武器精灵的水平翻转。
-			FSTE ABBCC 1; // 再次显示 A, B, B, C, C 帧，每帧1 tick。
-			FSTE D 1 A_GloryPunch(true); // 显示 D 帧，持续1 tick，并执行一次致命的 A_GloryPunch(true)。
+			FSTE ABBCC 1;
+			FSTE D 1 A_GloryPunch(true);
 			FSTE D 2 
 			{	
 				A_WeaponOffset(-30/2,-32/2,WOF_ADD | WOF_INTERPOLATE); // 武器精灵向 (-15, -16) 平滑偏移。
@@ -180,7 +176,60 @@ class GloryFist : Weapon
 				A_WeaponOffset(30/5,32/5,WOF_ADD | WOF_INTERPOLATE); // 武器精灵向 (6, 6.4) 平滑偏移。
 				A_SetRoll(roll+1.25,SPF_INTERPOLATE); // 屏幕旋转+1.25度。
 			}
-			FSTE DCBA 3; // 依次显示 FSTE 精灵的 D, C, B, A 帧，每帧持续3 ticks。
-		Goto Done; // 跳转到 Done 状态，结束荣耀击杀。
+			FSTE DCBA 3;
+			Goto Done;
+		AltKill:
+			BLDE B 1 Offset(-100,70) A_Playsound("weapons/sshoto",7);
+			BLDE B 1 Offset(-50,50);
+			BLDE A 1 Offset(-5,32)A_Custompunch(17,0,CPF_PULLIN,"bulletpuff");
+			BLDE A 4 Offset(1,33);
+			TNT1 A 0{
+				A_Weaponready(WRF_NOBOB);
+				A_GloryPunch(true);
+			}
+			BLDE A 8 Offset(1,33);
+			TNT1 A 0 A_Weaponready(WRF_NOBOB);
+			BLDE A 1 Offset(-2,35);
+			TNT1 A 0 A_Weaponready(WRF_NOBOB);
+			BLDE A 1 Offset(-20,55);
+			TNT1 A 0 A_Weaponready(WRF_NOBOB);
+			BLDE A 1 Offset(-40,90);
+			Goto Done;
+		AltKill2:
+            // --- 踢击准备和踢出 ---
+            TNT1 A 0 A_WeaponOffset(10, -20); // 初始偏移: X向右(或向后), Y向上 (蓄力感)
+            KICK A 2;
+            KICK B 2 
+            {
+                A_WeaponOffset(-30, 40, WOF_ADD | WOF_INTERPOLATE);
+                A_SetRoll(roll+8.0, SPF_INTERPOLATE);
+            }
+            KICK C 2 
+            {
+                A_WeaponOffset(-25, 30, WOF_ADD | WOF_INTERPOLATE);
+                A_SetRoll(roll+7.0, SPF_INTERPOLATE);
+            }
+            // --- 冲击点 ---
+            KICK D 5 // 踢中，持续时间稍长以感受冲击
+            {
+                A_WeaponOffset(-5, 5, WOF_ADD | WOF_INTERPOLATE); // 命中时的微小额外前冲和震动
+                A_Custompunch(22, 0, CPF_PULLIN, "BulletPuff"); // 增强的屏幕震动
+                A_GloryPunch(true); // 保留原有的荣耀击杀效果
+                A_PlaySound("melee/kickhit", CHAN_WEAPON); // 假设有一个踢中音效
+            }
+            KICK D 2 // 紧接着冲击，开始有收回的趋势
+            {
+                A_WeaponOffset(20, -30, WOF_ADD | WOF_INTERPOLATE); // X向右(或向后), Y向上 (开始收回)
+                A_SetRoll(roll-10.0, SPF_INTERPOLATE); // 屏幕旋转开始恢复
+            }
+            TNT1 A 0 A_WeaponOffset(5, -10); // 重置到一个稍微收回的中间状态
+
+            KICK C 2
+            {
+                A_WeaponOffset(-5, 10, WOF_ADD | WOF_INTERPOLATE); // 继续收回，目标是(0,0)
+                A_SetRoll(roll-5.0, SPF_INTERPOLATE); // 继续恢复屏幕旋转
+            }
+            KICK BA 2;
+			Goto Done;
 	}
 }
