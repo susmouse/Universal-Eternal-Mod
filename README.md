@@ -2,7 +2,7 @@
 
 This is my first MOD, which aims to recreate Doom Eternal's mechanics in ClassicDoom while maintaining compatibility with custom weapon packs and custom monster packs.
 
-I'm not proficient in C++. This mod was created after just 10 minutes of reading the ZDoom wiki, based on [Hell Crusher](https://forum.zdoom.org/viewtopic.php?t=72084) and [Vanilla Glory Kill](https://github.com/OverDriver05/Vanilla-Glory-Kill), so please bear with any bugs you may encounter:
+I'm not proficient in C#. This mod was created after just 10 minutes of reading the ZDoom wiki, based on [Hell Crusher](https://forum.zdoom.org/viewtopic.php?t=72084) and [Vanilla Glory Kill](https://github.com/OverDriver05/Vanilla-Glory-Kill), so please bear with any bugs you may encounter:
 
 ## Update Log
 

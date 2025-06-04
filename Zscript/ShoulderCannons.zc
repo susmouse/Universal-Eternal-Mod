@@ -794,21 +794,21 @@ Class Daul_Grenade : CustomInventory
 	
 	
 	super.DoEffect();
-		if (CooldownTimerGrenade < 224)
+		if (CooldownTimerGrenade < sv_dg_cooldown*60*2-1)
 		{
 		CooldownTimerGrenade++;
 		}
 		
-		if (CooldownTimerGrenade == 112)
+		if (CooldownTimerGrenade == sv_dg_cooldown*60)
 		{
 		Owner.A_StartSound("EquipmentGrenadeLauncherDoneCharging",0,0,1);
 		}
 		
-		if (CooldownTimerGrenade == 224)
+		if (CooldownTimerGrenade == sv_dg_cooldown*60*2-1)
 		{
 		Owner.A_StartSound("EquipmentGrenadeLauncherDoneCharging",0,0,1);
 			
-			CooldownTimerGrenade = 225;
+			CooldownTimerGrenade = sv_dg_cooldown*60*2;
 		}
 	}
 	
@@ -823,13 +823,13 @@ Class Daul_Grenade : CustomInventory
 	Use:
 		TNT1 A 0 
 		{
-		if (invoker.CooldownTimerGrenade < 112)
+		if (invoker.CooldownTimerGrenade < sv_dg_cooldown*60)
 		{
 			A_StartSound("EquipmentGrenadeLauncherCantUse",0,0,1);
 		}
-		if (invoker.CooldownTimerGrenade >= 112)
+		if (invoker.CooldownTimerGrenade >= sv_dg_cooldown*60)
 		{
-				invoker.CooldownTimerGrenade = invoker.CooldownTimerGrenade - 112; //75
+				invoker.CooldownTimerGrenade = invoker.CooldownTimerGrenade - sv_dg_cooldown*60; //75
 				A_Overlay(-200,"LeftCannon");
 				A_Overlay(-201,"RightCannon");
 		}
@@ -990,15 +990,15 @@ Class Flame_Belch : CustomInventory
 	
 	
 	super.DoEffect();
-		if (CooldownTimerFlameBelch < 200)
+		if (CooldownTimerFlameBelch < sv_fb_cooldown*60)
 		{
 		CooldownTimerFlameBelch++;
 		}
 		
-		if (CooldownTimerFlameBelch == 200)
+		if (CooldownTimerFlameBelch == sv_fb_cooldown*60)
 		{
 		Owner.A_StartSound("EquipmentFlameBelchReady",0,0,1);
-			CooldownTimerFlameBelch = 201;
+			CooldownTimerFlameBelch = sv_fb_cooldown*60+1;
 		}
 	}
 	
@@ -1015,11 +1015,11 @@ Class Flame_Belch : CustomInventory
 	Use:
 		TNT1 A 0 
 		{
-		if (invoker.CooldownTimerFlameBelch < 200)
+		if (invoker.CooldownTimerFlameBelch < sv_fb_cooldown*60)
 		{
 			A_StartSound("EquipmentFlameBelchNotReady",0,0,1);
 		}
-		if (invoker.CooldownTimerFlameBelch == 201)
+		if (invoker.CooldownTimerFlameBelch == sv_fb_cooldown*60+1)
 		{
 			A_Overlay(-203,"LeftCannon");
 			invoker.CooldownTimerFlameBelch = 0; //200
@@ -1365,15 +1365,15 @@ Class Ice_Bomb : CustomInventory
 		RCOIce = (DG_control && DG_control.RCOIce);
 	
 	super.DoEffect();
-		if (CooldownTimerIce < 200)
+		if (CooldownTimerIce < sv_ib_cooldown*60)
 		{
 		CooldownTimerIce++;
 		}
 		
-		if (CooldownTimerIce == 200)
+		if (CooldownTimerIce == sv_ib_cooldown*60)
 		{
 		Owner.A_StartSound("EquipmentIceBombReload",0,0,1);
-			CooldownTimerIce = 201;
+			CooldownTimerIce = sv_ib_cooldown*60 + 1;
 		}
 	}
 	
@@ -1389,11 +1389,11 @@ Class Ice_Bomb : CustomInventory
 	Use:
 		TNT1 A 0 
 		{
-		if (invoker.CooldownTimerIce < 200)
+		if (invoker.CooldownTimerIce < sv_ib_cooldown*60)
 		{
 			A_StartSound("EquipmentIceBombFail",0,CHANF_OVERLAP,1);
 		}
-		if (invoker.CooldownTimerIce == 201)
+		if (invoker.CooldownTimerIce == sv_ib_cooldown*60 + 1)
 		{
 				A_Overlay(-204,"RightCannon");
 				invoker.CooldownTimerIce = 0; //200

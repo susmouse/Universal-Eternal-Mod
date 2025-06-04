@@ -16,15 +16,15 @@ OptionMenu "UniversalEternalMenu"
     StaticText " "
     
     StaticText "--- IceBomb ---","Blue"
-    StaticText "[WIP]","Black"
+    Slider "IceBomb cooldown", "sv_ib_cooldown", 1, 16, 1
     StaticText " "
     
     StaticText "--- FlameBelch ---","Red"
-    StaticText "[WIP]","Black"
+    Slider "FlameBelch cooldown", "sv_fb_cooldown", 1, 16, 1
     StaticText " "
     
     StaticText "--- DualGrenade ---","Green"
-    StaticText "[WIP]","Black"
+    Slider "DualGrenade cooldown", "sv_dg_cooldown", 1, 16, 1
     StaticText " "
 
     StaticText "--- Quick Chainsaw ---","orange"
