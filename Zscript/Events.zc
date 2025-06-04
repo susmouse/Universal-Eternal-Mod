@@ -298,18 +298,10 @@ class LevelStartHandler : EventHandler
             if (!player || player.health <= 0) continue;  // 跳过死亡玩家
             
             // 发放物品
-            if(get_dEDashJump){
-                player.GiveInventory("DEDashJump", 1);
-            }
-            if(get_iceBomb){
-                player.GiveInventory("Ice_Bomb", 1);
-            }
-            if(get_flameBelch){
-                player.GiveInventory("Flame_Belch", 1);
-            }
-            if(get_dualGrenade){
-                player.GiveInventory("Daul_Grenade", 1);
-            }
+            player.GiveInventory("DEDashJump", 1);
+            player.GiveInventory("Ice_Bomb", 1);
+            player.GiveInventory("Flame_Belch", 1);
+            player.GiveInventory("Daul_Grenade", 1);
             player.GiveInventory("chainsawCooldownTimer", 1);
         }
     }

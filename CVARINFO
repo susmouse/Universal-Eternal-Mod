@@ -12,9 +12,6 @@ user float D4D_DIAlpha = 1.0;
 
 // OptionMenu
 server bool get_dEDashJump=true;
-server bool get_iceBomb=true;
-server bool get_dualGrenade=true;
-server bool get_flameBelch=true;
 
 // GloryKillOptions
 server bool sv_ggk_enabled = true; // 控制开启荣耀击杀系统
