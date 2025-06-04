@@ -198,6 +198,11 @@ class lk_GGKHandler : StaticEventHandler // 定义一个名为 lk_GGKHandler 的
 				Actor thinghit = lt_data.HitActor; // 获取被击中的 Actor。
 				if (!thinghit || !thinghit.bISMONSTER) return; // 确保击中的是有效 Actor 且是怪物类型。
 
+				if (thinghit.health > sv_ggs_minhealth){
+					Console.Printf(String.Format("Enemy health ( %d ) is too high for QuickChainsaw", thinghit.health));
+					return;
+				}
+
 				chainsawkill = thinghit; // 将被击中的硬直怪物设置为待荣耀击杀目标。
 				// 如果目标没有ObjectMover物品 (用于将怪物拉向玩家)，才给予它一个。
 				if (!chainsawkill.FindInventory("ObjectMover")) chainsawkill.GiveInventory("ObjectMover",1);
