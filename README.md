@@ -7,17 +7,18 @@ I'm not proficient in C++. This mod was created after just 10 minutes of reading
 ## Update Log
 
 - v1.0: Initial release
-- v1.1: 加入更多荣耀击杀动画；
-- v1.2: 修复荣耀击杀有时无法正确杀死敌人的问题；
-- v1.3: 为电锯击杀添加冷却时间；
+- v1.1:
+  - Added more Glory Kill animations;
+  - Fixed an issue where Glory Kill sometimes fails to properly kill enemies;
+  - Added cooldown time and maximum allowed enemy health threshold for chainsaw kills;
 
 ## Features
 
 - Compatible with custom weapon packs (Tested working with: Doom4Vanilla, Unbroken, SmoothDoom. Please report if compatibility issues occur)
-- Dual Grenade, Flame Belch and Ice Bomb  
-- Double Dash and Jump  
-- Glory Kill  
-- Ammo replenishment via Quick Chainsaw  
+- Dual Grenade, Flame Belch and Ice Bomb
+- Double Dash and Jump
+- Glory Kill
+- Ammo replenishment via Quick Chainsaw
 - Configurable ability toggles
 
 ## Screenshots
@@ -30,22 +31,24 @@ I'm not proficient in C++. This mod was created after just 10 minutes of reading
 
 ![Config](https://s2.loli.net/2025/06/03/zIoNpvjwe6QVGHx.jpg)
 
-## Future Development Plans  
+## Future Development Plans
 
-- More customizable options  
+- More customizable options
 - Further streamline the mod by removing unused code and assets.
 
-## Credit  
+## Credit
 
-The related code and assets for Shoulder Cannons, dash, and double jump come from H3LLW4LK3R's HellCrusher.  
+The related code and assets for Shoulder Cannons, dash, and double jump come from H3LLW4LK3R's [HellCrusher](https://forum.zdoom.org/viewtopic.php?t=72084).
 
-The sprites for the supplies generated after Ice Bomb and Flame Belch attacks come from MetaDoom.  
+The sprites for the supplies generated after Ice Bomb and Flame Belch attacks come from [MetaDoom](https://www.doomworld.com/forum/topic/131595-gzdoom-metadoom-v71-ghost/).
 
-The related code for Glory Kill comes from OverDriver05's VanillaGloryKill.  
+The related code for Glory Kill comes from OverDriver05's [VanillaGloryKill](https://github.com/OverDriver05/Vanilla-Glory-Kill).
 
-The sprites for Quick Chainsaw and Glory Kill come from seashores' Doomunbroken.  
+The Kick sprites for Glory Kill come from [EOA Eternal-Final](https://www.moddb.com/mods/embers-of-armageddon/addons/eoa-eternal2).
+
+The sprites for Quick Chainsaw come from seashores' [Doomunbroken](https://www.moddb.com/mods/doom-unbroken-seashores).
 
 ## Download
 
-- [Github](https://github.com/susmouse/Universal-Eternal-Mod/archive/refs/heads/main.zip) ~~If you enjoy this mod, please give the repo a star!  ~~
-- [Moddb](https://www.moddb.com/mods/universal-eternal-mod)
+- [Github(Latest But Beta)](https://github.com/susmouse/Universal-Eternal-Mod) **If you enjoy this mod, please give the repo a star! **
+- [Moddb(Stable)](https://www.moddb.com/mods/universal-eternal-mod)
