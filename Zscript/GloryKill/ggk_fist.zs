@@ -104,7 +104,7 @@ class GloryFist : Weapon
 	
 	// action 函数 A_GloryPunch: 执行一次荣耀击杀的拳击动作。
 	// kill: bool, 如果为true，则此拳击会杀死目标。
-	action void A_GloryPunch(bool kill = false)
+	action void A_GloryPunch(bool kill = false,int xPower=10,int zPower=8)
 	{	
 		A_Quake(3,3,0,10,"");
 		A_CustomPunch(1,true,0,"BulletPuff",128,0,0,"","none"); 
@@ -112,15 +112,15 @@ class GloryFist : Weapon
 		{
 			invoker.ptarget.A_Die("GloryKill"); // 使目标以 "GloryKill" 的方式死亡 (用于触发特殊死亡动画或逻辑)。
 			double pwmass = invoker.GetPushWeight(invoker.ptarget.mass); // 计算推力权重。
-			// 将目标沿玩家当前角度推开，力度为 20 * pwmass。
-			invoker.ptarget.Thrust(10. * pwmass, angle); 
-			invoker.ptarget.vel.z += (8. * pwmass); // 给予目标向上的垂直速度。
+			// 将目标沿玩家当前角度推开，力度为 xPower * pwmass。
+			invoker.ptarget.Thrust(xPower * pwmass, angle); 
+			invoker.ptarget.vel.z += (zPower * pwmass); // 给予目标向上的垂直速度。
 		}
 	}
 	
 	// action 函数 A_GloryKick: 执行一次荣耀击杀的踢击动作。
 	// kill: bool, 如果为true，则此踢击会杀死目标。
-	action void A_GloryKick(bool kill = false)
+	action void A_GloryKick(bool kill = false,int xPower=20,int zPower=12)
 	{	
 		A_PlaySound("KICK");
 		A_Quake(5,3,0,10,""); // 更强的屏幕震动。
@@ -128,8 +128,8 @@ class GloryFist : Weapon
 		{
 			invoker.ptarget.A_Die("GloryKill");
 			double pwmass = invoker.GetPushWeight(invoker.ptarget.mass);
-			invoker.ptarget.Thrust(20. * pwmass, angle); 
-			invoker.ptarget.vel.z += (12. * pwmass);
+			invoker.ptarget.Thrust(xPower * pwmass, angle); 
+			invoker.ptarget.vel.z += (zPower * pwmass);
 		}
 	}	
 
@@ -147,8 +147,8 @@ class GloryFist : Weapon
 			FSTE A 1 A_Raise(WEAPONTOP); 
 			Loop; 
 		Fire: 
-            TNT1 A 0 A_Jump(64,"AltKill"); // 64/256 (25%) 的概率跳转到 "AltKill" 状态标签。
-			TNT1 A 0 A_Jump(96,"AltKill2");
+            TNT1 A 0 A_Jump(0,"AltKill"); // 64/256 (25%) 的概率跳转到 "AltKill" 状态标签。
+			TNT1 A 0 A_Jump(256,"AltKill2");
 			TNT1 A 0 A_WeaponOffset(-20,60); // 瞬间调整武器屏幕精灵的偏移量 (x=-20, y=60)。
 			FSTE ABBCC 1; 
 			FSTE D 1 A_GloryPunch(); 
