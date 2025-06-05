@@ -147,9 +147,9 @@ class GloryFist : Weapon
 			FSTE A 1 A_Raise(WEAPONTOP); 
 			Loop; 
 		Fire: 
-            TNT1 A 0 A_Jump(0,"AltKill"); // 64/256 (25%) 的概率跳转到 "AltKill" 状态标签。
-			TNT1 A 0 A_Jump(256,"AltKill2");
-			TNT1 A 0 A_Jump(0,"AltKill3");
+            TNT1 A 0 A_Jump(85,"AltKill"); // 64/256 (25%) 的概率跳转到 "AltKill" 状态标签。
+			TNT1 A 0 A_Jump(170,"AltKill2");
+			TNT1 A 0 A_Jump(256,"AltKill3");
 			Goto Done;
 		AltKill:
 			Goto Done;
