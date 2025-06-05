@@ -13,6 +13,9 @@ I'm not proficient in C#. This mod was created after just 10 minutes of reading 
   - Added cooldown time and maximum allowed enemy health threshold for chainsaw kills
 - v1.2:
   - Added configurable cooldown times for shoulder cannon abilities through the menu
+- v1.3:
+  - Updated Glory Kill animations to better suit the style of classic Doom;
+  - Fixed an issue where weapons would be misplaced after Glory Kills and Quick Chainsaw attacks;
 
 ## Features
 
