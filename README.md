@@ -8,9 +8,11 @@ I'm not proficient in C#. This mod was created after just 10 minutes of reading 
 
 - v1.0: Initial release
 - v1.1:
-  - Added more Glory Kill animations;
-  - Fixed an issue where Glory Kill sometimes fails to properly kill enemies;
-  - Added cooldown time and maximum allowed enemy health threshold for chainsaw kills;
+  - Added more Glory Kill animations
+  - Fixed an issue where Glory Kill sometimes fails to properly kill enemies
+  - Added cooldown time and maximum allowed enemy health threshold for chainsaw kills
+- v1.2:
+  - Added configurable cooldown times for shoulder cannon abilities through the menu
 
 ## Features
 
@@ -46,7 +48,7 @@ The related code for Glory Kill comes from OverDriver05's [VanillaGloryKill](htt
 
 The Kick sprites for Glory Kill come from [EOA Eternal-Final](https://www.moddb.com/mods/embers-of-armageddon/addons/eoa-eternal2).
 
-The sprites for Quick Chainsaw come from seashores' [Doomunbroken](https://www.moddb.com/mods/doom-unbroken-seashores).
+The sprites for Quick Chainsaw come from Somerandomguy' [Doom Eternal: 1994 Edition](https://www.doomworld.com/forum/topic/151800-doom-eternal-made-in-1994-doom-eternal-1994-edition-de94e/).
 
 ## Download
 
