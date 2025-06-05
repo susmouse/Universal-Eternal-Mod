@@ -111,6 +111,7 @@ class GloryChainsaw : Weapon
 			TNT1 A 0 A_WeaponReady(); 
 			goto Fire; 
 		Done: 
+			TNT1 A 0 A_WeaponOffset(0,32);
 			TNT1 A 0 A_ResetWeapon(); 
 		Deselect: 
 			TNT1 A 0 A_Lower(WEAPONBOTTOM); 

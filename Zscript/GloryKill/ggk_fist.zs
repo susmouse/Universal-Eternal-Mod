@@ -139,6 +139,7 @@ class GloryFist : Weapon
 			PUNG A 1 A_WeaponReady();
 			goto Fire; // 直接跳转到 Fire 状态开始荣耀击杀动画 (这表明一旦选中此武器且有目标，就会自动开始攻击)。
 		Done:
+			TNT1 A 0 A_WeaponOffset(0,32);
 			PUNG A 1 A_ResetWeapon(); // 显示 PUNG A 帧，持续1帧，并调用 A_ResetWeapon 清理并切换回原武器。
 		Deselect:
 			PUNG A 1 A_Lower(WEAPONBOTTOM);
@@ -147,9 +148,9 @@ class GloryFist : Weapon
 			PUNG A 1 A_Raise(WEAPONTOP); 
 			Loop; 
 		Fire: 
-            TNT1 A 0 A_Jump(256,"AltKill"); // 64/256 (25%) 的概率跳转到 "AltKill" 状态标签。
-			TNT1 A 0 A_Jump(170,"AltKill2");
-			TNT1 A 0 A_Jump(256,"AltKill3");
+			TNT1 A 0 A_Jump(85,"AltKill"); // 85/256 (约33%) 的概率跳转到 "AltKill" 状态标签。
+			TNT1 A 0 A_Jump(170,"AltKill2"); // 85/256 (约33%) 的概率跳转到 "AltKill2" 状态标签。
+			TNT1 A 0 A_Jump(256,"AltKill3"); // 剩余概率 (约33%) 跳转到 "AltKill3" 状态标签。
 			Goto Done;
 		AltKill:
 			// Preparation phase - ready stance
@@ -253,7 +254,6 @@ class GloryFist : Weapon
 
 			// Return to neutral
 			TNT1 A 0 A_GloryPunch(true);
-			TNT1 A 0 A_WeaponOffset(0,32);
 			PUNG D 0 A_ZoomFactor(0.98);
 			PUNG C 0 A_SetPitch(pitch - 1);
 			PUNG B 0 A_ZoomFactor(1.0);
