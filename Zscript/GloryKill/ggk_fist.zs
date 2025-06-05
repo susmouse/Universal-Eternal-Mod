@@ -136,22 +136,128 @@ class GloryFist : Weapon
 	States
 	{
 		Ready:
-			FSTE A 1 A_WeaponReady();
+			PUNG A 1 A_WeaponReady();
 			goto Fire; // 直接跳转到 Fire 状态开始荣耀击杀动画 (这表明一旦选中此武器且有目标，就会自动开始攻击)。
 		Done:
-			FSTE A 1 A_ResetWeapon(); // 显示 FSTE A 帧，持续1帧，并调用 A_ResetWeapon 清理并切换回原武器。
+			PUNG A 1 A_ResetWeapon(); // 显示 PUNG A 帧，持续1帧，并调用 A_ResetWeapon 清理并切换回原武器。
 		Deselect:
-			FSTE A 1 A_Lower(WEAPONBOTTOM);
+			PUNG A 1 A_Lower(WEAPONBOTTOM);
 			Loop; // 循环 Deselect 的最后一行，直到武器完全放下。完成后会自动调用 A_ResetWeapon。
 		Select: 
-			FSTE A 1 A_Raise(WEAPONTOP); 
+			PUNG A 1 A_Raise(WEAPONTOP); 
 			Loop; 
 		Fire: 
-            TNT1 A 0 A_Jump(85,"AltKill"); // 64/256 (25%) 的概率跳转到 "AltKill" 状态标签。
+            TNT1 A 0 A_Jump(256,"AltKill"); // 64/256 (25%) 的概率跳转到 "AltKill" 状态标签。
 			TNT1 A 0 A_Jump(170,"AltKill2");
 			TNT1 A 0 A_Jump(256,"AltKill3");
 			Goto Done;
 		AltKill:
+			// Preparation phase - ready stance
+			TNT1 A 0 A_PlaySound("*weaponup", 1);
+			TNT1 A 0 SetPlayerProperty(0,1,0);
+			TNT1 A 0 A_ZoomFactor(1.01);
+			TNT1 A 0 A_WeaponOffset(-20,32);
+			
+			// Initial wind-up with camera movement
+			PUNG B 2 {
+				A_SetAngle(angle - 2);
+				A_SetPitch(pitch - 1);
+				A_ZoomFactor(1.00);
+			}
+			
+			// Build tension
+			PUNG C 2 {
+				A_SetAngle(angle - 1);
+				A_SetPitch(pitch - 1);
+				A_ZoomFactor(0.99);
+				A_Quake(1, 1, 0, 3, "");
+			}
+			
+			// More wind-up
+			PUNG C 1 {
+				A_SetAngle(angle + 1);
+				A_ZoomFactor(0.98);
+			}
+			
+			// First strike preparation
+			PUNG D 2 {
+				A_SetAngle(angle + 2);
+				A_SetPitch(pitch + 1);
+				A_ZoomFactor(0.97);
+				A_GloryPunch();
+			}
+			
+			// First impact with recoil
+			PUNG D 1 {
+				A_WeaponOffset(30/2,-32/2,WOF_ADD | WOF_INTERPOLATE);
+				A_SetRoll(roll+1.25,SPF_INTERPOLATE);
+				A_SetAngle(angle + 3);
+				A_Quake(2, 2, 0, 5, "");
+				A_ZoomFactor(0.96);
+			}
+			
+			// Hold and stabilize
+			PUNG D 1 {
+				A_WeaponOffset(-30/5,32/5,WOF_ADD | WOF_INTERPOLATE);
+				A_SetRoll(roll-1.25,SPF_INTERPOLATE);
+				A_SetAngle(angle - 1);
+			}
+
+			// Flip for second strike
+			TNT1 A 0 A_ToggleFlip();
+
+			PUNG B 2 {
+				A_SetAngle(angle - 2);
+				A_SetPitch(pitch - 1);
+				A_ZoomFactor(1.00);
+			}
+			
+			// Build tension
+			PUNG C 2 {
+				A_SetAngle(angle - 1);
+				A_SetPitch(pitch - 1);
+				A_ZoomFactor(0.99);
+				A_Quake(1, 1, 0, 3, "");
+			}
+			
+			// More wind-up
+			PUNG C 1 {
+				A_SetAngle(angle + 1);
+				A_ZoomFactor(0.98);
+			}
+			
+			// First strike preparation
+			PUNG D 2 {
+				A_SetAngle(angle + 2);
+				A_SetPitch(pitch + 1);
+				A_ZoomFactor(0.97);
+				A_GloryPunch();
+			}
+			
+			// First impact with recoil
+			PUNG D 1 {
+				A_WeaponOffset(30/2,-32/2,WOF_ADD | WOF_INTERPOLATE);
+				A_SetRoll(roll+1.25,SPF_INTERPOLATE);
+				A_SetAngle(angle + 3);
+				A_Quake(2, 2, 0, 5, "");
+				A_ZoomFactor(0.96);
+			}
+			
+			// Hold and stabilize
+			PUNG D 1 {
+				A_WeaponOffset(-30/5,32/5,WOF_ADD | WOF_INTERPOLATE);
+				A_SetRoll(roll-1.25,SPF_INTERPOLATE);
+				A_SetAngle(angle - 1);
+				A_GloryPunch(true);
+			}
+
+			// Return to neutral
+			TNT1 A 0 A_GloryPunch(true);
+			TNT1 A 0 A_WeaponOffset(0,32);
+			PUNG D 0 A_ZoomFactor(0.98);
+			PUNG C 0 A_SetPitch(pitch - 1);
+			PUNG B 0 A_ZoomFactor(1.0);
+			TNT1 A 0 SetPlayerProperty(0,0,0);
 			Goto Done;
 		AltKill2:
 			// Preparation phase - ready the blade
