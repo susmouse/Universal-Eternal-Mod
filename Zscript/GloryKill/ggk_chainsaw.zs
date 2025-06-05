@@ -119,7 +119,10 @@ class GloryChainsaw : Weapon
 		Select: 
 			TNT1 A 0 A_Raise(WEAPONTOP); 
 			Loop; 
-		Fire: 
+		Fire:
+			TNT1 A 0 A_Jump(128,"Altkill1");
+			TNT1 A 0 A_Jump(256,"Altkill2");
+		Altkill1:
 			TNT1 A 0 A_AlertMonsters;
 			TNT1 A 0 A_Playsound("SAWSWING",7);
 			CS2W B 1 Offset(167,117);
@@ -151,5 +154,39 @@ class GloryChainsaw : Weapon
 			CS2W B 1 Offset(-271,156);
 			TNT1 A 0 A_Setangle(angle-1);
 			Goto Done; 
+		Altkill2:
+			TNT1 A 0 A_AlertMonsters;
+			FSRD DE 2  {
+				A_WeaponOffset(5, 36, WOF_INTERPOLATE);
+				A_ZoomFactor(1.1);
+			}
+			FSRD F 2 {
+				A_WeaponOffset(5, 36, WOF_INTERPOLATE);
+				A_ZoomFactor(1.2);
+				A_SetPitch(pitch - 2);
+			}
+			FSRD G 5 {
+				A_WeaponOffset(5, 36, WOF_INTERPOLATE);
+				A_GloryChainsaw(true);
+				A_ZoomFactor(1.3);
+				A_SetPitch(pitch - 4);
+				A_Quake(5, 8, 0, 15, "");
+			}
+			FSRD H 2 {
+				A_WeaponOffset(5, 36, WOF_INTERPOLATE);
+				A_ZoomFactor(1.1);
+				A_SetPitch(pitch + 2);
+				A_Quake(3, 5, 0, 10, "");
+			}
+			FSRD I 2 {
+				A_WeaponOffset(5, 36, WOF_INTERPOLATE);
+				A_ZoomFactor(1.0);
+				A_SetPitch(pitch + 1);
+			}
+			FSRD I 10 {
+				A_WeaponOffset(5, 150, WOF_INTERPOLATE);
+				A_ZoomFactor(1.0);
+			}
+			Goto Done;
 	}
 }
