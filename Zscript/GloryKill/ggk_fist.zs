@@ -35,7 +35,7 @@ class GloryFist : Weapon
 		{
 			plr.PendingWeapon = invoker.prevWeapon; // 设置待切换的武器为荣耀击杀前的武器。
 			PSprite pweapon = plr.GetPSprite(PSP_WEAPON); // 获取武器的屏幕精灵(ViewModel)。
-			pweapon.x -= 130; // 调整武器精灵的X坐标 (可能是为了配合动画或重置某种偏移)。
+			// pweapon.x -= 130; // 调整武器精灵的X坐标 (可能是为了配合动画或重置某种偏移)。
 			//pweapon.y = WEAPONTOP; // (注释掉) 设置武器精灵Y坐标。
 			pweapon.ResetInterpolation(); // 重置精灵的插值动画。
 		}
@@ -149,88 +149,157 @@ class GloryFist : Weapon
 		Fire: 
             TNT1 A 0 A_Jump(0,"AltKill"); // 64/256 (25%) 的概率跳转到 "AltKill" 状态标签。
 			TNT1 A 0 A_Jump(256,"AltKill2");
-			TNT1 A 0 A_WeaponOffset(-20,60); // 瞬间调整武器屏幕精灵的偏移量 (x=-20, y=60)。
-			FSTE ABBCC 1; 
-			FSTE D 1 A_GloryPunch(); 
-			FSTE D 2 
-			{	
-				// WOF_ADD: 偏移量是加到当前值上。 WOF_INTERPOLATE: 平滑插值到目标偏移。
-				A_WeaponOffset(30/2,-32/2,WOF_ADD | WOF_INTERPOLATE); // 武器精灵向 (15, -16) 平滑偏移。
-				A_SetRoll(roll+1.25,SPF_INTERPOLATE); // 屏幕 (或武器模型) 旋转+1.25度，平滑插值。
-			}
-			FSTE D 3 
-			{
-				A_WeaponOffset(-30/5,32/5,WOF_ADD | WOF_INTERPOLATE); // 武器精灵向 (-6, 6.4) 平滑偏移。
-				A_SetRoll(roll-1.25,SPF_INTERPOLATE); // 屏幕旋转-1.25度，平滑插值。
-			}
-			TNT1 A 0 A_WeaponOffset(-20,60); // 瞬间重置武器偏移到 (-20, 60)。
-			FSTE DCB 3;
-			TNT1 A 0 A_ToggleFlip(); // 切换武器精灵的水平翻转。
-			FSTE ABBCC 1;
-			FSTE D 1 A_GloryPunch(true);
-			FSTE D 2 
-			{	
-				A_WeaponOffset(-30/2,-32/2,WOF_ADD | WOF_INTERPOLATE); // 武器精灵向 (-15, -16) 平滑偏移。
-				A_SetRoll(roll-1.25,SPF_INTERPOLATE); // 屏幕旋转-1.25度。
-			}
-			FSTE D 3 
-			{
-				A_WeaponOffset(30/5,32/5,WOF_ADD | WOF_INTERPOLATE); // 武器精灵向 (6, 6.4) 平滑偏移。
-				A_SetRoll(roll+1.25,SPF_INTERPOLATE); // 屏幕旋转+1.25度。
-			}
-			FSTE DCBA 3;
+			TNT1 A 0 A_Jump(0,"AltKill3");
 			Goto Done;
 		AltKill:
-			BLDE B 1 Offset(-100,70) A_Playsound("weapons/sshoto",7);
-			BLDE B 1 Offset(-50,50);
-			BLDE A 1 Offset(-5,32); 
-			BLDE A 4 Offset(1,33);
-			TNT1 A 0{
-				A_Weaponready(WRF_NOBOB);
-				A_GloryPunch(true);
-			}
-			BLDE A 8 Offset(1,33);
-			TNT1 A 0 A_Weaponready(WRF_NOBOB);
-			BLDE A 1 Offset(-2,35);
-			TNT1 A 0 A_Weaponready(WRF_NOBOB);
-			BLDE A 1 Offset(-20,55);
-			TNT1 A 0 A_Weaponready(WRF_NOBOB);
-			BLDE A 1 Offset(-40,90);
 			Goto Done;
 		AltKill2:
-            // --- 踢击准备和踢出 ---
-            TNT1 A 0 A_WeaponOffset(10, -20);
-            KICK A 2;
-            KICK B 2 
-            {
-                A_WeaponOffset(-30, 40, WOF_ADD | WOF_INTERPOLATE);
-                A_SetRoll(roll+8.0, SPF_INTERPOLATE);
-            }
-            KICK C 2 
-            {
-                A_WeaponOffset(-25, 30, WOF_ADD | WOF_INTERPOLATE);
-                A_SetRoll(roll+7.0, SPF_INTERPOLATE);
-            }
-            // --- 冲击点 ---
-            KICK D 5 // 踢中，持续时间稍长以感受冲击
-            {
-                A_WeaponOffset(-5, 5, WOF_ADD | WOF_INTERPOLATE); // 命中时的微小额外前冲和震动
-                A_GloryKick(true); // 保留原有的荣耀击杀效果
-                A_PlaySound("melee/kickhit", CHAN_WEAPON); // 假设有一个踢中音效
-            }
-            KICK D 2 // 紧接着冲击，开始有收回的趋势
-            {
-                A_WeaponOffset(20, -30, WOF_ADD | WOF_INTERPOLATE); // X向右(或向后), Y向上 (开始收回)
-                A_SetRoll(roll-10.0, SPF_INTERPOLATE); // 屏幕旋转开始恢复
-            }
-            TNT1 A 0 A_WeaponOffset(5, -10); // 重置到一个稍微收回的中间状态
-
-            KICK C 2
-            {
-                A_WeaponOffset(-5, 10, WOF_ADD | WOF_INTERPOLATE); // 继续收回，目标是(0,0)
-                A_SetRoll(roll-5.0, SPF_INTERPOLATE); // 继续恢复屏幕旋转
-            }
-            KICK BA 2;
+			// Preparation phase - ready the blade
+			TNT1 A 0 A_PlaySound("*weaponup", 1);
+			TNT1 A 0 SetPlayerProperty(0,1,0);
+			TNT1 A 0 A_ZoomFactor(1.02);
+			TNT1 A 0 A_SetPitch(pitch - 1);
+			
+			// Initial crouch/ready position
+			BLIN A 3 Offset(0, 45) {
+				A_ZoomFactor(1.01);
+				A_SetAngle(angle - 1);
+			}
+			
+			// Wind up - building tension
+			BLIN A 4 Offset(-8, 50) {
+				A_SetAngle(angle - 3);
+				A_SetPitch(pitch - 2);
+				A_ZoomFactor(0.99);
+				A_Quake(1, 1, 0, 3, "");
+			}
+			
+			// More wind up - increasing tension
+			BLIN A 3 Offset(-12, 55) {
+				A_SetAngle(angle - 2);
+				A_SetPitch(pitch - 1);
+				A_ZoomFactor(0.98);
+			}
+			
+			// Begin thrust - acceleration starts
+			TNT1 A 0 A_ZoomFactor(0.96);
+			BLIN B 2 Offset(-5, 48) {
+				A_SetAngle(angle + 2);
+				A_SetPitch(pitch + 1);
+			}
+			
+			// Rapid extension - high speed
+			TNT1 A 0 A_ZoomFactor(0.94);
+			BLIN B 1 Offset(5, 40) {
+				A_SetAngle(angle + 4);
+				A_SetPitch(pitch + 2);
+				A_Quake(2, 2, 0, 5, "");
+			}
+			
+			// Maximum extension - peak velocity
+			TNT1 A 0 A_ZoomFactor(0.92);
+			BLIN C 1 Offset(15, 32) {
+				A_SetAngle(angle + 3);
+				A_SetPitch(pitch + 1);
+			}
+			
+			// Impact moment - full extension
+			TNT1 A 0 A_ZoomFactor(0.90);
+			TNT1 A 0 A_Quake(4, 4, 0, 10, "");
+			BLIN C 1 Offset(25, 28) {
+				A_SetAngle(angle + 2);
+				A_GloryPunch(true, 15, 10);
+			}
+			
+			// Hold at maximum extension
+			BLIN C 3 Offset(25, 28) {
+				A_ZoomFactor(0.91);
+			}
+			
+			// Begin retraction - slow start
+			TNT1 A 0 A_PlaySound("*land", 3);
+			TNT1 A 0 A_ZoomFactor(0.93);
+			BLIN C 3 Offset(20, 30) {
+				A_SetAngle(angle - 1);
+			}
+			
+			// Accelerating retraction
+			TNT1 A 0 A_ZoomFactor(0.95);
+			BLIN A 2 Offset(12, 35) {
+				A_SetAngle(angle - 2);
+			}
+			
+			// Faster retraction
+			TNT1 A 0 A_ZoomFactor(0.97);
+			BLIN A 2 Offset(4, 42);
+			
+			// Final retraction to ready position
+			TNT1 A 0 A_ZoomFactor(0.99);
+			BLIN A 3 Offset(-2, 52) {
+				A_SetAngle(angle - 1);
+			}
+			
+			// Return to neutral
+			TNT1 A 0 A_ZoomFactor(1.0);
+			BLIN A 2 Offset(0, 65);
+			
+			// Reset everything
+			TNT1 A 0 SetPlayerProperty(0,0,0);
+			Goto Done;
+		AltKill3:
+			// Preparation phase
+			TNT1 A 0 A_PlaySound("KICK", 1);
+			TNT1 A 0 SetPlayerProperty(0,1,0);
+			TNT1 A 0 A_ZoomFactor(0.98);
+			
+			// Starting position
+			KIC1 A 2 Offset(0, 40);
+			TNT1 A 0 A_SetAngle(angle - 3);
+			TNT1 A 0 A_ZoomFactor(0.97);
+			
+			// Wind up
+			KIC1 A 3 Offset(-5, 45) {
+				A_SetAngle(angle - 2);
+				A_Quake(1, 2, 0, 5, "");
+			}
+			
+			// Kick extension - fast and powerful
+			TNT1 A 0 A_ZoomFactor(0.95);
+			KIC1 B 1 Offset(10, 35) A_SetAngle(angle + 2);
+			TNT1 A 0 A_ZoomFactor(0.92);
+			KIC1 B 1 Offset(20, 30) A_SetAngle(angle + 3);
+			TNT1 A 0 A_Quake(3, 3, 0, 8, "");
+			
+			// Impact moment
+			TNT1 A 0 A_ZoomFactor(0.90);
+			KIC1 C 1 Offset(30, 25) {
+				A_SetAngle(angle + 5);
+				A_GloryKick(true, 25, 15);
+			}
+			
+			// Hold the extended position briefly
+			KIC1 C 4 Offset(30, 25) A_ZoomFactor(0.91);
+			
+			// Begin retraction
+			TNT1 A 0 A_PlaySound("PIHOL", 4);
+			TNT1 A 0 A_ZoomFactor(0.93);
+			KIC1 C 2 Offset(25, 28) A_SetAngle(angle - 2);
+			
+			// Continue retracting
+			TNT1 A 0 A_ZoomFactor(0.95);
+			KIC1 B 2 Offset(15, 32) A_SetAngle(angle - 3);
+			
+			// Return to normal position
+			TNT1 A 0 A_ZoomFactor(0.97);
+			KIC1 B 2 Offset(5, 38) A_SetAngle(angle - 2);
+			
+			// Final position
+			TNT1 A 0 A_ZoomFactor(0.99);
+			KIC1 A 2 Offset(0, 40);
+			
+			// Reset everything
+			TNT1 A 0 A_ZoomFactor(1.0);
+			TNT1 A 0 SetPlayerProperty(0,0,0);
 			Goto Done;
 	}
 }
