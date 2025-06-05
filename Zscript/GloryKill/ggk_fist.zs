@@ -185,7 +185,7 @@ class GloryFist : Weapon
 				A_SetAngle(angle + 2);
 				A_SetPitch(pitch + 1);
 				A_ZoomFactor(0.97);
-				A_GloryPunch();
+				A_GloryPunch(false,0,0);
 			}
 			
 			// First impact with recoil
@@ -232,7 +232,7 @@ class GloryFist : Weapon
 				A_SetAngle(angle + 2);
 				A_SetPitch(pitch + 1);
 				A_ZoomFactor(0.97);
-				A_GloryPunch();
+				A_GloryPunch(true);
 			}
 			
 			// First impact with recoil
@@ -249,7 +249,6 @@ class GloryFist : Weapon
 				A_WeaponOffset(-30/5,32/5,WOF_ADD | WOF_INTERPOLATE);
 				A_SetRoll(roll-1.25,SPF_INTERPOLATE);
 				A_SetAngle(angle - 1);
-				A_GloryPunch(true);
 			}
 
 			// Return to neutral
@@ -314,7 +313,7 @@ class GloryFist : Weapon
 			TNT1 A 0 A_Quake(4, 4, 0, 10, "");
 			BLIN C 1 Offset(25, 28) {
 				A_SetAngle(angle + 2);
-				A_GloryPunch(true, 15, 10);
+				A_GloryPunch(true, 5, 0);
 			}
 			
 			// Hold at maximum extension
