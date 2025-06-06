@@ -1,3 +1,138 @@
+Class HC_DebrisNumberControl : EventHandler {
+    Array <Actor> debris;
+        
+    //add a thing into the array when it gets spawned
+    override void WorldThingSpawned(WorldEvent e) {
+        if (e.thing && e.thing is "HC_DebrisClass") {
+            debris.Push(e.thing);
+        }
+    }
+
+    //remove the thing from the array when it's removed from the map
+    override void WorldThingDestroyed(WorldEvent e) {
+        if (e.Thing is "HC_DebrisClass") {
+				let a = HC_DebrisClass(e.thing);
+                debris.delete	(debris.Find(a));
+         }
+    }   
+	
+    //continuously check if the number of FX actors is bigger than the array.     
+    //if true, delete the oldest actor until the array size matches the
+    //custom CVAR
+    override void WorldTick() {
+		if (CasingCVAR == -1 )
+			Return;		
+        while (debris.Size() > CasingCVAR)
+            debris[0].destroy();
+    }
+}
+Class HC_DebrisClass : actor
+{
+}
+
+Class HC_FXControl : EventHandler {
+    Array <Actor> debris;
+        
+    //add a thing into the array when it gets spawned
+    override void WorldThingSpawned(WorldEvent e) {
+        if (e.thing && e.thing is "HC_FXClass") {
+            debris.Push(e.thing);
+        }
+    }
+
+    //remove the thing from the array when it's removed from the map
+    override void WorldThingDestroyed(WorldEvent e) {
+        if (e.Thing is "HC_FXClass") {
+				let a = HC_FXClass(e.thing);
+                debris.delete	(debris.Find(a));
+         }
+    }   
+	
+    //continuously check if the number of FX actors is bigger than the array.     
+    //if true, delete the oldest actor until the array size matches the
+    //custom CVAR
+    override void WorldTick() {
+		if (FXCVAR == -1 )
+			Return;		
+        while (debris.Size() > FXCVAR)
+            debris[0].destroy();
+    }
+}
+Class HC_FXClass : actor
+{
+}
+
+Class ChainsawFuel : Ammo {
+	Default{
+  Inventory.Amount 1;
+  Inventory.MaxAmount 25;//3;
+  Ammo.BackpackAmount 0;
+  Ammo.BackpackMaxAmount 50;//6;
+  }
+}
+
+class KillCounterToken_CF : Inventory
+{
+    int killCounter;
+	Default{+INVENTORY.UNDROPPABLE;}
+}
+
+class HC_MonsterKills_CF : EventHandler
+{
+    override void WorldThingDied(worldEvent e)
+    {
+        let victim = e.thing;
+        if (!victim || !victim.bISMONSTER)
+            return;
+		if (victim.damagetype == "Chainsaw")
+			return;
+        
+        if (victim.target && victim.target.player)
+        {
+            let kct = KillCounterToken_CF(victim.target.FindInventory("KillCounterToken_CF"));
+            if (kct)
+                kct.killCounter++;
+				//console.printf("Monsters murdered: %d", kct.killCounter);
+				if (kct.KillCounter >= 10)
+				  {
+					victim.target.GiveInventory("ChainsawFuel", 1);
+					victim.target.A_StartSound("Chainsaw/AmmoGet1",CHAN_VOICE,0,.8);
+					victim.target.A_StartSound("Chainsaw/AmmoGet2",CHAN_BODY,0,.8);
+					kct.KillCounter = 0;
+				}
+        }
+		
+    }
+
+    override void PlayerSpawned(PlayerEvent e) 
+    {
+        if (level.Mapname == "TITLEMAP")
+            return;
+        if (!PlayerInGame[e.PlayerNumber])
+            return;
+        let plr = players[e.PlayerNumber].mo;
+        if (!plr)
+            return;
+        
+        plr.GiveInventory("KillCounterToken_CF", 1);
+    }
+}
+
+Class BloodPunchCharges : Ammo {
+	Default{
+  Inventory.Amount 1;
+  Inventory.MaxAmount 25;
+  Ammo.BackpackAmount 0;
+  Ammo.BackpackMaxAmount 50;
+  }
+}
+
+class KillCounterToken_BP : Inventory
+{
+    int killCounter;
+	Default{+INVENTORY.UNDROPPABLE;}
+}
+
 /*
   授予开局道具
 */
