@@ -148,9 +148,7 @@ class GloryFist : Weapon
 			PUNG A 1 A_Raise(WEAPONTOP); 
 			Loop; 
 		Fire: 
-			TNT1 A 0 A_Jump(85,"AltKill"); // 85/256 (约33%) 的概率跳转到 "AltKill" 状态标签。
-			TNT1 A 0 A_Jump(170,"AltKill2"); // 85/256 (约33%) 的概率跳转到 "AltKill2" 状态标签。
-			TNT1 A 0 A_Jump(256,"AltKill3"); // 剩余概率 (约33%) 跳转到 "AltKill3" 状态标签。
+			TNT1 A 0 A_Jump(256,"AltKill","AltKill2","AltKill3");
 			Goto Done;
 		AltKill:
 			// Preparation phase - ready stance
