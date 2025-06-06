@@ -16,6 +16,8 @@ I'm not proficient in C#. This mod was created after just 10 minutes of reading 
 - v1.3:
   - Updated Glory Kill animations to better suit the style of classic Doom;
   - Fixed an issue where weapons would be misplaced after Glory Kills and Quick Chainsaw attacks;
+- v1.4:
+ - Add more customizable options;
 
 ## Features
 
