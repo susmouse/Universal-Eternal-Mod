@@ -38,7 +38,6 @@ OptionMenu "UniversalEternalMenu"
     Slider "Quick Chainsaw range (units)", "sv_glorykillrange", 2, 1024, 1, 0
     StaticText "Minimum distance required to activate Quick Chainsaw.", "Black"
     StaticText " "
-    StaticText " "
 
     // Glory Kill 部分
     StaticText "--- Glory Kill---", "Gold"

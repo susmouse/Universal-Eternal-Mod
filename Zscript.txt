@@ -24,7 +24,6 @@ Version "4.5"
 // #include "Zscript/Items/Key.zc"
 
 // GloryKill
-#include "Zscript/GloryKill/ggk_events.zs"
 #include "Zscript/GloryKill/ggk_items.zs"
 #include "Zscript/GloryKill/ggk_fist.zs"
 #include "Zscript/GloryKill/ggk_chainsaw.zs"
