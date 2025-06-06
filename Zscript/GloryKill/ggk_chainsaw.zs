@@ -9,7 +9,7 @@ class GloryChainsaw : Weapon
 	Actor ptarget; // 指向荣耀击杀的目标敌人。
 	int ptics; // 存储目标敌人被冻结前的原始tics值。
 	float vbob; // 存储玩家原始的视角晃动 (ViewBob) 设置。
-	
+
 	// action 函数 A_ResetWeapon: 用于在荣耀击杀完成或武器被取消选择时，重置玩家和目标的状态。
 	// 'invoker' 在action函数中通常指代调用此action的武器自身 (即GloryChainsaw实例)。
 	action void A_ResetWeapon()
@@ -120,8 +120,7 @@ class GloryChainsaw : Weapon
 			TNT1 A 0 A_Raise(WEAPONTOP); 
 			Loop; 
 		Fire:
-			TNT1 A 0 A_Jump(128,"Altkill1");
-			TNT1 A 0 A_Jump(256,"Altkill2");
+			TNT1 A 0 A_Jump(256,"Altkill1", "Altkill2");
 		Altkill1:
 			TNT1 A 0 A_AlertMonsters;
 			TNT1 A 0 A_Playsound("SAWSWING",7);
