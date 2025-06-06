@@ -20,14 +20,14 @@ class GloryChainsaw : Weapon
 		{
 			if(sv_glorykilldrops) // 如果启用了荣耀击杀掉落 (CVAR)。
 			{
-				// float xoffs = cos(invoker.ptarget.angle)*frandom(-10,10);
-				// float yoffs = sin(invoker.ptarget.angle)*frandom(-10,10);
+				// float xoffs = cos(invoker.ptarget.angle)*frandom(-30,30);
+				// float yoffs = sin(invoker.ptarget.angle)*frandom(-30,30);
 				// float zoffs = frandom(5,invoker.ptarget.height * 0.75);
 				// vector3 spawnPos = invoker.ptarget.pos + (xoffs, yoffs, zoffs);
-				Spawn("ClipBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-10,10), sin(invoker.ptarget.angle)*frandom(-10,10), frandom(5,invoker.ptarget.height * 0.75)));
-				Spawn("ShellBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-10,10), sin(invoker.ptarget.angle)*frandom(-10,10), frandom(5,invoker.ptarget.height * 0.75)));
-				Spawn("RocketBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-10,10), sin(invoker.ptarget.angle)*frandom(-10,10), frandom(5,invoker.ptarget.height * 0.75)));
-				Spawn("CellPack", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-10,10), sin(invoker.ptarget.angle)*frandom(-10,10), frandom(5,invoker.ptarget.height * 0.75)));
+				Spawn("ClipBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-30,30), sin(invoker.ptarget.angle)*frandom(-30,30), frandom(5,invoker.ptarget.height * 0.75)));
+				Spawn("ShellBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-30,30), sin(invoker.ptarget.angle)*frandom(-30,30), frandom(5,invoker.ptarget.height * 0.75)));
+				Spawn("RocketBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-30,30), sin(invoker.ptarget.angle)*frandom(-30,30), frandom(5,invoker.ptarget.height * 0.75)));
+				Spawn("CellPack", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-30,30), sin(invoker.ptarget.angle)*frandom(-30,30), frandom(5,invoker.ptarget.height * 0.75)));
 				
 			}
 			invoker.ptarget.tics = invoker.ptics; // 恢复目标敌人的tics，使其行为解冻。
