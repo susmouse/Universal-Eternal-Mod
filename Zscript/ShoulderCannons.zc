@@ -320,7 +320,7 @@ Class DEArmorLoot : LootItemBase
 	}
 	Override Bool CanPick(Actor Toucher)
 	{
-		If(Toucher.CountInv("BasicArmor")>=sv_fb_minarmor) //100
+		If(Toucher.CountInv("BasicArmor")>=sv_fb_maxarmor) //100
 		Return False;
 		Return True;
 	}
@@ -389,7 +389,8 @@ Class DEHealthLoot : LootItemBase
 	Override Bool CanPick(Actor Toucher)
 	{
 		// If(Toucher.Health<Toucher.GetMaxHealth(true))
-		If(Toucher.Health<sv_ib_minhealth){Return True;}
+		int maxHealth=min(Toucher.GetMaxHealth(true),sv_ib_maxhealth);
+		If(Toucher.Health<maxHealth){Return True;}
 		Return False;
 	}
 	States

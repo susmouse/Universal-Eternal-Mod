@@ -16,9 +16,9 @@ server bool get_dEDashJump=true;
 // shoulderCannon Option
 server int sv_dg_cooldown = 4;
 server int sv_ib_cooldown = 4;
-server int sv_ib_minhealth = 100;
+server int sv_ib_maxhealth = 100;
 server int sv_fb_cooldown = 4;
-server int sv_fb_minarmor = 100;
+server int sv_fb_maxarmor = 100;
 
 // GloryKillOptions
 server bool sv_ggk_enabled = true; // 控制开启荣耀击杀系统

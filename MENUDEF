@@ -17,12 +17,12 @@ OptionMenu "UniversalEternalMenu"
     
     StaticText "--- IceBomb ---","Blue"
     Slider "IceBomb cooldown", "sv_ib_cooldown", 1, 16, 1
-    Slider "Maximum Recovery Cap", "sv_ib_minhealth", 0, 200, 10
+    Slider "Maximum Recovery Cap", "sv_ib_maxhealth", 0, 200, 10
     StaticText " "
     
     StaticText "--- FlameBelch ---","Red"
     Slider "FlameBelch cooldown", "sv_fb_cooldown", 1, 16, 1
-    Slider "Maximum Recovery Cap", "sv_fb_minarmor", 0, 200, 10
+    Slider "Maximum Recovery Cap", "sv_fb_maxarmor", 0, 200, 10
     StaticText " "
     
     StaticText "--- DualGrenade ---","Green"
