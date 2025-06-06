@@ -1,149 +1,196 @@
+// 这是一个继承自Powerup的类，用于实现眩晕效果。
 Class HC_Stun_Power : Powerup
 {
+	// 当效果初始化时调用的函数。
 	Override Void InitEffect()
 	{
+		// special1 是一个通用整数变量，这里用它来存储 owner (持有此道具的actor) 的 Tics (状态计时器) 和 5 之间的较大值。
+		// 这基本上是冻结了 actor 的当前动画帧，并设定了一个最小的冻结时间。
 		special1=Max(Owner.Tics,5);
 	}
+	// 每一游戏逻辑帧 (tick) 都会调用的函数。
 	Override Void DoEffect()
 	{
+		// 如果 owner 还活着
 		If(Owner.Health>0)
+		// 将 owner 的 Tics 强制设置为之前存储的值。这会阻止 actor 的状态机继续执行，从而实现“眩晕”或“冻结”效果。
 		Owner.Tics=special1;
 	}
 }
 
+// 一个基础效果类，用于冲击波发光效果。
 Class ShockBeamGlow : EffectBase
 {
 	Default {
-	Scale 0.16;
-	Alpha 0.99;
+	Scale 0.16;      // 默认缩放比例
+	Alpha 0.99;      // 默认不透明度
 	}
+	// 在 Actor 被创建并加入游戏世界后调用。
 	Override Void PostBeginPlay()
 	{
 		Super.PostBeginPlay();
+		// 将不透明度乘以一个随机值，使其在 66% 到 100% 之间变化，增加视觉多样性。
 		Alpha*=FRandom(0.66,1.0);
 	}
 	States
 	{
 	Spawn:
+		// 显示 FLRE 精灵的 A 帧，持续 2 个 tick，并且是“明亮”的（不受光照影响）。
 		FLRE A 2 Bright;
+		// 停止状态机。
 		Stop;
 	}
 }
 
+// 一个库类，包含了一系列静态工具函数。
 class LMBDLib : Actor
 {
+    // 将 actor (self) 的角度、俯仰和翻滚调整到其所在扇区的地面坡度。
     static void AlignToSlope(Actor self, double dAng, double dPitch)
     {
+        // 获取当前扇区地面的法线向量。
         vector3 fNormal = self.CurSector.FloorPlane.Normal;
+        // 计算地面法线在 XY 平面上的单位向量。
         vector2 fNormalP1 = (fNormal.X != 0 || fNormal.Y != 0) ? (fNormal.X, fNormal.Y).Unit() : (0, 0);
+        // 将 3D 法线转换为 2D 向量以便计算俯仰角。
         vector2 fNormalP2 = ((fNormal.X, fNormal.Y).Length(), fNormal.Z);
-        double fAng = atan2(fNormalP1.Y, fNormalP1.X); // floor angle (not pitch!)
-        double fPitch = -atan2(fNormalP2.X, fNormalP2.Y); // floor pitch
+        // 计算地面的水平角度。
+        double fAng = atan2(fNormalP1.Y, fNormalP1.X);
+        // 计算地面的俯仰角。
+        double fPitch = -atan2(fNormalP2.X, fNormalP2.Y);
+        // 基于 actor 的目标角度和地面角度计算复杂的俯仰和翻滚调整值。
         double dDiff1 = sin(fAng - (dAng + dPitch));
         double dDiff2 = cos(fAng - dAng);
+        // 设置 actor 的新俯仰角。
         self.A_SetPitch(fPitch * dDiff2 + dPitch);
+        // 设置 actor 的新翻滚角。
         self.A_SetRoll(fPitch * dDiff1);
+        // 设置 actor 的角度以匹配地面坡度的方向。这可能会覆盖传入的 dAng。
         self.angle = atan2(fnormalp1.y, fnormalp1.x);
-        //self.Angle=dAng;
+        //self.Angle=dAng; // 这行被注释掉了，如果启用，它会将 actor 的角度设置为传入的 dAng。
     }
+	// 计算从 source 指向 dest 所需的水平角度和俯仰角。
 	static vector2 FaceVector(vector3 source, vector3 dest)
 	{
 
 		double xx=source.x - dest.x;
 		double yy=source.y - dest.y;
 		double zz=source.z - dest.z;
+		// 计算水平角度 (yaw)
 		double a=VectorAngle(xx,yy);
+		// 计算垂直俯仰角 (pitch)
 		double p=-VectorAngle(sqrt((xx*xx)+(yy*yy)),zz);
 		Return (a,p);
 	}
+	// 计算两个三维向量点之间的距离。
 	static double VectorLength(vector3 source, vector3 dest, bool usez=true)
 	{
+		// 如果 usez 为 true，计算三维距离。
 		If(usez)
 		Return sqrt(
 		(source.x - dest.x) * (source.x - dest.x) +
 		(source.y - dest.y) * (source.y - dest.y) +
 		(source.z - dest.z) * (source.z - dest.z));
+		// 否则，只计算二维（水平）距离。
 		Return sqrt(
 		(source.x - dest.x) * (source.x - dest.x) +
 		(source.y - dest.y) * (source.y - dest.y));
 	}
+	// 在 pointA 和 pointB 之间的直线上生成一连串的 actor。
 	static void A_SpawnActorLine(string classname, Vector3 pointA, Vector3 pointB, double units = 1)
 	{
-		// get a vector pointing from A to B
+		// 获取从 A 指向 B 的向量。
 		let pointAB = pointB - pointA;
 
-		// get distance
+		// 获取两点之间的距离。
 		let dist = pointAB.Length();
 
-		// normalize it
+		// 将向量单位化（长度变为1），如果距离为0则保持不变以避免除零错误。
 		pointAB /= dist == 0 ? 1 : dist;
 
-		// iterate in units of 'units'
+		// 以 'units' 为步长进行迭代。
 		for (double i = 0; i < dist; i += units)
 		{
-			// we can now use 'pointA + i * pointAB' to
-			// get a position that is 'i' units away from
-			// pointA, heading in the direction towards pointB
+			// 计算当前迭代位置。
 			let position = pointA + i * pointAB;
+			// 在该位置生成指定类名的 actor。
 			Spawn(classname, position);
 		}
 	}
+	// 检查一个 actor (Self) 当前是否处于某个指定的状态标签 (st) 的序列中。
 	static bool CheckState(Actor Self, StateLabel st)
 	{
+		// 如果能找到该状态，并且当前状态是该状态序列的一部分，则返回 true。
 		If(Self.FindState(st,1) && Self.InStateSequence(Self.CurState,Self.ResolveState(st)))
 		Return True;
 		Return False;
 	}
+	// 改变一个 actor (Self) 的状态到指定的状态标签 (st)。
 	static state ChangeState(Actor Self,StateLabel st, Bool Force=False)
 	{
+		// 如果已经在该状态，则不做任何事。
 		If(CheckState(Self,st)) Return Null;
+		// 否则，如果能找到该状态...
 		Else If(Self.FindState(st))
 		{
+			// 如果 Force 为 true，则强制设置状态。
 			If(Force)
 			Self.SetStateLabel(st);
+			// 返回解析后的状态指针。
 			Return Self.ResolveState(st);
 		}
+		// 如果找不到状态，返回 Null。
 		Return Null;
 	}
+	// 检查一个 actor (Self) 是否可以流血。
 	static bool CanBleed(Actor Self)
 	{
+		// 如果 actor 有 bNoBlood 标志，或无敌，或休眠的怪物，或其血液类型被定义为不流血，则返回 false。
 		if(Self.bNoBlood || Self.bInvulnerable || (Self.bDormant && Self.bIsMonster) || GetDefaultByType(Self.GetBloodType(0)).bNoBlood)
 		Return False;
 		Return True;
 	}
+	// 生成一个血液效果。
 	static Actor SpawnBlood(Actor Self, Vector3 Pos, Double Scale=1.0, bool CheckBleed=True, Int BloodType=0)
 	{
-		
+
 		Bool Bleed=True;
+		// 如果需要，先检查是否可以流血。
 		If(CheckBleed) Bleed=LMBDLib.CanBleed(Self);
 		If(Self && Bleed)
 		{
+			// 生成指定血液类型的 actor。
 			Actor Blod=Spawn(Self.GetBloodType(BloodType),Pos,ALLOW_REPLACE);
 			If(Blod)
 			{
+				// 设置血液的颜色转换。
 				Blod.Translation=Self.BloodTranslation;
+				// 如果是特定的 "Blood" 类型（可能指 HLBlood），则设置其缩放。
 				If(Self.GetBloodType(0)=="Blood") //HLBlood
 				Blod.A_SetScale(Scale);
 			}
 			Return Blod;
 		}
 		Return Null;
-		
+
 	}
+	// 自定义的爆炸函数，类似于 A_Explode 但有更多控制选项。
 	static Int HLExplode(actor self, actor inflictor, actor src, int damage=-1, int distance=-1, int flags=XF_HURTSOURCE,int fulldmgdist=0,name dmgtype='Nornmal')
 	{
-		if(!inflictor) inflictor=self;
-		if(!src) src=self;
-		int explodado=0;
-		if(damage==-1) damage=self.ExplosionDamage;
-		if(distance==-1) distance=self.ExplosionRadius;
-		if(distance==-1) distance=self.ExplosionDamage; // if dist keeps giving -1, then use expdamage instead.
-		Bool HurtSource=true;
+		if(!inflictor) inflictor=self; // 如果没有指定攻击者，则为自身。
+		if(!src) src=self; // 如果没有指定来源，则为自身。
+		int explodado=0; // 受影响的 actor 数量。
+		if(damage==-1) damage=self.ExplosionDamage; // 使用默认爆炸伤害。
+		if(distance==-1) distance=self.ExplosionRadius; // 使用默认爆炸半径。
+		if(distance==-1) distance=self.ExplosionDamage; // 备用方案。
+		Bool HurtSource=true; // 是否伤害来源。
 		If(self.DontHurtShooter || !(flags & XF_HURTSOURCE)) HurtSource=False;
+		
+		// 遍历爆炸半径内的所有 things。
 		for (let it = BlockThingsIterator.Create(self, distance); it.Next();)
 		{
-			Bool RadiusDmg=1;
-			Bool DontHarmSpecies=1;
+			Bool RadiusDmg=1; // 是否受范围伤害影响。
+			Bool DontHarmSpecies=1; // 是否伤害同类。
 			If(self && it.thing)
 			{
 				RadiusDmg=self.bForceRadiusDmg || !it.thing.bNoRadiusDmg;
@@ -152,27 +199,30 @@ class LMBDLib : Actor
 			Bool Skip=False;
 			actor src=self.target;
 			if(flags && XF_NOTMISSILE) src=self;
-			If(it.thing == src && !HurtSource) Skip=True;
-			
+			If(it.thing == src && !HurtSource) Skip=True; // 如果是来源且不伤害来源，则跳过。
+
 			//src.a_log("hurtsource="..hurtsource.." src="..src.GetClassname().." ting="..it.thing.GetClassname().." skip="..skip);
+			// 检查各种条件，确定是否对目标造成伤害。
 			if (!skip && it.thing && self.Distance3D(it.thing)<=distance+it.thing.radius && self.CheckSight(it.thing) && RadiusDmg && !DontHarmSpecies && it.thing.health>0 && (it.thing.bShootable || it.thing.bVulnerable))
 			{
+				// 计算伤害衰减。
 				double dist=self.Distance3D(it.thing)-it.thing.radius-fulldmgdist;
 				int dmg;
 				If(dist<1)
-				dmg=damage;
+				dmg=damage; // 在全伤范围内造成全额伤害。
 				Else
 				{
+					// 线性伤害衰减。
 					int antidist=int(distance-dist);
-					//If(dist<=fulldmgdist) dmg=damage;
-					//else
 					dmg=damage*antidist/distance;
 				}
-				Vector3 OldVel=it.thing.Vel;
+				Vector3 OldVel=it.thing.Vel; // 保存旧速度。
 				double tcenter=it.thing.height/2;
+				// 对目标造成伤害。
 				dmg=it.thing.DamageMobj(inflictor, src, dmg, dmgtype);
-				If(!it.thing) Continue;
-				Vector2 Dir=LMBDLib.FaceVector(self.pos,it.thing.pos+(0,0,tcenter));
+				If(!it.thing) Continue; // 如果目标被摧毁，继续下一个。
+				Vector2 Dir=LMBDLib.FaceVector(self.pos,it.thing.pos+(0,0,tcenter)); // 计算爆炸方向。
+				// 如果可以流血且造成了伤害，则生成血液。
 				If(LMBDLib.CanBleed(it.thing) && dmg>0 && !self.bBloodLessImpact)
 				{
 					Double BDist=it.thing.Radius;
@@ -182,7 +232,8 @@ class LMBDLib : Actor
 					LMBDLib.SpawnBlood(it.thing,BPos,DS,false);
 				}
 				explodado++;
-				it.thing.vel=OldVel;
+				it.thing.vel=OldVel; // 恢复旧速度（推力在下面单独计算）。
+				// 如果目标可以被推动，则施加推力。
 				If(!it.thing.bDontThrust && !self.bNoDamageThrust)
 				{
 					Double Speed=dmg*25/it.thing.mass*-1;
@@ -192,53 +243,54 @@ class LMBDLib : Actor
 				//self.a_Log("dmg: "..dmg);//.." dist3d: "..int(self.Distance3D(it.thing)).." dist: "..int(dist).." antidist: "..int(antidist).." fulldmgdist: "..fulldmgdist);
 			}
 		}
-		Destructible.GeometryRadiusAttack(Self, inflictor, damage, distance, dmgtype, fulldmgdist); //idk if this works
+		// 对可破坏的地图几何体造成伤害。
+		Destructible.GeometryRadiusAttack(Self, inflictor, damage, distance, dmgtype, fulldmgdist);
 		return explodado;
 	}
+	// 自定义的开火函数，用于发射即时命中（hitscan）的子弹。
 	static void FireBullets(Actor Self, Vector2 Spread=(0,0),int numbullets=1, int dmg=3, class<actor>pufftype="BulletPuff", double range=0, /*class<actor>missile="BulletTracer" ,*/Vector3 Offsets=(0,0,0), Vector3 MOffsets=(0,0,32), Vector2 Multiplier=(1,3))
 	{
-		//A_FireBullets(7,5,7,dmg,flags:1,spawnheight:-4,3);
 		If(!Range)
-		range=PLAYERMISSILERANGE;
-		Spread*=0.5;
+		range=PLAYERMISSILERANGE; // 如果未指定射程，使用默认值。
+		Spread*=0.5; // 扩散值处理。
 		For(int i=0;i<numbullets;i++)
 		{
-			int dmge=int(dmg*FRandom(Multiplier.X,Multiplier.Y));
-			//A_FireBullets(7,5,7,dmg,flags:1);
+			int dmge=int(dmg*FRandom(Multiplier.X,Multiplier.Y)); // 伤害值在一个范围内随机。
+			// 计算带扩散的射击方向。
 			Vector2 Dir=(Self.Angle+FRandom(-Spread.X,Spread.X),Self.Pitch+FRandom(-Spread.Y,Spread.Y));
-			Actor Puff=Self.LineAttack(Dir.X,Range,Dir.Y,0,'Normal',"BulletPuff",LAF_NORANDOMPUFFZ,null,Offsets.Z,Offsets.X,Offsets.Y); //BlankPuff
+			// 第一次 LineAttack 不造成伤害，只为了获取命中点，用于生成弹道效果。
+			Actor Puff=Self.LineAttack(Dir.X,Range,Dir.Y,0,'Normal',"BulletPuff",LAF_NORANDOMPUFFZ,null,Offsets.Z,Offsets.X,Offsets.Y);
 			If(Puff)
 			{
+				// 在发射点和命中点之间生成一条视觉弹道线。
 				LMBDLib.A_SpawnActorLine("HLHitscanBubble",Self.Pos+(RotateVector(MOffsets.XY,Dir.X),MOffsets.Z),Puff.Pos,10);
-				/*
-				If(Missile)
-				{
-					Self.SpawnMissileXYZ(Self.Pos+(RotateVector(MOffsets.XY,Dir.X),MOffsets.Z),Puff,Missile,true,Self);
-				}
-				*/
 			}
+			// 第二次 LineAttack 造成实际伤害。
 			Self.LineAttack(Dir.X,Range,Dir.Y,dmge,'Normal',PuffType,LAF_NORANDOMPUFFZ,null,Offsets.Z,Offsets.X,Offsets.Y);
 		}
 	}
+	// 一个简单的随机几率函数。
 	static bool RandomChance(Int Chance, Int MaxChance=256)
 	{
+		// 如果随机数小于等于指定的几率值，返回 true。
 		If(Random(0,MaxChance)<=Chance)
 		Return True;
 		Return False;
 	}
+	// 检查一个目标点 (Dest) 是否在源 (Source) 的视野 (FOV) 内。
 	static Bool V3InFOV(Vector3 Source, Vector3 Dest, Vector2 SrcDir, Vector2 FOV)
 	{
+		// 计算从目标指向源的方向。
 		Vector2 Dir=LMBDLib.FaceVector(Dest,Source);
+		// 检查水平和垂直角度差是否在视野范围内。deltaangle 用于正确处理环绕角度（如359°和1°）。
 		If(abs(deltaangle(SrcDir.X,Dir.X))<=Fov.X && abs(deltaangle(SrcDir.Y,Dir.Y))<=FOV.Y)
 		Return True;
 		Return False;
 	}
+	// 根据给定的角度、俯仰和翻滚旋转一个三维向量偏移量。
 	Static Vector3 RotatedVec(Vector3 Offs=(0,0,0), Double Angle=0,Double Pitch=0,Double Roll=0)
 	{
-		/*Double Extra=(Offs.X*0.5)*Cos(Pitch);
-		Offs.X+=Extra;
-		Offs.Y*=0.5;*/
-		
+		// 依次进行翻滚、俯仰、偏航（角度）的旋转变换。
 		Vector2 SSS=RotateVector((Offs.Y,Offs.Z),Roll);
 		Offs.Y=SSS.X;
 		Offs.Z=SSS.Y;
@@ -246,6 +298,7 @@ class LMBDLib : Actor
 		Vector3 SpawnOffs=(R,Offs.Z*Cos(Pitch)  +  Offs.X*Sin(-Pitch));
 		Return SpawnOffs;
 	}
+	// 将速度、角度和俯仰转换为一个三维速度向量。
 	static Vector3 Vec3ToDir(Double Speed, Double Angle, Double Pitch)
 	{
 		Return (
@@ -255,88 +308,88 @@ class LMBDLib : Actor
 	}
 }
 
+// 所有特效的基类。
 Class EffectBase : Actor
 {
 	Default
 	{
-		RenderStyle "Add";
-		+NOINTERACTION
-		+CLIENTSIDEONLY
-		+FORCEXYBILLBOARD
-		+NOBLOCKMAP
-		+DONTSPLASH
-		+THRUACTORS
-		+NOTRIGGER
-		//-ACTIVATEPCROSS
-		//-ACTIVATEIMPACT
-		+NOBLOCKMAP
-		+NOBLOCKMONST
-		+NOTONAUTOMAP
-		+CANNOTPUSH
-		+ROLLSPRITE
-		+INTERPOLATEANGLES
+		RenderStyle "Add";          // 渲染风格为“加亮”。
+		+NOINTERACTION              // 不与任何东西交互。
+		+CLIENTSIDEONLY             // 仅在客户端存在，不影响游戏逻辑。
+		+FORCEXYBILLBOARD           // 强制精灵面向摄像机（XY轴）。
+		+NOBLOCKMAP                 // 不阻挡移动。
+		+DONTSPLASH                 // 不在液体中产生水花。
+		+THRUACTORS                 // 可以穿过其他 actor。
+		+NOTRIGGER                  // 不激活触发器。
+		+NOBLOCKMONST               // 不阻挡怪物。
+		+NOTONAUTOMAP               // 不在自动地图上显示。
+		+CANNOTPUSH                 // 不可被推动。
+		+ROLLSPRITE                 // 精灵可以翻滚。
+		+INTERPOLATEANGLES          // 平滑插值角度变化。
 		Radius 0.5;
 		Height 1;
 		Gravity 0.66;
-		Species "VFX";
+		Species "VFX";              // 物种为“视觉特效”，通常用于避免同类伤害。
 	}
 	States
 	{
 	Spawn:
-		TNT1 A 10;
+		TNT1 A 10;                  // 默认状态，显示一个隐形精灵持续10个 tick。
 		Stop;
 	}
 }
 
+// 掉落物图标的类。
 Class LootItemIcon : EffectBase
 {
 	Default
 	{
-		RenderStyle "AddShaded";
+		RenderStyle "AddShaded";    // 渲染风格为“加亮并带阴影”。
 		Alpha 0.99;
 		Scale 0.11;
 	}
 	States
 	{
 	Spawn:
-		LOOT A -1 Bright;
+		LOOT A -1 Bright;           // 永久显示 LOOT 精灵的 A 帧。
 		Stop;
 	}
 }
 
+// 掉落的护甲物品。
 Class DEArmorLoot : LootItemBase
 {
-
-	Int LoopsRemaining;
+	Int LoopsRemaining; // 用于计算物品存在时间的计数器。
 
 	Default
 	{
 		Scale 0.5;
-		//Translation "0:255=%[0.00,0.00,0.00]:[1.14,2.00,1.14]";
-		//StencilColor "10FF10";
-		Inventory.PickupSound "ArmorBonus";
-		Inventory.Amount 2;
-		ReactionTime 2;
+		Inventory.PickupSound "ArmorBonus"; // 拾取声音。
+		Inventory.Amount 2;                 // 给予的护甲值。
+		ReactionTime 2;                     // 用于设置 LootIcon 的帧。
 	}
+	// 决定玩家是否可以拾取此物品。
 	Override Bool CanPick(Actor Toucher)
 	{
-		If(Toucher.CountInv("BasicArmor")>=sv_fb_maxarmor) //100
+		// 如果玩家的护甲已满（sv_fb_maxarmor 是一个服务器变量），则不能拾取。
+		If(Toucher.CountInv("BasicArmor")>=sv_fb_maxarmor)
 		Return False;
 		Return True;
 	}
 	States
 	{
-	
 	Spawn:
-		TNT1 A 0 {invoker.LoopsRemaining++;}
+		TNT1 A 0 {invoker.LoopsRemaining++;} // 每次循环，计数器加1。
 		ARMB F 10 bright;
 		ARMB GHI 1 bright;
 		ARMB J 10 bright;
 		ARMB IHG 1 bright;
+		// 如果循环次数超过20次，则跳转到 LootDie 状态，物品开始消失。
 		TNT1 A 0 A_JumpIf(invoker.LoopsRemaining >= 20, "LootDie");
 		Loop;
-	
+
 	LootDie:
+		// 渐隐消失动画。
 		ARMB F 10 bright A_FadeOut;
 		ARMB GHI 1 bright A_FadeOut;
 		ARMB J 10 bright A_FadeOut;
@@ -350,62 +403,65 @@ Class DEArmorLoot : LootItemBase
 		ARMB J 10 bright A_FadeOut;
 		ARMB IHG 1 bright A_FadeOut;
 		Stop;
-	
-	Gibe:
+
+	Gibe: // 拾取物品时的实际效果。
 		TNT1 A 0
 		{
+			// 生成一个真正的护甲道具（HC_ArmorBonus）。
 			Let Bat=HC_ArmorBonus(Spawn("HC_ArmorBonus",Pos));
-			
+
 			If(Bat)
 			{
+				// 设置该道具的属性，使其能被无声、强制地拾取。
 				Bat.bQuiet=True;
 				Bat.SaveAmount=Invoker.Amount;
 				Bat.bAlwaysPickup=True;
 				Bat.bNoScreenFlash=True;
 				Bat.bAmbush=False;
-				//Bat.SavePercent=100;
+				// 让生成的道具立即与自身（掉落物）“接触”，触发其拾取逻辑。
 				Bat.Touch(Self);
 			}
-			
 		}
 		Stop;
 	}
 }
 
+// 掉落的生命值物品。
 Class DEHealthLoot : LootItemBase
 {
-
-	Int LoopsRemaining;
+	Int LoopsRemaining; // 存在时间计数器。
 
 	Default
 	{
-		//Translation "0:255=%[0.00,0.00,0.00]:[0.79,1.01,2.00]";
-		//StencilColor "0080FF";
 		Scale 0.5;
-		Inventory.PickupSound "HealthBonus";
-		Inventory.Amount 2;
-		ReactionTime 1;
+		Inventory.PickupSound "HealthBonus"; // 拾取声音。
+		Inventory.Amount 2;                  // 给予的生命值。
+		ReactionTime 1;                      // LootIcon 帧。
 	}
+	// 决定是否可以拾取。
 	Override Bool CanPick(Actor Toucher)
 	{
-		// If(Toucher.Health<Toucher.GetMaxHealth(true))
+		// 玩家的最大生命值上限受服务器变量 sv_ib_maxhealth 限制。
 		int maxHealth=min(Toucher.GetMaxHealth(true),sv_ib_maxhealth);
+		// 如果玩家生命值未满，可以拾取。
 		If(Toucher.Health<maxHealth){Return True;}
 		Return False;
 	}
 	States
 	{
 	Spawn:
-	TNT1 A 0 {invoker.LoopsRemaining++;}
-	XHBN G 5 Bright;
-	XHBN HIJ 1 Bright;
-	XHBN K 5 Bright;
-	XHBN JIH 1 Bright;
-	TNT1 A 0 A_JumpIf(invoker.LoopsRemaining >= 30, "LootDie");
-	Loop;
-	
+		TNT1 A 0 {invoker.LoopsRemaining++;} // 计数器+1。
+		XHBN G 5 Bright;
+		XHBN HIJ 1 Bright;
+		XHBN K 5 Bright;
+		XHBN JIH 1 Bright;
+		// 存在时间超过30次循环后开始消失。
+		TNT1 A 0 A_JumpIf(invoker.LoopsRemaining >= 30, "LootDie");
+		Loop;
+
 	LootDie:
-	XHBN G 5 Bright A_FadeOut;
+		// 渐隐消失动画。
+		XHBN G 5 Bright A_FadeOut;
 	XHBN HIJ 1 Bright A_FadeOut;
 	XHBN K 5 Bright A_FadeOut;
 	XHBN JIH 1 Bright A_FadeOut;
@@ -417,41 +473,41 @@ Class DEHealthLoot : LootItemBase
 	XHBN HIJ 1 Bright A_FadeOut;
 	XHBN K 5 Bright A_FadeOut;
 	XHBN JIH 1 Bright A_FadeOut;
-	Stop;
-	
+		Stop;
+
 	Gibe:
+		// 直接给玩家增加生命值。
 		TNT1 A 0 { GiveBody(1,GetMaxHealth(true)); }
 		Stop;
 	}
 }
 
+// 掉落的子弹物品。
 Class DeBulletLoot : LootItemBase
 {
-
-	Int LoopsRemaining;
+	Int LoopsRemaining; // 存在时间计数器。
 
 	Default
 	{
-		//Translation "0:255=%[0,0.1,0]:[0.5,1.5,0.25]";
-		//StencilColor "40FF40";
-		Inventory.Amount 80;
-		Inventory.PickupSound "MagazineUp";
-		MissileType "HC_Magazine";
-		ReactionTime 3;
+		Inventory.Amount 80;                 // 给予的子弹数量。
+		Inventory.PickupSound "MagazineUp";  // 拾取声音。
+		MissileType "HC_Magazine";           // 对应的弹药类型。
+		ReactionTime 3;                      // LootIcon 帧。
 	}
 	States
 	{
-	
 	Spawn:
-		TNT1 A 0 {invoker.LoopsRemaining++;}
+		TNT1 A 0 {invoker.LoopsRemaining++;} // 计数器+1。
 		ZMAG A 5 Bright;
 		ZMAG AAA 1 Bright;
 		ZMAG A 5 Bright;
 		ZMAG AAA 1 Bright;
+		// 存在时间超过30次循环后开始消失。
 		TNT1 A 0 A_JumpIf(invoker.LoopsRemaining >= 30, "LootDie");
 		Loop;
-		
+
 	LootDie:
+		// 渐隐消失动画。
 		ZMAG A 5 Bright A_FadeOut;
 		ZMAG AAA 1 Bright A_FadeOut;
 		ZMAG A 5 Bright A_FadeOut;
@@ -465,19 +521,16 @@ Class DeBulletLoot : LootItemBase
 		ZMAG A 5 Bright A_FadeOut;
 		ZMAG AAA 1 Bright A_FadeOut;
 		Stop;
-	
 	}
 }
 
+// 掉落的霰弹物品。
 Class DeShellLoot : LootItemBase
 {
-
-	Int LoopsRemaining;
+	Int LoopsRemaining; // 存在时间计数器。
 
 	Default
 	{
-		//Translation "0:255=%[0.1,0.1,0.1]:[1.5,1.5,0.5]";
-		//StencilColor "FFFF30";
 		Inventory.Amount 16;
 		Inventory.PickupSound "ShellUp";
 		MissileType "Shell";
@@ -485,7 +538,7 @@ Class DeShellLoot : LootItemBase
 	}
 	States
 	{
-	
+
 	Spawn:
 		TNT1 A 0 {invoker.LoopsRemaining++;}
 		NSHL A 5 Bright;
@@ -494,7 +547,7 @@ Class DeShellLoot : LootItemBase
 		NSHL AAA 1 Bright;
 		TNT1 A 0 A_JumpIf(invoker.LoopsRemaining >= 30, "LootDie");
 		Loop;
-		
+
 	LootDie:
 		NSHL A 5 Bright A_FadeOut;
 		NSHL AAA 1 Bright A_FadeOut;
@@ -509,19 +562,17 @@ Class DeShellLoot : LootItemBase
 		NSHL A 5 Bright A_FadeOut;
 		NSHL AAA 1 Bright A_FadeOut;
 		Stop;
-	
+
 	}
 }
 
+// 掉落的火箭弹物品。
 Class DeRocketLoot : LootItemBase
 {
-
 	Int LoopsRemaining;
 
 	Default
 	{
-		//Translation "0:255=%[0.1,0,0]:[1.5,0.5,0.5]";
-		//StencilColor "FF3030";
 		Inventory.Amount 2;
 		Inventory.PickupSound "RocketBox";
 		MissileType "HC_RocketAmmo";
@@ -529,7 +580,7 @@ Class DeRocketLoot : LootItemBase
 	}
 	States
 	{
-	
+
 	Spawn:
 		TNT1 A 0 {invoker.LoopsRemaining++;}
 		ROCK A 5 Bright;
@@ -538,7 +589,7 @@ Class DeRocketLoot : LootItemBase
 		ROCK AAA 1 Bright;
 		TNT1 A 0 A_JumpIf(invoker.LoopsRemaining >= 30, "LootDie");
 		Loop;
-		
+
 	LootDie:
 		ROCK A 5 Bright A_FadeOut;
 		ROCK AAA 1 Bright A_FadeOut;
@@ -556,15 +607,13 @@ Class DeRocketLoot : LootItemBase
 	}
 }
 
+// 掉落的能量电池物品。
 Class DeCellLoot : LootItemBase
 {
-
 	Int LoopsRemaining;
 
 	Default
 	{
-		//Translation "0:255=%[0.1,0,0]:[1.5,0.1,0.5]";
-		//StencilColor "FF00FF";
 		Inventory.Amount 80;
 		Inventory.PickupSound "CellPackUp";
 		MissileType "HC_Cell";
@@ -572,7 +621,7 @@ Class DeCellLoot : LootItemBase
 	}
 	States
 	{
-	
+
 	Spawn:
 		TNT1 A 0 {invoker.LoopsRemaining++;}
 		CELL A 5 Bright;
@@ -581,7 +630,7 @@ Class DeCellLoot : LootItemBase
 		CELL DCB 1 Bright;
 		TNT1 A 0 A_JumpIf(invoker.LoopsRemaining >= 30, "LootDie");
 		Loop;
-		
+
 	LootDie:
 		CELL A 5 Bright A_FadeOut;
 		CELL BCD 1 Bright A_FadeOut;
@@ -599,6 +648,7 @@ Class DeCellLoot : LootItemBase
 	}
 }
 
+// 所有掉落物品的基类。
 Class LootItemBase : CustomInventory
 {
 	Default
@@ -606,97 +656,101 @@ Class LootItemBase : CustomInventory
 		Friction 0.8;
 		Radius 50;
 		Height 10;
-		MeleeRange 512;
+		MeleeRange 512; // 这个被用作自动拾取的距离。
 		Gravity 0.35;
-		StencilColor "White";
-		Inventory.PickupMessage "";
-		
-		+INVENTORY.NOSCREENFLASH
+		StencilColor "White"; // 模板颜色。
+		Inventory.PickupMessage ""; // 不显示拾取信息。
+
+		+INVENTORY.NOSCREENFLASH // 拾取时没有屏幕闪烁。
 	}
+	// 当物品被销毁时调用。
 	Override Void OnDestroy()
 	{
+		// 销毁所有关联的视觉效果。
 		If(Trail) Trail.Destroy();
 		If(LootBracket) LootBracket.Destroy();
 		If(LootIcon) LootIcon.Destroy();
 		Super.OnDestroy();
 	}
-	Actor Trail;
+	Actor Trail; // 尾迹效果。
+	// 物品生成后调用。
 	Override Void PostBeginPlay()
 	{
 		Super.PostBeginPlay();
-		If(GetAge()) Return;
-		/*
-		Trail=Spawn("TrailSpawner",Pos);
-		Trail.Target=Self;
-		Trail.Health=1;
-		Trail.ReactionTime=5;
-		Trail.Scale.X=3;
-		Trail.A_SetRenderStyle(1.0,STYLE_ADDSHADED);
-		Trail.SetShade(FillColor);
-		Trail.bBright=True;
-		Trail.Frame=1;
-		*/
+		If(GetAge()) Return; // 如果是从存档加载的，则不执行。
+
+		// 生成物品的视觉组件：一个外框和一个图标。
 		LootBracket=Spawn("LootItemIcon",Pos,ALLOW_REPLACE);
 		LootBracket.SetShade(FillColor);
 		LootIcon=Spawn("LootItemIcon",Pos,ALLOW_REPLACE);
 		LootIcon.SetShade(FillColor);
-		LootIcon.Frame=ReactionTime;
+		LootIcon.Frame=ReactionTime; // 图标的帧由 ReactionTime 决定。
 		LootIcon.Scale*=0.66;
 	}
-	Bool Flying;
+	Bool Flying; // 物品是否正在飞向玩家。
 	Vector2 Dir;
 	Actor LootBracket, LootIcon;
+	// 每 tick 调用。
 	Override Void Tick()
 	{
 		Super.Tick();
-		If(IsFrozen()) Return;
+		If(IsFrozen()) Return; // 如果游戏暂停，则不执行。
+		// 如果在空中，则旋转。
 		If(!A_CheckFloor("Null"))
 		{
-			//Angle+=5;
 			Pitch-=10;
 		}
 		Else
 		{
 			Pitch=0;
+			// 如果在地面上且静止，通知尾迹效果。
 			If(Trail && Vel==(0,0,0))
 			Trail.special1=1;
 		}
-		//target=players[0].mo;
-		
+
+		// 如果没有目标玩家，或者刚生成不久，则只更新图标位置。
 		If(!Target || GetAge()<20) {  If(LootBracket) LootBracket.SetOrigin(Pos,true); If(LootIcon) LootIcon.SetOrigin(Pos,true); Return; }
 		Double Dist=Distance3D(Target);
+		// 核心逻辑：如果玩家在范围内、可以拾取、在视野内，或者物品已经在飞行中，则开始飞向玩家。
 		If(Target.Health>0 && (Dist<=MeleeRange && CanPick(Target) && CheckSight(Target) || Flying && CanPick(Target)))
 		{
 			Flying=True;
 			If(Trail) Trail.special1=Trail.ReactionTime;
-			bThruActors=True;
+			bThruActors=True; // 飞行时可以穿透其他actor。
 			Vector3 EndPos=Target.Pos+(0,0,target.Height/2);
-			Vector3 Coso=Level.Vec3Diff(Pos,EndPos);
+			Vector3 Coso=Level.Vec3Diff(Pos,EndPos); // 从当前位置到目标位置的向量（似乎有误，应为 EndPos - Pos）。
 			If(!specialf2)
 			{
+				// 初始化飞行轨迹的随机参数。
 				specialf2=(45+FRandom(-10,10))*RandomPick(-1,1);
 				Dir=LMBDLib.FaceVector(EndPos,Pos);
 			}
+			// 使用 RotatedVec 创建一个螺旋飞行的偏移量。
 			Vector3 Offs=LMBDLib.RotatedVec((0,0,Cos(180*specialf1)*15),Dir.X,Dir.Y,Specialf2);
-			//A_SpawnParticle("Blue",0,20,15);//Spawn("BulletPuff",Pos);
+			// 更新物品位置，specialf1 是一个插值因子，从0增加到1。
 			SetOrigin(Pos+Coso*specialf1+Offs,1);
+			// 如果到达目标，则触发拾取并销毁。
 			If(specialf1>=1.0 || Dist<=Target.Radius) { Touch(target); Destroy(); Return; }
-			
+
 			If(specialf1<1)
-			specialf1+=0.05;
+			specialf1+=0.05; // 增加插值因子。
 		}
 		Else
 		{
+			// 如果不满足飞行条件，重置飞行状态。
 			specialf1=0;
 			If(Flying && !CanPick(Target))
 			Flying=False;
 			bThruActors=False;
 		}
+		// 持续更新图标位置。
 		If(LootBracket) LootBracket.SetOrigin(Pos,true);
 		If(LootIcon) LootIcon.SetOrigin(Pos,true);
 	}
+	// 虚函数，子类可以重写此函数以定义不同的拾取条件。
 	Virtual Bool CanPick(Actor Toucher)
 	{
+		// 默认实现：检查玩家对应的弹药是否已满。
 		Inventory Inv=Toucher.FindInventory(MissileName);
 		If(Inv && Inv.Amount<Inv.MaxAmount)
 		Return True;
@@ -705,42 +759,49 @@ Class LootItemBase : CustomInventory
 	States
 	{
 	Spawn:
-		BON1 A 350 Bright;
+		BON1 A 350 Bright; // 默认的存活时间。
 		Stop;
 	Pickup:
+		// 尝试拾取时，先检查是否能拾取。
 		TNT1 A 0 A_JumpIf(!Invoker.CanPick(Self),"Nope");
+		// 如果可以，跳转到 Gibe 状态。
 		TNT1 A 0 A_JumpIf(1,"Gibe");
 	Gibe:
+		// 给予玩家对应的物品。MissileName 在子类中定义为弹药类型。
 		TNT1 A 0 A_GiveInventory(Invoker.MissileName,Invoker.Amount);
 		Stop;
 	Nope:
+		// 如果不能拾取，则拾取失败。
 		TNT1 A 0;
 		Fail;
 	}
 }
 
+// 一个造成持续伤害的物品基类（如中毒）。
 Class PoisonDamageThing : Inventory
 {
 	Default
 	{
-		Inventory.Amount 175;
+		Inventory.Amount 175;        // 持续时间/总伤害量。
 		Inventory.MaxAmount 175;
-		Inventory.InterHubAmount 0; //this prevents it from traveling to new maps
-		+NODAMAGETHRUST
-		+BLOODLESSIMPACT //[AA] This flag doesn't do anything on inventory objects
-		Damage 5;
-		ReactionTime 30;
+		Inventory.InterHubAmount 0; // 切换地图时不保留。
+		+NODAMAGETHRUST            // 伤害不产生推力。
+		//+BLOODLESSIMPACT         // 在 Inventory 上无效。
+		Damage 5;                  // 每次伤害的数值。
+		ReactionTime 30;           // 造成伤害的间隔。
 	}
 	Override Void Tick()
 	{
 		Super.Tick();
-		If(Level.isFrozen()) Return;  //GlobalFreeze || Level.Frozen			 Level.isFrozen()
+		If(Level.isFrozen()) Return; // 游戏暂停则返回。
 		If(Owner)
 		{
+			// 如果目标是友军，则销毁。
 			If(Target && (Owner.IsFriend(Target) && Owner!=Target)) Destroy();
-			Amount--;
-			Special1++;
+			Amount--; // 减少剩余持续时间。
+			Special1++; // 伤害间隔计时器。
 			/*
+			// 这段被注释掉的逻辑是造成伤害的部分。
 			If(Special1%ReactionTime==ReactionTime-1)
 			{
 				// [AA] This variable isn't defined anywhere, so I had to
@@ -757,143 +818,145 @@ Class PoisonDamageThing : Inventory
 				Owner.DamageMobj(Self,Src,Damage,DamageType);
 			}
 			*/
+			// 如果持续时间结束或 owner 死亡，则销毁自身。
 			If(Amount<1 || Owner && Owner.Health<1 || Owner Is "Shell")
 			Destroy();
 		}
 	}
 }
 
-/////////////////////////////////////////////////////////////Daul Grenade
+///////////////////////////////////////////////////////////// 双持手雷 (Daul Grenade)
 
+// 双持手雷发射器，这是一个管理和触发肩扛武器的控制道具。
 Class Daul_Grenade : CustomInventory
 {
-	Ice_Bomb		IB_control;
-	Flame_Belch		FB_control;
-	
+	Ice_Bomb		IB_control;  // 指向冰冻炸弹控制器的指针。
+	Flame_Belch		FB_control;  // 指向火焰喷射器控制器的指针。
+
+	// 各种布尔标志，用于在不同装备之间同步状态。
 	bool LeftFire,RightFire		,IBFire,FBFire,		LCODgrenade,LCOflame,		RCODgrenade,RCOIce;
-	int CooldownTimerGrenade;
-	
+	int CooldownTimerGrenade; // 手雷的冷却计时器。
+
 	override void DoEffect()
 	{
-	
-	if (!IB_control)
-	{
-	  IB_control = Ice_Bomb(owner.FindInventory("Ice_Bomb"));
-	}
-	RightFire = (IB_control && IB_control.RightFire);
-	RCOIce = (IB_control && IB_control.RCOIce);
-	
-	if (!FB_Control)
-	{
-	  FB_Control = Flame_Belch(owner.FindInventory("Flame_Belch"));
-	}
-	LeftFire = (FB_Control && FB_Control.LeftFire); //will be set to true if FB_Control is not null and its LeftFire bool is true
-	LCODgrenade = (FB_Control && FB_Control.LCODgrenade);
-			
-	
-	
-	
-	
-	super.DoEffect();
+		// 获取其他装备的控制器实例。
+		if (!IB_control)
+		{
+		  IB_control = Ice_Bomb(owner.FindInventory("Ice_Bomb"));
+		}
+		// 从其他控制器同步状态。
+		RightFire = (IB_control && IB_control.RightFire);
+		RCOIce = (IB_control && IB_control.RCOIce);
+
+		if (!FB_Control)
+		{
+		  FB_Control = Flame_Belch(owner.FindInventory("Flame_Belch"));
+		}
+		LeftFire = (FB_Control && FB_Control.LeftFire);
+		LCODgrenade = (FB_Control && FB_Control.LCODgrenade);
+
+		super.DoEffect();
+		// 手雷有两层充能，这是冷却计时器。
 		if (CooldownTimerGrenade < sv_dg_cooldown*35*2-1)
 		{
-		CooldownTimerGrenade++;
+			CooldownTimerGrenade++;
 		}
-		
+		// 第一层充能完成时播放音效。
 		if (CooldownTimerGrenade == sv_dg_cooldown*35)
 		{
-		Owner.A_StartSound("EquipmentGrenadeLauncherDoneCharging",0,0,1);
+			Owner.A_StartSound("EquipmentGrenadeLauncherDoneCharging",0,0,1);
 		}
-		
+		// 第二层充能完成时播放音效。
 		if (CooldownTimerGrenade == sv_dg_cooldown*35*2-1)
 		{
-		Owner.A_StartSound("EquipmentGrenadeLauncherDoneCharging",0,0,1);
-			
-			CooldownTimerGrenade = sv_dg_cooldown*35*2;
+			Owner.A_StartSound("EquipmentGrenadeLauncherDoneCharging",0,0,1);
+			CooldownTimerGrenade = sv_dg_cooldown*35*2; // 充满。
 		}
 	}
-	
+
 	Default{
 		Inventory.Amount 1;
 		Inventory.MaxAmount 1;
-		+INVENTORY.UNDROPPABLE
+		+INVENTORY.UNDROPPABLE // 不可丢弃。
 	}
-	
-	States 
+
+	States
 	{
 	Use:
-		TNT1 A 0 
+		TNT1 A 0
 		{
-		if (invoker.CooldownTimerGrenade < sv_dg_cooldown*35)
-		{
-			A_StartSound("EquipmentGrenadeLauncherCantUse",0,0,1);
-		}
-		if (invoker.CooldownTimerGrenade >= sv_dg_cooldown*35)
-		{
-				invoker.CooldownTimerGrenade = invoker.CooldownTimerGrenade - sv_dg_cooldown*35; //75
+			// 如果没有至少一层充能，则播放失败音效。
+			if (invoker.CooldownTimerGrenade < sv_dg_cooldown*35)
+			{
+				A_StartSound("EquipmentGrenadeLauncherCantUse",0,0,1);
+			}
+			// 如果有充能，则消耗一层并触发左右肩炮的动画。
+			if (invoker.CooldownTimerGrenade >= sv_dg_cooldown*35)
+			{
+				invoker.CooldownTimerGrenade = invoker.CooldownTimerGrenade - sv_dg_cooldown*35;
+				// A_Overlay 在指定通道上播放动画。
 				A_Overlay(-200,"LeftCannon");
 				A_Overlay(-201,"RightCannon");
+			}
 		}
-			
-	}
-fail;
-	
-	Feel:
+		fail;
+
+	Feel: // 用于产生屏幕震动等反馈。
 		TNT1 A 0 A_AlertMonsters;
 		TNT1 A 0 A_QuakeEx(1,1,1,4,0,100,"*");
 		Stop;
-	
-	
+
 	Spawn:
 		EQMT A -1;
 		Stop;
-	
-	
-	LeftCannon:
+
+	LeftCannon: // 左肩炮动画。
+		// 如果左肩炮（火焰喷射器）正在使用，则等待。
 		TNT1 A 0 A_Jumpif((invoker.LeftFire == true),"LeftLoop");
-		TNT1 A 0 {invoker.FBFire = True;}
-		
+		TNT1 A 0 {invoker.FBFire = True;} // 设置标志，通知其他装备“我正在使用左肩炮”。
+
+		// 播放肩炮移出的动画和音效。
 		TNT1 A 2 A_OverlayOffset(-200,0,32,WOF_INTERPOLATE);
 		TNT1 A 0 A_StartSound("EquipmentMoveIn",0,CHANF_OVERLAP,.7);
 		XSDL A 1 A_OverlayOffset(-200,-50,50,WOF_INTERPOLATE);
 		XSDL A 1 A_OverlayOffset(-200,-25,40,WOF_INTERPOLATE);
-		
-	LeftCannonFire:
+
+	LeftCannonFire: // 开火。
 		TNT1 A 0 A_OverlayOffset(-200,-25,40,WOF_INTERPOLATE);
-		
+
+		// 如果火焰喷射器被激活，它可能会清除这个动画，所以这里可以跳过。
 		TNT1 A 0 A_Jumpif((invoker.LeftFire == true),"LOverlaySkip");
-		TNT1 A 0 A_Overlay(-203,"*");
+		TNT1 A 0 A_Overlay(-203,"*"); // 清除火焰喷射器的动画。
 	LOverlaySkip:
-		
-		TNT1 A 0 A_Overlay(-300,"Feel");
+
+		TNT1 A 0 A_Overlay(-300,"Feel"); // 触发震动。
 		TNT1 A 0 A_StartSound("EquipmentGrenadeLauncher",0,CHANF_OVERLAP,.7);
+		// 发射手雷。
 		TNT1 A 0 A_FireProjectile("Shoulder_Grenade",0,false,-5,10);
+		// 播放后坐力动画。
 		XSDL B 1 A_OverlayOffset(-200,random(-1,1),random(31,33),WOF_INTERPOLATE);
 		XSDL C 1 A_OverlayOffset(-200,random(-1,1),random(31,33),WOF_INTERPOLATE);
 		XSDL D 1 A_OverlayOffset(-200,random(-1,1),random(31,33),WOF_INTERPOLATE);
 		XSDL E 1 A_OverlayOffset(-200,random(-1,1),random(31,33),WOF_INTERPOLATE);
 		TNT1 A 0 {invoker.FBFire = False;}
 		TNT1 A 0 A_StartSound("EquipmentMoveOut",0,CHANF_OVERLAP,.7);
+		// 播放肩炮收回的动画。
 		XSDL A 1 A_OverlayOffset(-200,-5,32,WOF_INTERPOLATE);
 		XSDL A 1 A_OverlayOffset(-200,-13,34,WOF_INTERPOLATE);
 		XSDL A 1 A_OverlayOffset(-200,-25,40,WOF_INTERPOLATE);
 		XSDL A 1 A_OverlayOffset(-200,-40,50,WOF_INTERPOLATE);
 		Stop;
-	LeftLoop:
+	LeftLoop: // 等待循环。
 		TNT1 A 1;
 		TNT1 A 0 A_Jumpif((invoker.LeftFire == true),"LeftLoop");
 		Goto LeftCannonFire;
-		
-		
-		
-		
-		
-	
-	RightCannon:
+
+	RightCannon: // 右肩炮动画，逻辑与左肩炮对称。
+		// 如果右肩炮（冰冻炸弹）正在使用，则等待。
 		TNT1 A 0 A_Jumpif((invoker.RightFire == true),"RightLoop");
-		TNT1 A 0 {invoker.IBFire = True;}
+		TNT1 A 0 {invoker.IBFire = True;} // 设置标志，通知其他装备“我正在使用右肩炮”。
 		TNT1 A 0 {invoker.LCOflame = false;}
-	
+
 		TNT1 A 0 A_OverlayOffset(-201,0,32,WOF_INTERPOLATE);
 		TNT1 A 0 A_StartSound("EquipmentMoveIn",0,CHANF_OVERLAP,.7);
 		XSDR A 1 A_OverlayOffset(-201,50,50,WOF_INTERPOLATE);
@@ -920,7 +983,7 @@ fail;
 		XSDR A 1 A_OverlayOffset(-201,25,40,WOF_INTERPOLATE);
 		XSDR A 1 A_OverlayOffset(-201,40,50,WOF_INTERPOLATE);
 		Stop;
-	RightLoop:
+	RightLoop: // 等待循环。
 		TNT1 A 1;
 		TNT1 A 0 A_Jumpif((invoker.RightFire == true),"RightLoop");
 		TNT1 A 0 {invoker.LCOflame = True;}
@@ -928,6 +991,7 @@ fail;
    }
 }
 
+// 肩扛式手雷的弹体。
 class Shoulder_Grenade : Actor
 {
 	Default
@@ -937,127 +1001,131 @@ class Shoulder_Grenade : Actor
 		Speed 50;
 		Damage 0;
 		DamageType "PlayerExplosive";
-		+MISSILE
-		+RANDOMIZE
+		+MISSILE         // 是一个导弹。
+		+RANDOMIZE       // 初始帧随机。
 		+FORCEXYBILLBOARD
-		-NOGRAVITY
+		-NOGRAVITY       // 受重力影响。
 		+NODAMAGETHRUST
-		
-		
-		bouncefactor 0.35; //.5
-		wallbouncefactor 0.3; //.4
-		bouncecount 4; //5
-		bouncetype "Doom";
+
+		bouncefactor 0.35;    // 弹跳系数。
+		wallbouncefactor 0.3; // 撞墙弹跳系数。
+		bouncecount 4;        // 最大弹跳次数。
+		bouncetype "Doom";    // 弹跳类型。
 	}
 	States
 	{
 	Spawn:
+		// 飞行时持续产生烟雾尾迹。
 		XSDG A 5 A_SpawnItemEx("RocketSmokeTrail",0,0,0,frandom(-2,2),frandom(-2,2),frandom(-2,2));
 		Loop;
-		
-	Bounce:
-	Death:
-		TNT1 A 0 A_StartSound("EquipmentGrenadeLauncherTimer",0,0,1);
-		XSDG A 20;
-	XDeath:
-		TNT1 A 0 A_SpawnItemEx("RocketSFX");
-		TNT1 A 0 A_SpawnItemEx("Shoulder_Grenade_FX");
-		
+
+	Bounce: // 弹跳时触发的状态（这里为空，意味着继续Spawn状态）。
+	Death:  // 弹跳次数用尽或被摧毁时。
+		TNT1 A 0 A_StartSound("EquipmentGrenadeLauncherTimer",0,0,1); // 播放定时器声音。
+		XSDG A 20; // 等待20个tick。
+	XDeath: // 最终爆炸。
+		TNT1 A 0 A_SpawnItemEx("RocketSFX"); // 产生爆炸音效actor。
+		TNT1 A 0 A_SpawnItemEx("Shoulder_Grenade_FX"); // 产生爆炸视觉效果。
+
+		// 造成128点伤害，不伤害友军。
 		TNT1 A 0 A_Explode(128, -1, XF_NOALLIES);
 		TNT1 A 1;
 		Stop;
 	}
 }
 
-////////////////////////Flame Belch
+//////////////////////// 火焰喷射器 (Flame Belch)
 
+// 火焰喷射器的控制道具。
 Class Flame_Belch : CustomInventory
 {
-	Daul_Grenade		DG_control;
-	
-	int CooldownTimerFlameBelch;
-	
-	bool LeftFire,FBFire,	LCODgrenade,LCOflame;
+	Daul_Grenade		DG_control; // 指向手雷控制器的指针。
+
+	int CooldownTimerFlameBelch; // 冷却计时器。
+	bool LeftFire,FBFire,	LCODgrenade,LCOflame; // 同步标志。
 
 	override void DoEffect()
 	{
-	
-	if (!DG_control)
+		// 获取手雷控制器实例。
+		if (!DG_control)
 		{
 		  DG_control = Daul_Grenade(owner.FindInventory("Daul_Grenade"));
 		}
+		// 从手雷控制器同步状态。
 		FBFire = (DG_control && DG_control.FBFire);
 		LCOflame = (DG_control && DG_control.LCOflame);
-	
-	
-	super.DoEffect();
+
+		super.DoEffect();
+		// 冷却计时器。
 		if (CooldownTimerFlameBelch < sv_fb_cooldown*35)
 		{
-		CooldownTimerFlameBelch++;
+			CooldownTimerFlameBelch++;
 		}
-		
+		// 冷却完成时播放音效。
 		if (CooldownTimerFlameBelch == sv_fb_cooldown*35)
 		{
-		Owner.A_StartSound("EquipmentFlameBelchReady",0,0,1);
-			CooldownTimerFlameBelch = sv_fb_cooldown*35+1;
+			Owner.A_StartSound("EquipmentFlameBelchReady",0,0,1);
+			CooldownTimerFlameBelch = sv_fb_cooldown*35+1; // 充满。
 		}
 	}
-	
-	
-	Default{
-	Inventory.Amount 1;
-	Inventory.MaxAmount 1;
-	+INVENTORY.UNDROPPABLE
-	}
-	
-	States 
-	{
 
-	Use:
-		TNT1 A 0 
-		{
-		if (invoker.CooldownTimerFlameBelch < sv_fb_cooldown*35)
-		{
-			A_StartSound("EquipmentFlameBelchNotReady",0,0,1);
-		}
-		if (invoker.CooldownTimerFlameBelch == sv_fb_cooldown*35+1)
-		{
-			A_Overlay(-203,"LeftCannon");
-			invoker.CooldownTimerFlameBelch = 0; //200
-		}
-			
+	Default{
+		Inventory.Amount 1;
+		Inventory.MaxAmount 1;
+		+INVENTORY.UNDROPPABLE
 	}
-fail;
-	
+
+	States
+	{
+	Use:
+		TNT1 A 0
+		{
+			// 如果未冷却，播放失败音效。
+			if (invoker.CooldownTimerFlameBelch < sv_fb_cooldown*35)
+			{
+				A_StartSound("EquipmentFlameBelchNotReady",0,0,1);
+			}
+			// 如果已冷却，则消耗并触发左肩炮动画。
+			if (invoker.CooldownTimerFlameBelch == sv_fb_cooldown*35+1)
+			{
+				A_Overlay(-203,"LeftCannon");
+				invoker.CooldownTimerFlameBelch = 0;
+			}
+		}
+		fail;
+
 	Spawn:
 		EQMT B -1;
 		Stop;
-	
-	Feel:
+
+	Feel: // 震动反馈。
 		TNT1 A 0 A_QuakeEx(1,1,1,30,0,100,"*");
 		TNT1 A 0 A_AlertMonsters;
 		Stop;
-	
-	LeftCannon:	
-		//TNT1 A 0 A_Jumpif((invoker.FBFire == true),"LeftLoop");
+
+	LeftCannon: // 左肩炮动画。
+		// 如果手雷正在使用左肩炮，则等待。
 		TNT1 A 0 A_Jumpif((invoker.FBFire == true),"LeftLoop");
-		TNT1 A 0 {invoker.LeftFire = True;}
+		TNT1 A 0 {invoker.LeftFire = True;} // 设置标志“我正在使用左肩炮”。
 		TNT1 A 0 {invoker.LCODgrenade = False;}
-		
+
+		// 播放肩炮移出动画。
 		TNT1 A 0 A_OverlayOffset(-203,0,32,WOF_INTERPOLATE);
 		TNT1 A 0 A_StartSound("EquipmentMoveIn",0,CHANF_OVERLAP,.7);
 		XSDL A 1 A_OverlayOffset(-203,-50,50,WOF_INTERPOLATE);
 		XSDL A 1 A_OverlayOffset(-203,-25,40,WOF_INTERPOLATE);
-		
-	LeftCannonFire:
+
+	LeftCannonFire: // 开火。
 		TNT1 A 0 A_OverlayOffset(-203,-25,40,WOF_INTERPOLATE);
-		
+
+		// 如果手雷被激活，它可能会清除这个动画。
 		TNT1 A 0 A_Jumpif((invoker.LCOflame == true),"Overlayskip");
-		TNT1 A 0 A_Overlay(-200,"*");
+		TNT1 A 0 A_Overlay(-200,"*"); // 清除手雷的动画。
 	Overlayskip:
-		
-		TNT1 A 0 A_Overlay(-300,"Feel");
+
+		TNT1 A 0 A_Overlay(-300,"Feel"); // 震动。
 		TNT1 A 0 A_StartSound("EquipmentFlameBelch",0,CHANF_OVERLAP,.7);
+		// 连续发射大量火焰弹体，形成火焰流。
 		TNT1 A 0 A_FireProjectile("Flame_Belch_Fire",0,false,-10,10);
 		XSDL B 1 A_OverlayOffset(-203,random(-1,1),random(31,33),WOF_INTERPOLATE);
 		TNT1 A 0 A_FireProjectile("Flame_Belch_Fire",0,false,-10,10);
@@ -1120,16 +1188,17 @@ fail;
 		XSDL C 1 A_OverlayOffset(-203,random(-1,1),random(31,33),WOF_INTERPOLATE);
 		XSDL D 1 A_OverlayOffset(-203,random(-1,1),random(31,33),WOF_INTERPOLATE);
 		XSDL E 1 A_OverlayOffset(-203,random(-1,1),random(31,33),WOF_INTERPOLATE);
-		
+
+		// 动画结束，重置标志。
 		TNT1 A 0 {invoker.LeftFire = False;}
-		
+		// 播放肩炮收回动画。
 		TNT1 A 0 A_StartSound("EquipmentMoveOut",0,CHANF_OVERLAP,.7);
 		XSDL A 1 A_OverlayOffset(-203,-5,32,WOF_INTERPOLATE);
 		XSDL A 1 A_OverlayOffset(-203,-13,34,WOF_INTERPOLATE);
 		XSDL A 1 A_OverlayOffset(-203,-25,40,WOF_INTERPOLATE);
 		XSDL A 1 A_OverlayOffset(-203,-40,50,WOF_INTERPOLATE);
 		Stop;
-	LeftLoop:
+	LeftLoop: // 等待循环。
 		TNT1 A 1;
 		TNT1 A 0 A_Jumpif((invoker.FBFire == true),"LeftLoop");
 		TNT1 A 0 {invoker.LCODgrenade = True;}
@@ -1137,168 +1206,170 @@ fail;
    }
 }
 
+// 火焰喷射器的火焰弹体。
 Class Flame_Belch_Fire : Actor
 {
 	Default
 	{
-  RenderStyle "Add";
-  Alpha 0.4;
-  Speed 75;
-  PROJECTILE;
-  Radius 10;
-  Height 5;
-  +RIPPER
-  +NOGRAVITY
-  +DONTSPLASH
-  +NOTELEPORT
-  +FORCEXYBILLBOARD
-  }
-  
-  
-  
+		RenderStyle "Add";
+		Alpha 0.4;
+		Speed 75;
+		PROJECTILE;
+		Radius 10;
+		Height 5;
+		+RIPPER        // 穿透敌人。
+		+NOGRAVITY
+		+DONTSPLASH
+		+NOTELEPORT
+		+FORCEXYBILLBOARD
+	}
+
+	// 如果进入水中则销毁。
   	Override Void Tick() { Super.Tick(); If(WaterLevel) Destroy(); }
+	// 定义碰撞逻辑。
 	Override Bool CanCollideWith(Actor other, bool passive)
 	{
+		// 只与怪物主动碰撞。
 		If(!passive && !other.bisMONSTER) return false;
 		return true;
 	}
-	Array <Actor> UwUr;
+	Array <Actor> UwUr; // 用于存储已被此弹体击中过的 actor 列表。
+	// 当击中 actor 时调用。
 	Override int SpecialMissileHit (Actor victim)
 	{
+		// 只对非玩家目标的怪物生效。
 		If(Victim.bisMONSTER && Victim.Health>0 && (Target && Victim!=Target))
 		{
-			Bool Recognized=false;
+			Bool Recognized=false; // 是否已经击中过。
 			Int Size=UwUr.Size();
+			// 遍历列表，检查是否重复击中。
 			If(Size>0)
 			For(int i=0;i<Size;i++)
 			{
 				If(UwUr[i]==Victim)
 				{
 					Recognized=True;
-					Return 1;
+					Return 1; // 如果是重复击中，则不造成效果。
 				}
 			}
-			UwUr.Push(Victim);
+			UwUr.Push(Victim); // 将新击中的怪物加入列表。
 			Int dmg=Damage;
 			Int FinalDamage=Victim.DamageMobj(Self,Target,Damage,DamageType);
 
+			// 如果怪物还活着，则施加“着火”效果。
 			If(Victim.Health>0)
 			{
 				Let Poison=Inventory(Victim.FindInventory("DEOnFire"));
+				// 如果怪物没有着火，或者着火效果不强，则刷新/施加着火效果。
 				If(!Poison || Poison && Poison.Amount<=Poison.MaxAmount*0.75)
 				{
 					If(Poison) Poison.Destroy();
 					Victim.A_GiveInventory("DEOnFire",175);
 					Let Poison=Inventory(Victim.FindInventory("DEOnFire"));
-					//Let Poison=Inventory(Spawn("DEOnFire",pos,ALLOW_REPLACE));
 					If(Poison)
 					{
 						Poison.Owner=Victim;
-						//Poison.Amount=Poison.MaxAmount=35*10;
-						//Poison.ReactionTime=18*2;
-						Poison.Target=Target;
+						Poison.Target=Target; // 将玩家设为效果来源。
 					}
 				}
 			}
 		}
-		Return 1;
+		Return 1; // 返回1表示弹体继续飞行（因为有RIPPER标志）。
 	}
-  
-  
-  
+
   States
   {
 	Spawn:
+		// 播放动画并产生粒子效果。
 		FRFX ABCDEFGH 1 Bright A_SpawnItemEx("Flame_Belch_Fire_FX",0,0,0,frandom(-2,2),frandom(-2,2),frandom(-2,2));
 		TNT1 A 1 A_SpawnItemEx("Flame_Belch_Fire_Add",0,0,0,frandom(-10,10),frandom(-10,10),frandom(-10,10));
 		TNT1 A 1;
 		Stop;
-	
+
 	XDeath:
 	Death:
+		// 消失时也产生一些粒子。
 		TNT1 A 1 A_SpawnItemEx("Flame_Belch_Fire_Add",0,0,0,frandom(-10,10),frandom(-10,10),frandom(-10,10));
 		Stop;
   }
 }
 
+// 火焰的附加粒子效果。
 Class Flame_Belch_Fire_Add : Actor
 {
 	Default
 	{
-  RenderStyle "Add";
-  Alpha 0.4;
-  Speed 2;
-  PROJECTILE;
-  
-  +NOGRAVITY
-  +DONTSPLASH
-  +NOTELEPORT
-  +FORCEXYBILLBOARD
-  }
-  
-  Override Void Tick() { Super.Tick(); If(WaterLevel) Destroy(); }
-  
-  States
-  {
-  Spawn:
-    FRFX IJKLMNOP 1 Bright A_SpawnItemEx("Flame_Belch_Fire_FX",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4));
-    Stop;
-  }
+		RenderStyle "Add";
+		Alpha 0.4;
+		Speed 2;
+		PROJECTILE;
+		+NOGRAVITY
+		+DONTSPLASH
+		+NOTELEPORT
+		+FORCEXYBILLBOARD
+	}
+	Override Void Tick() { Super.Tick(); If(WaterLevel) Destroy(); }
+	States
+	{
+	Spawn:
+		FRFX IJKLMNOP 1 Bright A_SpawnItemEx("Flame_Belch_Fire_FX",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4));
+		Stop;
+	}
 }
 
+// 火焰的最终粒子效果（火花）。
 Class Flame_Belch_Fire_FX : Actor
 {
 	Default
 	{
-  RenderStyle "Add";
-  Alpha 0.4;
-  Scale 0.1;
-  VSpeed 1;
-  
-  +NOGRAVITY
-  +DONTSPLASH
-  +NOTELEPORT
-  +FORCEXYBILLBOARD
-  }
-  
-  Override Void Tick() { Super.Tick(); If(WaterLevel) Destroy(); }
-  
-  States
-  {
-  Spawn:
-	TNT1 A 0 {A_SetRoll(Random(0,359)); A_SetPitch(Random(-90,90)); A_SetAngle(Random(0,359));}
-    FLMF ABCDE 1 Bright;
-	FLMF FABCDEF 1 Bright {A_SetScale(Scale.X+0.01); A_Fadeout(0.05);}
-    Stop;
-  }
+		RenderStyle "Add";
+		Alpha 0.4;
+		Scale 0.1;
+		VSpeed 1;
+		+NOGRAVITY
+		+DONTSPLASH
+		+NOTELEPORT
+		+FORCEXYBILLBOARD
+	}
+	Override Void Tick() { Super.Tick(); If(WaterLevel) Destroy(); }
+	States
+	{
+	Spawn:
+		// 随机设置初始角度和翻滚。
+		TNT1 A 0 {A_SetRoll(Random(0,359)); A_SetPitch(Random(-90,90)); A_SetAngle(Random(0,359));}
+		FLMF ABCDE 1 Bright;
+		// 播放动画，同时逐渐变大并淡出。
+		FLMF FABCDEF 1 Bright {A_SetScale(Scale.X+0.01); A_Fadeout(0.05);}
+		Stop;
+	}
 }
 
+// “着火”状态的道具，继承自持续伤害基类。
 Class DEOnFire : PoisonDamageThing
 {
 	Default
 	{
 		Inventory.Amount 175;
 		Inventory.MaxAmount 175;
-		Damage 0;
-		ReactionTime 15;
-		+PAINLESS
+		Damage 0; // 这个效果本身不造成直接伤害。
+		ReactionTime 15; // 效果触发间隔。
+		+PAINLESS // 不会使怪物进入受创状态。
 	}
-	Actor Light;
+	Actor Light; // 动态光源。
 	Override Void PostBeginPlay()
 	{
 		Inventory.PostBeginPlay();
 		If(GetAge()>1) Return;
 		If(!Owner) Return;
+		// 创建一个附着的闪烁动态光。
 		Light=Spawn("PointLightFlickerAttenuated");
-		Light.Args[0]=255;
-		Light.Args[1]=64;
-		Light.Args[2]=0;
+		Light.Args[0]=255; Light.Args[1]=64; Light.Args[2]=0; // 橙色光
 		Light.Args[3]=Int(Owner.Radius);
 		Light.Args[4]=Int(Owner.Radius+10);
 	}
 	Override Void OnDestroy()
 	{
-		If(Light) Light.Destroy();
+		If(Light) Light.Destroy(); // 销毁动态光。
 		Super.OnDestroy();
 	}
 	Override Void Tick()
@@ -1307,32 +1378,36 @@ Class DEOnFire : PoisonDamageThing
 		If(IsFrozen()) Return;
 		If(Owner)
 		{
-			If(Light) Light.SetOrigin(Owner.Pos+(0,0,Owner.Height/2),1);
+			If(Light) Light.SetOrigin(Owner.Pos+(0,0,Owner.Height/2),1); // 更新光源位置。
 			If(Target && (Owner.IsFriend(Target) && Owner!=Target || Target.waterlevel)) Destroy();
 			Amount--;
 			Special1++;
+			// 核心机制：每隔一段时间，着火的怪物会掉落护甲。
 			If(Special1%ReactionTime==ReactionTime-1)
 			{
 				Actor Yea;
 				Bool a;
 				[a,yea]=Owner.A_SpawnItemEx("DEArmorLoot",0,0,Height/2,FRandom(1,3),0,FRandom(4,10),FRandom(1,360),SXF_NOCHECKPOSITION);
 				If(yea)
-				Yea.Target=Target;
+				Yea.Target=Target; // 将掉落物的目标设为玩家。
 				special2++;
 			}
+			// 每3个tick，在怪物身上产生火焰粒子效果。
 			If(Owner && Special1%3==0)
 			Owner.A_SpawnItemEx("Flame_Belch_Fire_FX",Owner.Radius,0,FRandom(0,Owner.Height),zvel:FRandom(0.5,1),FRandom(1,360),0,96);
-			If(Amount<1 || Owner && Owner.Health<1 || Owner Is "Shell" || special2>=10) //Spore_Ammo			?
+			// 效果结束条件：时间耗尽、owner死亡、或掉落物达到上限。
+			If(Amount<1 || Owner && Owner.Health<1 || Owner Is "Shell" || special2>=10)
 			Destroy();
 		}
 	}
 	Int DmgRecieved;
 	Int DmgScalation;
 	Int BonusDrops;
+	// 当着火的怪物受到伤害时调用。
 	Override Void AbsorbDamage(int damage, name damagetype, out int newdamage, actor inflictor,actor source, int flags)
 	{
-		
 		dmgrecieved+=newdamage;
+		// 核心机制：每当受到的额外伤害累积到25点，就会掉落一个额外的护甲，有上限。
 		While(dmgrecieved>=25 && BonusDrops<5)
 		{
 			dmgrecieved-=25;
@@ -1345,108 +1420,114 @@ Class DEOnFire : PoisonDamageThing
 	}
 }
 
-////////////////////////Ice Bomb
+//////////////////////// 冰冻炸弹 (Ice Bomb)
 
+// 冰冻炸弹的控制道具。
 Class Ice_Bomb : CustomInventory
 {
-	Daul_Grenade DG_control;
-	
-	int CooldownTimerIce;
-	
-	bool RightFire,IBFire,		RCODgrenade,RCOIce;
-	
+	Daul_Grenade DG_control; // 指向手雷控制器的指针。
+
+	int CooldownTimerIce; // 冷却计时器。
+	bool RightFire,IBFire,		RCODgrenade,RCOIce; // 同步标志。
+
 	override void DoEffect()
 	{
-	
-	if (!DG_control)
+		// 获取手雷控制器并同步状态。
+		if (!DG_control)
 		{
 		  DG_control = Daul_Grenade(owner.FindInventory("Daul_Grenade"));
 		}
-		IBFire = (DG_control && DG_control.IBFire); //will be set to true if DG_control is not null and its LeftFire bool is true
+		IBFire = (DG_control && DG_control.IBFire);
 		RCOIce = (DG_control && DG_control.RCOIce);
-	
-	super.DoEffect();
+
+		super.DoEffect();
+		// 冷却逻辑。
 		if (CooldownTimerIce < sv_ib_cooldown*35)
 		{
-		CooldownTimerIce++;
+			CooldownTimerIce++;
 		}
-		
+		// 冷却完成时播放音效。
 		if (CooldownTimerIce == sv_ib_cooldown*35)
 		{
-		Owner.A_StartSound("EquipmentIceBombReload",0,0,1);
-			CooldownTimerIce = sv_ib_cooldown*35 + 1;
+			Owner.A_StartSound("EquipmentIceBombReload",0,0,1);
+			CooldownTimerIce = sv_ib_cooldown*35 + 1; // 充满。
 		}
 	}
-	
+
 	Default{
 		Inventory.Amount 1;
 		Inventory.MaxAmount 1;
 		+INVENTORY.UNDROPPABLE
 	}
-	
-	States 
-	{
 
+	States
+	{
 	Use:
-		TNT1 A 0 
+		TNT1 A 0
 		{
-		if (invoker.CooldownTimerIce < sv_ib_cooldown*35)
-		{
-			A_StartSound("EquipmentIceBombFail",0,CHANF_OVERLAP,1);
-		}
-		if (invoker.CooldownTimerIce == sv_ib_cooldown*35 + 1)
-		{
+			// 如果未冷却，播放失败音效。
+			if (invoker.CooldownTimerIce < sv_ib_cooldown*35)
+			{
+				A_StartSound("EquipmentIceBombFail",0,CHANF_OVERLAP,1);
+			}
+			// 如果已冷却，消耗并触发右肩炮动画。
+			if (invoker.CooldownTimerIce == sv_ib_cooldown*35 + 1)
+			{
 				A_Overlay(-204,"RightCannon");
-				invoker.CooldownTimerIce = 0; //200
+				invoker.CooldownTimerIce = 0;
+			}
 		}
-			
-	}
-	fail;
-	
+		fail;
+
 	Spawn:
 		EQMT C -1;
 		Stop;
-	
-	Feel:
+
+	Feel: // 震动反馈。
 		TNT1 A 0 A_QuakeEx(1,1,1,4,0,100,"*");
 		TNT1 A 0 A_AlertMonsters;
 		Stop;
 
-	RightCannon:
+	RightCannon: // 右肩炮动画，逻辑与火焰喷射器的左肩炮对称。
+		// 如果手雷正在使用右肩炮，则等待。
 		TNT1 A 0 A_Jumpif((invoker.IBFire == true),"RightLoop");
-		TNT1 A 0 {invoker.RightFire = True;}
+		TNT1 A 0 {invoker.RightFire = True;} // 设置标志“我正在使用右肩炮”。
 		TNT1 A 0 {invoker.RCODgrenade = False;}
-	
+
+		// 播放肩炮移出动画。
 		TNT1 A 0 A_OverlayOffset(-204,0,32,WOF_INTERPOLATE);
 		TNT1 A 0 A_StartSound("EquipmentMoveIn",0,CHANF_OVERLAP,.7);
 		XSDR A 1 A_OverlayOffset(-204,50,50,WOF_INTERPOLATE);
 		XSDR A 1 A_OverlayOffset(-204,25,40,WOF_INTERPOLATE);
-		
-	RightCannonFire:
+
+	RightCannonFire: // 开火。
 		TNT1 A 0 A_OverlayOffset(-204,25,40,WOF_INTERPOLATE);
-		
+
+		// 检查并清除其他装备的动画。
 		TNT1 A 0 A_Jumpif((invoker.RCOIce == true),"OverlaySkip");
 		TNT1 A 0 A_Overlay(-201,"*");
 	OverlaySkip:
-		
-		TNT1 A 0 A_Overlay(-300,"Feel");
+
+		TNT1 A 0 A_Overlay(-300,"Feel"); // 震动。
 		TNT1 A 0 A_StartSound("EquipmentIceBombFire",0,CHANF_OVERLAP,.7);
+		// 发射冰冻手雷。
 		TNT1 A 0 A_FireProjectile("Ice_Grenade",0,false,5,10);
-		
+		// 播放后坐力动画。
 		XSDC A 1 A_OverlayOffset(-204,random(-1,1),random(31,33),WOF_INTERPOLATE);
 		XSDC B 1 A_OverlayOffset(-204,random(-1,1),random(31,33),WOF_INTERPOLATE);
 		XSDC C 1 A_OverlayOffset(-204,random(-1,1),random(31,33),WOF_INTERPOLATE);
 		XSDC D 1 A_OverlayOffset(-204,random(-1,1),random(31,33),WOF_INTERPOLATE);
-		
+
+		// 动画结束，重置标志。
 		TNT1 A 0 {invoker.RightFire = False;}
-		
+		// 播放肩炮收回动画。
 		TNT1 A 0 A_StartSound("EquipmentMoveOut",0,CHANF_OVERLAP,.7);
 		XSDR A 1 A_OverlayOffset(-204,5,32,WOF_INTERPOLATE);
 		XSDR A 1 A_OverlayOffset(-204,13,34,WOF_INTERPOLATE);
 		XSDR A 1 A_OverlayOffset(-204,25,40,WOF_INTERPOLATE);
 		XSDR A 1 A_OverlayOffset(-204,40,50,WOF_INTERPOLATE);
 		Stop;
-	RightLoop:
+	RightLoop: // 等待循环。
 		TNT1 A 1;
 		TNT1 A 0 A_Jumpif((invoker.IBFire == true),"RightLoop");
 		TNT1 A 0 {invoker.RCODgrenade = True;}
@@ -1454,6 +1535,7 @@ Class Ice_Bomb : CustomInventory
    }
 }
 
+// 冰冻手雷的弹体。
 class Ice_Grenade : Actor
 {
 	Default
@@ -1461,47 +1543,42 @@ class Ice_Grenade : Actor
 		Radius 3;
 		Height 6;
 		Speed 50;
-		Damage 0; //20
-		//DamageType "Explosive";
+		Damage 0;
 		+MISSILE
 		+RANDOMIZE
 		+FORCEXYBILLBOARD
 		-NOGRAVITY
 		+NODAMAGETHRUST
 	}
-	
-	
-	
-	
-	
-	
-	Actor Lite;
+
+	Actor Lite; // 动态光源。
 	Override Void OnDestroy()
 	{
 		If(Lite)
-		Lite.Destroy();
+		Lite.Destroy(); // 销毁时清理光源。
 		Super.OnDestroy();
 	}
-	
+
 	Override Void Tick()
 	{
+		// 创建并维护一个跟随弹体的动态光源。
 		If(!Lite)
 		{
 			Lite=Spawn("PointLightAttenuated",Pos);
 			Lite.Target=Self;
-			Lite.Args[0]=128;
-			Lite.Args[1]=128;
-			Lite.Args[2]=255;
+			Lite.Args[0]=128; Lite.Args[1]=128; Lite.Args[2]=255; // 蓝色光
 			Lite.Args[3]=52;
 		}
 		Else
 		Lite.SetOrigin(Self.Pos,true);
 		super.tick();
+		// 在空中时旋转。
 		If(!A_CheckFloor("Null"))
 		{
 			Angle+=10;
 			Pitch-=20;
 		}
+		// 产生发光效果。
 		Actor Glow=Spawn("ShockBeamGlow",Pos);
 		If(Glow)
 		{
@@ -1513,6 +1590,7 @@ class Ice_Grenade : Actor
 			Glow.bNoTimeFreeze=True;
 		}
 		If(IsFrozen()) Return;
+		// 产生冰霜烟雾粒子。
 		If(Level.Time%2==0)
 		{
 			BOol a;
@@ -1522,62 +1600,55 @@ class Ice_Grenade : Actor
 			B.SetShade("DDDDFF");
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
 	States
 	{
 	Spawn:
+		// 飞行时产生烟雾尾迹。
 		ICBB A 5 A_SpawnItemEx("Ice_Grenade_Smoke",0,0,0,frandom(-2,2),frandom(-2,2),frandom(-2,2));
 		Loop;
-		
+
 		Bounce:
-		Death:
+		Death: // 撞击时。
 		TNT1 A 0 A_StartSound("EquipmentIceExplodeAdd",0,0,1);
 		TNT1 A 0 A_SpawnItemEx("Ice_Grenade_FX");
-		//TNT1 A 0 A_Explode(-1,-1,0);
 		TNT1 A 20		{
-			If(Lite)
-			Lite.Destroy();
+			If(Lite) Lite.Destroy(); // 清理光源。
 			bForcePain=True;
 			Int ExpDmg=200;
+			// 造成范围伤害，这个伤害主要是为了触发 DoSpecialDamage。
 			A_Explode(1,192,0,0,192);
+			// 屏幕震动。
 			A_QuakeEx(1,1,1,25,0,1024,"",QF_SCALEDOWN,falloff:192);
+			// 产生一个扩大的冰冻球体视觉效果。
 			Actor Explo=Spawn("EquipmentIceBombSphere",Pos+(0,0,20),ALLOW_REPLACE);
 			Explo.Scale*=1.5;
 			SetShade("AAAAFF");
-			//For(Int i=0;i<20;i++)
-			//A_SpawnItemEx("CGShieldExplosionPuff",0,0,0,Frandom(0,20),0,FRandom(-20,20),FRandom(1,360),SXF_TRANSFERSTENCILCOL);
-			//For(Int i=0;i<20;i++)
-			//A_SpawnItemEx("IceChunk",0,0,0,Frandom(0,5),0,FRandom(0,5),FRandom(1,360));
-			//A_StartSound("Explosion/Back",0,CHANF_OVERLAP);
-			//A_StartSound("Equipment/IceBombExplode",0,CHANF_OVERLAP);
 		}
 		Stop;
 	}
+	// 对被范围伤害波及的每个 actor 调用。
 	Override Int DoSpecialDamage(Actor target, int damage, name damagetype)
 	{
+		// 如果是怪物，则给予其“冰冻”状态。
 		If(Target.bIsMonster)
 		Target.A_GiveInventory("IceBombFreezeme");
 		Inventory Yea=Target.FindInventory("IceBombFreezeme");
 		If(Yea)
-		Yea.Target=Self.Target;
+		Yea.Target=Self.Target; // 将玩家设为效果来源。
 		Return Super.DoSpecialDamage(target,damage,damagetype);
 	}
 }
 
+// 冰冻爆炸的球体视觉效果。
 Class EquipmentIceBombSphere : EffectBase
 {
-	Default { Translation "Icey"; }
+	Default { Translation "Icey"; } // 使用“冰冻”颜色转换。
 	States
 	{
 	Spawn:
 		TNT1 A 2;
+		// 连续放大和渐隐，产生爆炸冲击波的效果。
 		NULL AAAAAAAA 1 Bright A_SetScale(Scale.X*1.2);
 		NULL A 1 Bright A_SetScale(Scale.X*1.1);
 		NULL A 1 Bright { A_FadeOut(0.33); A_SetScale(Scale.X*1.05); }
@@ -1587,69 +1658,80 @@ Class EquipmentIceBombSphere : EffectBase
 	}
 }
 
+// “被冰冻”的状态，继承自眩晕类。
 Class IceBombFreezeme : HC_Stun_Power
 {
-	Default { Powerup.Duration -3; }
+	Default { Powerup.Duration -3; } // 持续时间由其他逻辑控制。
 	Override Void Tick()
 	{
-		Super.Tick();
+		Super.Tick(); // 调用基类的 Tick 来维持眩晕效果。
 		If(Owner)
 		{
 			SetOrigin(Owner.pos,1);
-			
+			// 在被冰冻的怪物身上持续产生冰霜粒子。
 			If(Level.Time%3==0)
 			A_SpawnItemEx("Ice_Grenade_Smoke",Owner.Radius,0,FRandom(0,Owner.Height),zvel:FRandom(0.5,1),FRandom(1,360),frandom(0,3),96);
-			
+			// 播放环境音效。
 			If(Level.Time%70==0)
 			A_StartSound("EquipmentIceAmbient",0,CHANF_OVERLAP);
 		}
 	}
+	// 效果开始时。
 	Override Void InitEffect()
 	{
 		LastEnemy=Owner;
 		translation=owner.translation;
-		Owner.A_SetTranslation("Icey");
+		Owner.A_SetTranslation("Icey"); // 将怪物的外观变为冰冻材质。
 		Super.InitEffect();
 	}
+	// 效果结束时（例如，冰冻时间到）。
 	Override Void EndEffect()
 	{
-		A_StartSound("EquipmentIceMonsterBreak",0,CHANF_OVERLAP);
+		A_StartSound("EquipmentIceMonsterBreak",0,CHANF_OVERLAP); // 播放碎冰声。
 		If(Owner && Owner.Health>1)
 		{
-			owner.translation=translation;
+			owner.translation=translation; // 恢复怪物原始外观。
+			// 产生大量碎冰块。
 			For(Int i=0;i<Owner.Radius;i+=2)
 			Owner.A_SpawnItemEx("IceChunk",FRandom(0,Owner.Radius),0,FRandom(0,Owner.Height),FRandom(0,2),0,FRandom(0,2),FRandom(1,360));
 		}
 	}
+	// 当被冰冻的 owner 死亡时。
 	Override Void OwnerDied()
 	{
-		//A_Log("Is die");
 		If(LastEnemy)
 		{
+			// 产生碎冰块。
 			For(Int i=0;i<LastEnemy.Radius;i+=2)
 			LastEnemy.A_SpawnItemEx("IceChunk",FRandom(0,Owner.Radius),0,FRandom(0,Owner.Default.Height),FRandom(0,2),0,FRandom(0,2),FRandom(1,360));
 			LastEnemy.A_Fall();
+			// 让怪物进入一个特殊的冰冻死亡状态（通常是碎裂动画）。
 			LastEnemy.SetState(LastEnemy.FindState("GenericFreezeDeath")+1);
-			LastEnemy.bInvisible=True;
+			LastEnemy.bInvisible=True; // 使其不可见，因为动画由其他效果处理。
+			// 生成一个延时删除器，在动画播放完后彻底删除怪物尸体。
 			Actor E=Spawn("asdDeleteMe");
 			E.Target=LastEnemy;
 		}
+		// 核心机制：被冰冻的怪物死亡时，会掉落生命值。
 		A_SpawnItemEx("DEHealthLoot",0,0,Owner.Height/2,FRandom(1,3),0,FRandom(4,6),FRandom(1,360),SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS);
 		A_SpawnItemEx("DEHealthLoot",0,0,Owner.Height/2,FRandom(1,3),0,FRandom(4,6),FRandom(1,360),SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS);
 		Super.OwnerDied();
 	}
+	// 当被冰冻的怪物受到伤害时。
 	Override Void AbsorbDamage(int damage, name damagetype, out int newdamage, actor inflictor,actor source, int flags)
 	{
 		int dmg=newdamage;
 		dmgrecieved+=dmg;
-		h();
-		NewDamage*=Int(1.25);
+		h(); // 调用掉落生命值的函数。
+		NewDamage*=Int(1.25); // 冰冻状态下受到的伤害增加25%。
 	}
 	Int DmgRecieved;
 	Int DmgScalation;
 	Int BonusDrops;
+	// 掉落生命值的函数。
 	Void h()
 	{
+		// 核心机制：每当受到的额外伤害累积到20点，就会掉落一个额外的生命值，有上限。
 		While(dmgrecieved>=20 && BonusDrops<3)
 		{
 			dmgrecieved-=20;
@@ -1662,13 +1744,15 @@ Class IceBombFreezeme : HC_Stun_Power
 	}
 }
 
+// 一个辅助 actor，用于延迟删除目标。
 Class asdDeleteMe : Actor
 {
-	Default { +NOTIMEFREEZE }
+	Default { +NOTIMEFREEZE } // 不受时间冻结影响。
 	States
 	{
 	Spawn:
-		TNT1 A 3 Nodelay;
+		TNT1 A 3 Nodelay; // 等待3个 tick。
+		// 如果目标存在，则停止其所有声音并将其销毁。
 		TNT1 A 0 { If(Target) { Target.A_StopAllSounds(); Target.Destroy(); } }
 		Stop;
 	}
