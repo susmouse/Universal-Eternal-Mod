@@ -10,6 +10,25 @@ class GloryChainsaw : Weapon
 	int ptics; // 存储目标敌人被冻结前的原始tics值。
 	float vbob; // 存储玩家原始的视角晃动 (ViewBob) 设置。
 
+	// 替换现有的 spawnAmmo 方法
+	static void spawnAmmo(Actor target, string item, int amount=1)
+	{
+		if (!target) return;
+		
+		vector3 basePos = target.pos;
+		
+		for (int i = 0; i < amount; i++)
+		{
+			vector3 spawnPos = basePos;
+			spawnPos += (
+				cos(target.angle) * frandom(-30, 30),
+				sin(target.angle) * frandom(-30, 30),
+				frandom(5, target.height * 0.75)
+			);
+			Spawn(item, spawnPos);
+		}
+	}
+
 	// action 函数 A_ResetWeapon: 用于在荣耀击杀完成或武器被取消选择时，重置玩家和目标的状态。
 	// 'invoker' 在action函数中通常指代调用此action的武器自身 (即GloryChainsaw实例)。
 	action void A_ResetWeapon()
@@ -24,10 +43,10 @@ class GloryChainsaw : Weapon
 				// float yoffs = sin(invoker.ptarget.angle)*frandom(-30,30);
 				// float zoffs = frandom(5,invoker.ptarget.height * 0.75);
 				// vector3 spawnPos = invoker.ptarget.pos + (xoffs, yoffs, zoffs);
-				Spawn("ClipBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-30,30), sin(invoker.ptarget.angle)*frandom(-30,30), frandom(5,invoker.ptarget.height * 0.75)));
-				Spawn("ShellBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-30,30), sin(invoker.ptarget.angle)*frandom(-30,30), frandom(5,invoker.ptarget.height * 0.75)));
-				Spawn("RocketBox", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-30,30), sin(invoker.ptarget.angle)*frandom(-30,30), frandom(5,invoker.ptarget.height * 0.75)));
-				Spawn("CellPack", invoker.ptarget.pos + (cos(invoker.ptarget.angle)*frandom(-30,30), sin(invoker.ptarget.angle)*frandom(-30,30), frandom(5,invoker.ptarget.height * 0.75)));
+				SpawnAmmo(invoker.ptarget, "ClipBox", 1);
+				SpawnAmmo(invoker.ptarget, "ShellBox", 1);
+				SpawnAmmo(invoker.ptarget, "RocketAmmo", 5);
+				SpawnAmmo(invoker.ptarget, "Cell", 3);
 				
 			}
 			invoker.ptarget.tics = invoker.ptics; // 恢复目标敌人的tics，使其行为解冻。
