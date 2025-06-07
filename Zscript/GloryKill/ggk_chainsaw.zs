@@ -43,7 +43,11 @@ class GloryChainsaw : Weapon
 
 	static void spawnAmmo(Actor target, string item, int amount=1)
 	{
+		// 合法性判断
 		if (!target) return;
+		Class<Actor> itemClass = item;
+		if (!itemClass){Console.Printf("Warning: '%s' is not a vaila class", item);return;}
+
 		vector3 basePos = target.pos;
 		for (int i = 0; i < amount; i++)
 		{
