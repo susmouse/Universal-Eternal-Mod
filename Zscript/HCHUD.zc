@@ -158,7 +158,7 @@ Class HellCrusherHUD : BaseStatusBar
 	Ice_Bomb			IB_control;
 	Flame_Belch			FB_control;
 	
-	DEDashJump			DED_control, DJ_control;
+	UEM_DEDashJump			DED_control, DJ_control;
 	
 	HC_Backpack			HUDBackpackGets;
 	
@@ -187,10 +187,10 @@ Class HellCrusherHUD : BaseStatusBar
 			FB_control = Flame_Belch(CPlayer.mo.FindInventory("Flame_Belch"));
 			
 		if (!DED_control)
-			DED_control = DEDashJump(CPlayer.mo.FindInventory("DEDashJump"));
+			DED_control = UEM_DEDashJump(CPlayer.mo.FindInventory("UEM_DEDashJump"));
 			
 		if (!DJ_control)
-			DJ_control = DEDashJump(CPlayer.mo.FindInventory("DEDashJump"));
+			DJ_control = UEM_DEDashJump(CPlayer.mo.FindInventory("UEM_DEDashJump"));
 		
 		//[H3LLW4LK3R]: there is probably a way to make this one big chunk.
 		

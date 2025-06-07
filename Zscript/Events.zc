@@ -152,7 +152,7 @@ class LevelStartHandler : EventHandler
             if (!player || player.health <= 0) continue;  // 跳过死亡玩家
             
             // 发放物品
-            player.GiveInventory("DEDashJump", 1);
+            player.GiveInventory("UEM_DEDashJump", 1);
             player.GiveInventory("Ice_Bomb", 1);
             player.GiveInventory("Flame_Belch", 1);
             player.GiveInventory("Daul_Grenade", 1);

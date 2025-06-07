@@ -17,7 +17,9 @@ I'm not proficient in C#. This mod was created after just 10 minutes of reading 
   - Updated Glory Kill animations to better suit the style of classic Doom;
   - Fixed an issue where weapons would be misplaced after Glory Kills and Quick Chainsaw attacks;
 - v1.4:
- - Add more customizable options;
+  - Add more customization options for ShoulderCannons;
+- v1.4.1
+  - [Breaking Change] Modified some class names for better compatibility.
 
 ## Features
 

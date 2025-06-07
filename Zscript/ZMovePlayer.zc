@@ -275,8 +275,8 @@ Class BuildPlayer : PlayerPawn
 		bNOFRICTION = True;
 	}
 	
-	DEDashJump DashMove;
-	DEDashJump DED_control;
+	UEM_DEDashJump DashMove;
+	UEM_DEDashJump DED_control;
 	
 	Override void PlayerThink()
 	{
@@ -284,7 +284,7 @@ Class BuildPlayer : PlayerPawn
 		//Store info needed in multiple places
 		
 		if (!DED_control)
-			DED_control = DEDashJump(FindInventory("DEDashJump"));
+			DED_control = UEM_DEDashJump(FindInventory("UEM_DEDashJump"));
 		
 		
 		if (DED_control)
@@ -1671,7 +1671,7 @@ Class BuildPlayer : PlayerPawn
 
 
 
-Class LedgeGrabWeapon : Weapon
+Class UEM_LedgeGrabWeapon : Weapon
 {
 	States
 	{

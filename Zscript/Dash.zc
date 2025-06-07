@@ -10,7 +10,7 @@ Class DEDashBar : Ammo {
   }
 }
 
-Class DEDashJump : Inventory 						///Dash and double jump code by TheCamaleonMaligno ( https://www.youtube.com/watch?v=mTfGxY_Afhs )
+Class UEM_DEDashJump : Inventory 						///Dash and double jump code by TheCamaleonMaligno ( https://www.youtube.com/watch?v=mTfGxY_Afhs )
 {
 	Double DashDir, DashSpeed;
 	Int DashTics, DashCharge, AirTics;
@@ -59,7 +59,7 @@ Class DEDashJump : Inventory 						///Dash and double jump code by TheCamaleonMa
 			Owner.A_SetBlend("White",0.1,20);
 			Owner.A_StartSound("Player/Dash",50,CHANF_OVERLAP);
 			Owner.A_QuakeEx(2,2,2,15,0,1,"",QF_SCALEDOWN);
-			Actor C=Spawn("DashCollisionChecker",Owner.Pos);
+			Actor C=Spawn("UEM_DashCollisionChecker",Owner.Pos);
 			C.bSolid=True;
 			C.Master=Self;
 			C.Target=Owner;
@@ -115,13 +115,13 @@ Class DEDashJump : Inventory 						///Dash and double jump code by TheCamaleonMa
 
 
 
-Class DashCollisionChecker : Actor
+Class UEM_DashCollisionChecker : Actor
 {
-	DEDashJump je;
+	UEM_DEDashJump je;
 	Override Void PostBeginPlay()
 	{
 		Super.PostBeginPlay();
-		let sas=DEDashJump(Master);
+		let sas=UEM_DEDashJump(Master);
 		je=sas;
 	}
 	Override bool CanCollideWith(Actor other, bool passive)

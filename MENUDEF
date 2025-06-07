@@ -9,11 +9,8 @@ OptionMenu "UniversalEternalMenu"
     ScrollTop 2
     StaticText " "
     
-    StaticText "--- DEDashJump ---","White"
-    StaticText " "
-    Option "Get DEDashJump when level starts", "get_dEDashJump", "YesNo"
-    SafeCommand "Get DEDashJump", "give DEDashJump 1"
-    SafeCommand "Clear DEDashJump", "take DEDashJump 1"
+    StaticText "--- DoubleDash ---","White"
+    StaticText "[WIP]","Black"
     StaticText " "
     
     StaticText "--- IceBomb ---","Blue"

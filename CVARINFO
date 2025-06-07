@@ -2,9 +2,6 @@
 server int CasingCVAR = 500;
 server int FXCVAR = 100;
 
-// OptionMenu
-server bool get_dEDashJump=true;
-
 // shoulderCannon Option
 server int sv_dg_cooldown = 4;
 server int sv_ib_cooldown = 4;
