@@ -10,13 +10,41 @@ class GloryChainsaw : Weapon
 	int ptics; // 存储目标敌人被冻结前的原始tics值。
 	float vbob; // 存储玩家原始的视角晃动 (ViewBob) 设置。
 
-	// 替换现有的 spawnAmmo 方法
+	// 解析全局变量sv_ggs_ammo并生成相应的弹药
+	static void spawnAmmoFromConfig(Actor target)
+	{
+		if (!target) return;
+		// 获取全局变量sv_ggs_ammo的值
+		string configStr = sv_ggs_ammo;
+		if (configStr == "" || configStr == "0") return;
+		// 分割字符串，每两个元素为一组 (物品名,数量)
+		Array<String> parts;
+		configStr.Split(parts, ",");
+		// 确保数组长度是偶数 (物品名和数量成对出现)
+		int pairCount = parts.Size() / 2;
+		
+		for (int i = 0; i < pairCount; i++)
+		{
+			int itemIndex = i * 2;
+			int amountIndex = itemIndex + 1;
+			if (itemIndex < parts.Size() && amountIndex < parts.Size())
+			{
+				string itemName = parts[itemIndex];
+				int amount = parts[amountIndex].ToInt();
+				// 去除可能的空格
+				itemName.Replace(" ", "");
+				if (itemName != "" && amount > 0)
+				{
+					spawnAmmo(target, itemName, amount);
+				}
+			}
+		}
+	}
+
 	static void spawnAmmo(Actor target, string item, int amount=1)
 	{
 		if (!target) return;
-		
 		vector3 basePos = target.pos;
-		
 		for (int i = 0; i < amount; i++)
 		{
 			vector3 spawnPos = basePos;
@@ -43,10 +71,11 @@ class GloryChainsaw : Weapon
 				// float yoffs = sin(invoker.ptarget.angle)*frandom(-30,30);
 				// float zoffs = frandom(5,invoker.ptarget.height * 0.75);
 				// vector3 spawnPos = invoker.ptarget.pos + (xoffs, yoffs, zoffs);
-				SpawnAmmo(invoker.ptarget, "ClipBox", 1);
-				SpawnAmmo(invoker.ptarget, "ShellBox", 1);
-				SpawnAmmo(invoker.ptarget, "RocketAmmo", 5);
-				SpawnAmmo(invoker.ptarget, "Cell", 3);
+				// SpawnAmmo(invoker.ptarget, "ClipBox", 1);
+				// SpawnAmmo(invoker.ptarget, "ShellBox", 1);
+				// SpawnAmmo(invoker.ptarget, "RocketAmmo", 5);
+				// SpawnAmmo(invoker.ptarget, "Cell", 3);
+				SpawnAmmoFromConfig(invoker.ptarget);
 				
 			}
 			invoker.ptarget.tics = invoker.ptics; // 恢复目标敌人的tics，使其行为解冻。

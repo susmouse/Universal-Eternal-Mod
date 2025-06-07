@@ -22,3 +22,4 @@ server int   sv_glorystunchance = 80;
 server float sv_outdamagemod    = 0.50;
 server float sv_indamagemod     = 1.00;
 server bool  sv_glorykilldrops  = true;
+server string sv_ggs_ammo = "ClipBox,1,ShellBox,1,RocketAmmo,5,Cell,3";

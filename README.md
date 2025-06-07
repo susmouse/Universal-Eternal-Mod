@@ -20,6 +20,8 @@ I'm not proficient in C#. This mod was created after just 10 minutes of reading 
   - Add more customization options for ShoulderCannons;
 - v1.4.1
   - [Breaking Change] Modified some class names for better compatibility.
+- v1.5
+  - Added a compatibility settings menu where you can configure the type and amount of ammo replenished via QuickChainsaw.
 
 ## Features
 

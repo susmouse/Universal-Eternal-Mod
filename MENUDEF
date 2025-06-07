@@ -43,6 +43,8 @@ OptionMenu "UniversalEternalMenu"
     Slider "Quick Chainsaw range (units)", "sv_glorykillrange", 2, 1024, 1, 0
     StaticText "Minimum distance required to activate Quick Chainsaw.", "Black"
     StaticText " "
+    Submenu "Compatibility Settings","CompatibilitySettings"
+    StaticText " "
 
     // Glory Kill 部分
     StaticText "--- Glory Kill---", "Gold"
@@ -73,6 +75,22 @@ OptionMenu "UniversalEternalMenu"
     StaticText "Multiply damage taken by this factor", "Black"
     Slider "Outgoing damage modifier", "sv_outdamagemod", 0.0, 100.0, 0.25, 2
     StaticText "Multiply damage done by this factor", "Black"
+}
+
+/* AddOptionMenu "UniversalEternalMenu"
+{
+    Submenu "Compatibility Settings","CompatibilitySettings"
+} */
+
+OptionMenu "CompatibilitySettings"
+{
+    Title "Compatibility Settings"
+    StaticText ""
+    TextField "Ammo Type And Amount", "sv_ggs_ammo"
+    StaticText "You can configure the type and amount of ammo dropped by quickchainsaw here,", "Black"
+    StaticText "to ensure compatibility with weapon packs that use custom weapon types.", "Black"
+    staticText ""
+    SafeCommand "Reset", "set sv_ggs_ammo \"ClipBox,1,ShellBox,1,RocketAmmo,5,Cell,3\""
 }
 
 OptionValue "YesNo"
