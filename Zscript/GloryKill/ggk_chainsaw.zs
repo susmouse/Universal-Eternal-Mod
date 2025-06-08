@@ -172,7 +172,7 @@ class GloryChainsaw : Weapon
 			TNT1 A 0 A_Raise(WEAPONTOP); 
 			Loop; 
 		Fire:
-			TNT1 A 0 A_Jump(256,"Altkill1", "Altkill2");
+			TNT1 A 0 A_Jump(256,"Altkill2", "Altkill1");
 		Altkill1:
 			TNT1 A 0 A_AlertMonsters;
 			TNT1 A 0 A_Playsound("SAWSWING",7);
