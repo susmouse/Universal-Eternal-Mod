@@ -34,13 +34,13 @@ I'm not proficient in C#. This mod was created after just 10 minutes of reading 
 
 ## Screenshots
 
-![ShoulderCannons](https://s2.loli.net/2025/06/03/wmraHpXWMvRZsxT.png)
+![ShoulderCannons](https://files.catbox.moe/7imwq7.png)
 
-![GloryKill](https://s2.loli.net/2025/06/03/ABufwY6WjP4g5dK.png)
+![GloryKill](https://files.catbox.moe/3stxhq.png)
 
-![QuickChainsaw](https://s2.loli.net/2025/06/03/HwevlpfKAo4ExJy.png)
+![QuickChainsaw](https://files.catbox.moe/jl9ne4.png)
 
-![Config](https://s2.loli.net/2025/06/03/zIoNpvjwe6QVGHx.jpg)
+![Config](https://files.catbox.moe/f9j9m1.png)
 
 ## Future Development Plans
 
