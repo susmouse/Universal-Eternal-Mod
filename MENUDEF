@@ -92,7 +92,8 @@ OptionMenu "CompatibilitySettings"
     StaticText "You can configure the type and amount of ammo dropped by quickchainsaw here,", "Black"
     StaticText "to ensure compatibility with weapon packs that use custom weapon types.", "Black"
     staticText ""
-    SafeCommand "Reset", "set sv_ggs_ammo \"ClipBox,1,ShellBox,1,RocketAmmo,5,Cell,3\""
+    SafeCommand "Use Preset Vanilla", "set sv_ggs_ammo \"ClipBox,1,ShellBox,1,RocketAmmo,5,Cell,3\""
+    SafeCommand "Use Preset BrutalPack", "set sv_ggs_ammo \"Clip3,5,ClipBox2,1,NewShellBox,1,NewRocketAmmo,5,NewCell,3\""
 }
 
 OptionValue "YesNo"
