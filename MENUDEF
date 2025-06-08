@@ -15,19 +15,21 @@ OptionMenu "UniversalEternalMenu"
     
     StaticText "--- IceBomb ---","Blue"
     StaticText " "
-    Slider "IceBomb cooldown", "sv_ib_cooldown", 1, 16, 1
+    Slider "IceBomb Cooldown", "sv_ib_cooldown", 1, 16, 1
+    Slider "IceBomb Health Restored", "sv_ib_restored", 1, 16, 1
     Slider "Maximum Recovery Cap", "sv_ib_maxhealth", 0, 200, 10
     StaticText " "
     
     StaticText "--- FlameBelch ---","Red"
     StaticText " "
-    Slider "FlameBelch cooldown", "sv_fb_cooldown", 1, 16, 1
+    Slider "FlameBelch Cooldown", "sv_fb_cooldown", 1, 16, 1
+    /* Slider "FlameBelch Armor Restored", "sv_fb_restored", 1, 16, 1 */
     Slider "Maximum Recovery Cap", "sv_fb_maxarmor", 0, 200, 10
     StaticText " "
     
     StaticText "--- DualGrenade ---","Green"
     StaticText " "
-    Slider "DualGrenade cooldown", "sv_dg_cooldown", 1, 16, 1
+    Slider "DualGrenade Cooldown", "sv_dg_cooldown", 1, 16, 1
     StaticText " "
 
     StaticText "--- Quick Chainsaw ---","orange"

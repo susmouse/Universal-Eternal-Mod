@@ -5,8 +5,10 @@ server int FXCVAR = 100;
 // shoulderCannon Option
 server int sv_dg_cooldown = 4;
 server int sv_ib_cooldown = 4;
+server int sv_ib_restored = 2;
 server int sv_ib_maxhealth = 100;
 server int sv_fb_cooldown = 4;
+server int sv_fb_restored = 1;
 server int sv_fb_maxarmor = 100;
 
 // GloryKillOptions

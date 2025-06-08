@@ -462,22 +462,22 @@ Class DEHealthLoot : LootItemBase
 	LootDie:
 		// 渐隐消失动画。
 		XHBN G 5 Bright A_FadeOut;
-	XHBN HIJ 1 Bright A_FadeOut;
-	XHBN K 5 Bright A_FadeOut;
-	XHBN JIH 1 Bright A_FadeOut;
-	XHBN G 5 Bright A_FadeOut;
-	XHBN HIJ 1 Bright A_FadeOut;
-	XHBN K 5 Bright A_FadeOut;
-	XHBN JIH 1 Bright A_FadeOut;
-	XHBN G 5 Bright A_FadeOut;
-	XHBN HIJ 1 Bright A_FadeOut;
-	XHBN K 5 Bright A_FadeOut;
-	XHBN JIH 1 Bright A_FadeOut;
+		XHBN HIJ 1 Bright A_FadeOut;
+		XHBN K 5 Bright A_FadeOut;
+		XHBN JIH 1 Bright A_FadeOut;
+		XHBN G 5 Bright A_FadeOut;
+		XHBN HIJ 1 Bright A_FadeOut;
+		XHBN K 5 Bright A_FadeOut;
+		XHBN JIH 1 Bright A_FadeOut;
+		XHBN G 5 Bright A_FadeOut;
+		XHBN HIJ 1 Bright A_FadeOut;
+		XHBN K 5 Bright A_FadeOut;
+		XHBN JIH 1 Bright A_FadeOut;
 		Stop;
 
 	Gibe:
 		// 直接给玩家增加生命值。
-		TNT1 A 0 { GiveBody(1,GetMaxHealth(true)); }
+		TNT1 A 0 { GiveBody(sv_ib_restored,GetMaxHealth(true)); }
 		Stop;
 	}
 }
