@@ -22,6 +22,8 @@ I'm not proficient in C#. This mod was created after just 10 minutes of reading 
   - [Breaking Change] Modified some class names for better compatibility.
 - v1.4.2
   - Added a compatibility settings menu where you can configure the type and amount of ammo replenished via QuickChainsaw.
+- v1.4.3
+  - Added configuration options for the healing amount of Ice Bomb drops.
 
 ## Features
 
