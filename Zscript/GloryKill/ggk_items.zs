@@ -173,17 +173,16 @@ class IStagger : Inventory
         super.DoEffect(); // 调用父类的DoEffect。
     }
     
-    // 覆写 DepleteOrDestroy 方法，用于在物品被移除或销毁前进行清理。
-    override void DepleteOrDestroy()
-    {
+	// 覆写 DepleteOrDestroy 方法，用于在物品被移除或销毁前进行清理。
+	override void DepleteOrDestroy()
+	{
 		if(ashader) ashader.GoAwayAndDie(); // 如果存在着色效果实例，销毁它。
-        if(Owner) // 如果Owner有效。
-        {
-			// 为Owner回复少量生命值。计算方式为：当前生命值 + (1 - (当前生命值 * sv_staggerhealth)) / 2。
-			// sv_staggerhealth 是进入硬直的生命阈值比例。这个公式的目的是在硬直结束后给怪物一点点血量，避免刚恢复就被秒。
-			if(Owner.health > 0) Owner.A_SetHealth(Owner.health + (1.0-(Owner.health*sv_staggerhealth))/2 );
-            Owner.tics = ptics; // 恢复Owner的原始tics值，使其行为恢复正常。
-            Owner.RemoveInventory(self); // 从Owner身上移除此IStagger物品。
-        }
-    }
+		if(Owner) // 如果Owner有效。
+		{
+			// 杀死所有者
+			if(Owner.health > 0) Owner.DamageMobj(null, null, Owner.health, 'Normal');
+			Owner.tics = ptics; // 恢复Owner的原始tics值，使其行为恢复正常。
+			Owner.RemoveInventory(self); // 从Owner身上移除此IStagger物品。
+		}
+	}
 }
