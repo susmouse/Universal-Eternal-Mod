@@ -24,6 +24,11 @@ I'm not proficient in C#. This mod was created after just 10 minutes of reading 
   - Added a compatibility settings menu where you can configure the type and amount of ammo replenished via QuickChainsaw.
 - v1.4.3
   - Added configuration options for the healing amount of Ice Bomb drops.
+- v1.4.4
+  - 现在硬直状态结束后，敌人会直接死亡；
+- v1.5
+  - 添加了ArmBlade的BRIGHTMAP；
+
 
 ## Features
 
